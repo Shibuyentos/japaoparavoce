@@ -19,15 +19,23 @@ Requer Node.js 24 ou mais novo.
 ```sh
 npm install
 cp .env.example .env
+npm run db:migrate
+npm run db:seed
 npm run dev
 ```
 
+O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo e rode `db:migrate` e `db:seed` de novo.
+
 ## Scripts
 
-| Comando          | O que faz                          |
-| ---------------- | ---------------------------------- |
-| `npm run dev`    | Servidor de desenvolvimento        |
-| `npm run build`  | Build de produção                  |
-| `npm run check`  | Checagem de tipos (`svelte-check`) |
-| `npm run lint`   | Prettier + ESLint                  |
-| `npm run format` | Formata o código                   |
+| Comando               | O que faz                                         |
+| --------------------- | ------------------------------------------------- |
+| `npm run dev`         | Servidor de desenvolvimento                       |
+| `npm run build`       | Build de produção                                 |
+| `npm run check`       | Checagem de tipos (`svelte-check`)                |
+| `npm run lint`        | Prettier + ESLint                                 |
+| `npm run format`      | Formata o código                                  |
+| `npm run db:generate` | Gera uma migration a partir de mudanças no schema |
+| `npm run db:migrate`  | Aplica as migrations pendentes                    |
+| `npm run db:seed`     | Popula um banco vazio com o catálogo de `seed/`   |
+| `npm run db:studio`   | Abre o Drizzle Studio para inspecionar o banco    |

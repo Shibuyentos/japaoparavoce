@@ -1,0 +1,2600 @@
+{
+	"settings": {
+		"domesticShippingJpy": 500,
+		"serviceFeeJpy": 1500,
+		"brlCentsPerHundredJpy": 340
+	},
+	"shippingRegions": [
+		{
+			"code": "br",
+			"name": "Brasil e América do Sul",
+			"rates": [
+				{
+					"maxWeightGrams": 500,
+					"priceJpy": 3600
+				},
+				{
+					"maxWeightGrams": 1000,
+					"priceJpy": 5100
+				},
+				{
+					"maxWeightGrams": 1500,
+					"priceJpy": 6600
+				},
+				{
+					"maxWeightGrams": 2000,
+					"priceJpy": 8100
+				},
+				{
+					"maxWeightGrams": 3000,
+					"priceJpy": 11100
+				}
+			]
+		},
+		{
+			"code": "us",
+			"name": "Estados Unidos",
+			"rates": [
+				{
+					"maxWeightGrams": 500,
+					"priceJpy": 3900
+				},
+				{
+					"maxWeightGrams": 1000,
+					"priceJpy": 5300
+				},
+				{
+					"maxWeightGrams": 1500,
+					"priceJpy": 6600
+				},
+				{
+					"maxWeightGrams": 2000,
+					"priceJpy": 7900
+				},
+				{
+					"maxWeightGrams": 3000,
+					"priceJpy": 10300
+				}
+			]
+		},
+		{
+			"code": "eu",
+			"name": "Europa, Oceania e Canadá",
+			"rates": [
+				{
+					"maxWeightGrams": 500,
+					"priceJpy": 3150
+				},
+				{
+					"maxWeightGrams": 1000,
+					"priceJpy": 4400
+				},
+				{
+					"maxWeightGrams": 1500,
+					"priceJpy": 5550
+				},
+				{
+					"maxWeightGrams": 2000,
+					"priceJpy": 6700
+				},
+				{
+					"maxWeightGrams": 3000,
+					"priceJpy": 8800
+				}
+			]
+		},
+		{
+			"code": "asia",
+			"name": "Ásia",
+			"rates": [
+				{
+					"maxWeightGrams": 500,
+					"priceJpy": 1900
+				},
+				{
+					"maxWeightGrams": 1000,
+					"priceJpy": 3150
+				},
+				{
+					"maxWeightGrams": 1500,
+					"priceJpy": 3850
+				},
+				{
+					"maxWeightGrams": 2000,
+					"priceJpy": 4550
+				},
+				{
+					"maxWeightGrams": 3000,
+					"priceJpy": 5750
+				}
+			]
+		}
+	],
+	"categories": [
+		{
+			"slug": "skincare",
+			"name": "Skincare"
+		},
+		{
+			"slug": "cabelo",
+			"name": "Cabelo"
+		},
+		{
+			"slug": "protetor",
+			"name": "Protetor solar"
+		},
+		{
+			"slug": "maquiagem",
+			"name": "Maquiagem"
+		},
+		{
+			"slug": "corpo",
+			"name": "Corpo & banho"
+		},
+		{
+			"slug": "acessorios",
+			"name": "Acessórios"
+		}
+	],
+	"products": [
+		{
+			"slug": "biore-gel-removedor-de-maquiagem-170g",
+			"name": "Bioré Gel Removedor de Maquiagem 170g",
+			"category": "skincare",
+			"descriptionPt": "Gel removedor de maquiagem oil-free da Bioré (Kao), em tubo de 170 g.",
+			"descriptionEn": "Oil-free makeup remover gel by Bioré (Kao), 170 g tube.",
+			"priceJpy": 844,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-01.jpg"
+		},
+		{
+			"slug": "biore-algodao-removedor-de-maquiagem-refil-44-un",
+			"name": "Bioré Algodão Removedor de Maquiagem refil 44 un",
+			"category": "skincare",
+			"descriptionPt": "Algodões demaquilantes em refil com 44 unidades, da linha Bioré Makeup Remover.",
+			"descriptionEn": "Makeup remover cotton refill pads, 44 units, from the Bioré Makeup Remover line.",
+			"priceJpy": 657,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-02.jpg"
+		},
+		{
+			"slug": "pelican-manteiga-corporal-pessego-koisuru-oshiri",
+			"name": "Pelican Manteiga Corporal Pêssego (Koisuru Oshiri)",
+			"category": "corpo",
+			"descriptionPt": "Manteiga corporal bem hidratante com perfume de pêssego, da linha Koisuru Oshiri da Pelican Soap.",
+			"descriptionEn": "Deeply moisturizing body butter with a peach scent, from Pelican Soap's Koisuru Oshiri line.",
+			"priceJpy": 1320,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-pelican-butter.jpg"
+		},
+		{
+			"slug": "pelican-locao-corporal-hip-care-pessego",
+			"name": "Pelican Loção Corporal Hip Care Pêssego",
+			"category": "corpo",
+			"descriptionPt": "Loção corporal Hip Care com perfume de pêssego, da linha Koisuru Oshiri da Pelican Soap.",
+			"descriptionEn": "Hip Care body lotion with a peach scent, from Pelican Soap's Koisuru Oshiri line.",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-pelican-lotion.jpg"
+		},
+		{
+			"slug": "biore-uv-athlizm-fps50-super-resistente",
+			"name": "Bioré UV Athlizm FPS50+ (super resistente)",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar FPS50+ PA++++ da linha Athlizm, a mais resistente da Bioré — aguenta suor e água.",
+			"descriptionEn": "SPF50+ PA++++ sunscreen from the Athlizm line, Bioré's most resistant — stands up to sweat and water.",
+			"priceJpy": 2200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-05.jpg"
+		},
+		{
+			"slug": "biore-uv-aqua-protect-lotion-fps50-70ml",
+			"name": "Bioré UV Aqua Protect Lotion FPS50+ 70ml",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em loção FPS50+ PA++++ da linha Aqua Rich, em frasco de 70 ml.",
+			"descriptionEn": "SPF50+ PA++++ sunscreen lotion from the Aqua Rich line, 70 ml bottle.",
+			"priceJpy": 1097,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-06.jpg"
+		},
+		{
+			"slug": "skin-aqua-super-moisture-gel-fps50-grande-165g",
+			"name": "Skin Aqua Super Moisture Gel FPS50+ grande 165g",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em gel FPS50+ PA++++ com ácido hialurônico, frasco grande de 165 g (Rohto).",
+			"descriptionEn": "SPF50+ PA++++ sunscreen gel with hyaluronic acid, big 165 g bottle (Rohto).",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-07.jpg"
+		},
+		{
+			"slug": "by365-protetor-em-creme-tone-up-fps50",
+			"name": "by365 Protetor em Creme Tone-Up FPS50+",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em creme FPS50+ PA++++ com efeito tone-up, que dá uma clareada no tom da pele.",
+			"descriptionEn": "SPF50+ PA++++ sunscreen cream with a tone-up effect that brightens your skin tone.",
+			"priceJpy": 1089,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-08.jpg"
+		},
+		{
+			"slug": "by365-protetor-em-creme-sem-cor-fps50",
+			"name": "by365 Protetor em Creme Sem Cor FPS50+",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em creme FPS50+ PA++++ sem cor, com acabamento sequinho de pó (powdery).",
+			"descriptionEn": "SPF50+ PA++++ sunscreen cream with no tint and a dry, powdery finish.",
+			"priceJpy": 1089,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-09.jpg"
+		},
+		{
+			"slug": "biore-uv-airy-hold-cream-fps50-70g",
+			"name": "Bioré UV Airy Hold Cream FPS50+ 70g",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em creme FPS50+ PA++++ da linha Aqua Rich, em tubo de 70 g.",
+			"descriptionEn": "SPF50+ PA++++ sunscreen cream from the Aqua Rich line, 70 g tube.",
+			"priceJpy": 1760,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-10.jpg"
+		},
+		{
+			"slug": "biore-uv-aqua-rich-watery-essence-fps50-o-classico",
+			"name": "Bioré UV Aqua Rich Watery Essence FPS50+ (o clássico)",
+			"category": "protetor",
+			"descriptionPt": "O clássico protetor solar em essência aquosa FPS50+ PA++++ da Bioré — o mais famoso do Japão.",
+			"descriptionEn": "Bioré's classic watery essence sunscreen, SPF50+ PA++++ — the most famous in Japan.",
+			"priceJpy": 1097,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-11.jpg"
+		},
+		{
+			"slug": "shiseido-aqualabel-gel-creme-all-in-one",
+			"name": "Shiseido Aqualabel Gel Creme All-in-One",
+			"category": "skincare",
+			"descriptionPt": "Gel creme all-in-one da Aqualabel (Shiseido), o pote vermelho Moist Smooth.",
+			"descriptionEn": "All-in-one gel cream by Aqualabel (Shiseido), the red Moist Smooth jar.",
+			"priceJpy": 1958,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-12.jpg"
+		},
+		{
+			"slug": "sana-gel-creme-com-retinol",
+			"name": "SANA Gel Creme com Retinol",
+			"category": "skincare",
+			"descriptionPt": "Gel creme all-in-one com retinol puro, da linha Nameraka Honpo da SANA.",
+			"descriptionEn": "All-in-one gel cream with pure retinol, from SANA's Nameraka Honpo line.",
+			"priceJpy": 1518,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-13.jpg"
+		},
+		{
+			"slug": "sana-gel-all-in-one-6em1-hidratante",
+			"name": "SANA Gel All-in-One 6em1 Hidratante",
+			"category": "skincare",
+			"descriptionPt": "Gel all-in-one 6 em 1 bem hidratante, da linha Nameraka Honpo (leite de soja) da SANA.",
+			"descriptionEn": "Deeply moisturizing 6-in-1 all-in-one gel, from SANA's Nameraka Honpo (soy milk) line.",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-14.jpg"
+		},
+		{
+			"slug": "nivea-uv-deep-protect-e-care-gel-fps50",
+			"name": "Nivea UV Deep Protect & Care Gel FPS50+",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em gel FPS50+ da linha Deep Protect & Care, da Nivea.",
+			"descriptionEn": "SPF50+ sunscreen gel from Nivea's Deep Protect & Care line.",
+			"priceJpy": 1518,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-38.jpg"
+		},
+		{
+			"slug": "cow-skin-life-espuma-de-limpeza-anti-acne-cica-160ml",
+			"name": "Cow Skin Life Espuma de Limpeza Anti-Acne CICA 160ml",
+			"category": "skincare",
+			"descriptionPt": "Espuma de limpeza que já sai pronta no pump, com CICA, da linha Skin Life (Cow) — pensada pra pele com acne.",
+			"descriptionEn": "Cleansing foam that comes out ready from the pump, with CICA, from the Skin Life line (Cow) — made for acne-prone skin.",
+			"priceJpy": 503,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-cow-skin-life.jpg"
+		},
+		{
+			"slug": "biore-adesivos-p-poros-do-nariz-preto-c-carvao-10-un",
+			"name": "Bioré Adesivos p/ Poros do Nariz Preto c/ Carvão (10 un)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivos pretos com carvão pra tirar os cravos do nariz — caixa com 10 unidades.",
+			"descriptionEn": "Black charcoal nose pore strips to pull out blackheads — box of 10.",
+			"priceJpy": 481,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-41.jpg"
+		},
+		{
+			"slug": "senka-perfect-whip-white-clay",
+			"name": "SENKA Perfect Whip White Clay",
+			"category": "skincare",
+			"descriptionPt": "Espuma de limpeza facial com argila branca, da linha Perfect Whip da Senka (Shiseido).",
+			"descriptionEn": "Facial cleansing foam with white clay, from Senka's Perfect Whip line (Shiseido).",
+			"priceJpy": 602,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-senka-white-clay.jpg"
+		},
+		{
+			"slug": "senka-perfect-whip-speedy-espuma-pump",
+			"name": "SENKA Perfect Whip Speedy Espuma Pump",
+			"category": "skincare",
+			"descriptionPt": "Espuma de limpeza que já sai pronta no pump (150 ml), pra lavar o rosto rapidinho.",
+			"descriptionEn": "Cleansing foam that comes out ready from the pump (150 ml), for a quick face wash.",
+			"priceJpy": 723,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-senka-speedy.jpg"
+		},
+		{
+			"slug": "gabaiyoka-mascara-peel-off-preta-de-carvao",
+			"name": "Gabaiyoka Máscara Peel-off Preta de Carvão",
+			"category": "skincare",
+			"descriptionPt": "Máscara peel-off preta de carvão: aplica, seca e remove, pra uma limpeza profunda dos poros.",
+			"descriptionEn": "Black charcoal peel-off mask: apply, let it dry and peel off for a deep pore clean.",
+			"priceJpy": 1430,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-gabaiyoka-pack.jpg"
+		},
+		{
+			"slug": "tsururi-gel-de-limpeza-de-poros",
+			"name": "TSURURI Gel de Limpeza de Poros",
+			"category": "skincare",
+			"descriptionPt": "Gel de limpeza para os poros do nariz e do rosto, da linha Tsururi (BCL).",
+			"descriptionEn": "Pore-cleansing gel for the nose and face, from the Tsururi line (BCL).",
+			"priceJpy": 990,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-tsururi-gel.jpg"
+		},
+		{
+			"slug": "biore-oleo-removedor-perfect-oil",
+			"name": "Bioré Óleo Removedor Perfect Oil",
+			"category": "skincare",
+			"descriptionPt": "Óleo removedor de maquiagem Perfect Oil da Bioré, que dissolve até a maquiagem pesada.",
+			"descriptionEn": "Bioré's Perfect Oil makeup remover oil, which dissolves even heavy makeup.",
+			"priceJpy": 1427,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-50.jpg"
+		},
+		{
+			"slug": "biore-the-cleanse-moist-rosa-190ml",
+			"name": "Bioré The Cleanse Moist (rosa) 190ml",
+			"category": "skincare",
+			"descriptionPt": "Óleo de limpeza The Cleanse na versão Moist, de frasco rosa, 190 ml.",
+			"descriptionEn": "The Cleanse cleansing oil, Moist version, pink bottle, 190 ml.",
+			"priceJpy": 1463,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-51.jpg"
+		},
+		{
+			"slug": "missha-base-cushion-m-pro-black-fps50",
+			"name": "MISSHA Base Cushion M Pro Black FPS50+",
+			"category": "maquiagem",
+			"descriptionPt": "Base cushion coreana M Pro Black com FPS50+, tom 21 (claro).",
+			"descriptionEn": "Korean M Pro Black cushion foundation with SPF50+, shade 21 (light).",
+			"priceJpy": 2420,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-54.jpg"
+		},
+		{
+			"slug": "dr-althea-creme-345-relief-50ml",
+			"name": "Dr.Althea Creme 345 Relief 50ml",
+			"category": "skincare",
+			"descriptionPt": "Creme facial coreano 345 Relief Cream, 50 ml. (A foto é do tester da loja; o seu vem novo e lacrado.)",
+			"descriptionEn": "Korean 345 Relief Cream face cream, 50 ml. (The photo shows the store tester; yours arrives new and sealed.)",
+			"priceJpy": 2970,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-55.jpg"
+		},
+		{
+			"slug": "fancl-oleo-de-limpeza-suave-kit-2-frascos",
+			"name": "FANCL Óleo de Limpeza Suave — kit 2 frascos",
+			"category": "skincare",
+			"descriptionPt": "Kit com 2 frascos do Mild Cleansing Oil, o óleo de limpeza suave da FANCL.",
+			"descriptionEn": "Set of 2 bottles of Mild Cleansing Oil, FANCL's gentle cleansing oil.",
+			"priceJpy": 3740,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "cat-fancl-kit.jpg"
+		},
+		{
+			"slug": "torriden-serum-dive-in-acido-hialuronico-50ml",
+			"name": "Torriden Sérum Dive In Ácido Hialurônico 50ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum coreano Dive In com ácido hialurônico, 50 ml, de hidratação profunda.",
+			"descriptionEn": "Korean Dive In serum with hyaluronic acid, 50 ml, for deep hydration.",
+			"priceJpy": 2420,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-58.jpg"
+		},
+		{
+			"slug": "torriden-tonico-dive-in-300ml",
+			"name": "Torriden Tônico Dive In 300ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico coreano Dive In com ácido hialurônico, frasco grande de 300 ml.",
+			"descriptionEn": "Korean Dive In toner with hyaluronic acid, big 300 ml bottle.",
+			"priceJpy": 2310,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-torriden-tonico.jpg"
+		},
+		{
+			"slug": "torriden-mascara-gel-firmadora-cellmazing-un",
+			"name": "Torriden Máscara Gel Firmadora Cellmazing (un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara em gel firmadora da linha Cellmazing, unidade (Torriden).",
+			"descriptionEn": "Firming gel mask from the Cellmazing line, single unit (Torriden).",
+			"priceJpy": 594,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-torriden-gel-mask.jpg"
+		},
+		{
+			"slug": "torriden-ampola-cellmazing-poros-30ml",
+			"name": "Torriden Ampola Cellmazing Poros 30ml",
+			"category": "skincare",
+			"descriptionPt": "Ampola coreana da linha Cellmazing, para o cuidado dos poros, 30 ml.",
+			"descriptionEn": "Korean ampoule from the Cellmazing line, for pore care, 30 ml.",
+			"priceJpy": 2530,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-torriden-ampola.jpg"
+		},
+		{
+			"slug": "snp-creme-barreira-de-colageno",
+			"name": "SNP Creme Barreira de Colágeno",
+			"category": "skincare",
+			"descriptionPt": "Creme coreano de colágeno para cuidar da barreira da pele (SNP).",
+			"descriptionEn": "Korean collagen cream to care for the skin barrier (SNP).",
+			"priceJpy": 2200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-snp-cream.jpg"
+		},
+		{
+			"slug": "snp-mascara-gel-de-colageno-cx-4-un",
+			"name": "SNP Máscara Gel de Colágeno (cx 4 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara em gel de colágeno coreana, caixa com 4 unidades (SNP).",
+			"descriptionEn": "Korean collagen gel mask, box of 4 (SNP).",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-snp-gel-mask.jpg"
+		},
+		{
+			"slug": "dr-once-adesivo-microagulha-retinol-1-uso",
+			"name": "Dr.Once Adesivo Microagulha Retinol (1 uso)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivo de microagulhas com retinol, embalagem com 1 uso.",
+			"descriptionEn": "Microneedle patches with retinol, pack of 1 use.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-dronce-1uso.jpg"
+		},
+		{
+			"slug": "kose-hyaluro-tune-2000-microagulha-3-usos",
+			"name": "KOSÉ Hyaluro Tune 2000+ Microagulha (3 usos)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivo de microagulhas de ácido hialurônico Hyaluro Tune 2000+, caixa com 3 usos (KOSÉ).",
+			"descriptionEn": "Hyaluro Tune 2000+ hyaluronic acid microneedle patches, box of 3 uses (KOSÉ).",
+			"priceJpy": 4001,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-hyaluro-2000-3.jpg"
+		},
+		{
+			"slug": "kose-hyaluro-tune-2000-microagulha-1-uso",
+			"name": "KOSÉ Hyaluro Tune 2000+ Microagulha (1 uso)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivo de microagulhas de ácido hialurônico Hyaluro Tune 2000+, embalagem com 1 uso (KOSÉ).",
+			"descriptionEn": "Hyaluro Tune 2000+ hyaluronic acid microneedle patches, pack of 1 use (KOSÉ).",
+			"priceJpy": 1628,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-hyaluro-2000-1.jpg"
+		},
+		{
+			"slug": "kose-hyaluro-tune-1500-microagulha-3-usos",
+			"name": "KOSÉ Hyaluro Tune 1500 Microagulha (3 usos)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivo de microagulhas de ácido hialurônico Hyaluro Tune 1500, caixa com 3 usos (KOSÉ).",
+			"descriptionEn": "Hyaluro Tune 1500 hyaluronic acid microneedle patches, box of 3 uses (KOSÉ).",
+			"priceJpy": 3058,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "kose-hyaluro-tune-1500-microagulha-1-uso",
+			"name": "KOSÉ Hyaluro Tune 1500 Microagulha (1 uso)",
+			"category": "acessorios",
+			"descriptionPt": "Adesivo de microagulhas de ácido hialurônico Hyaluro Tune 1500, embalagem com 1 uso (KOSÉ).",
+			"descriptionEn": "Hyaluro Tune 1500 hyaluronic acid microneedle patches, pack of 1 use (KOSÉ).",
+			"priceJpy": 1298,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "kose-mascara-p-olhos-e-boca-c-retinol-32-usos",
+			"name": "KOSÉ Máscara p/ Olhos e Boca c/ Retinol (32 usos)",
+			"category": "skincare",
+			"descriptionPt": "Máscaras para a região dos olhos e da boca com retinol, pacote com 32 usos (KOSÉ Clear Turn).",
+			"descriptionEn": "Masks for the eye and mouth areas with retinol, pack of 32 uses (KOSÉ Clear Turn).",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "one-stone-two-birds-mascara-vc-e-retinol-18-folhas",
+			"name": "One Stone Two Birds Máscara VC & Retinol (18 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de vitamina C e retinol, pacote grande com 18 folhas (One Stone Two Birds).",
+			"descriptionEn": "Vitamin C and retinol face mask, big pack of 18 sheets (One Stone Two Birds).",
+			"priceJpy": 1496,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "melano-cc-mascara-vitamina-c-28-folhas",
+			"name": "Melano CC Máscara Vitamina C (28 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de vitamina C da Melano CC (Rohto), pacotão com 28 folhas.",
+			"descriptionEn": "Melano CC vitamin C face mask (Rohto), big pack of 28 sheets.",
+			"priceJpy": 1097,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "melano-cc-mascara-vitamina-c-plus-10-folhas",
+			"name": "Melano CC Máscara Vitamina C Plus (10 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de vitamina C Plus da Melano CC (Rohto), pacote com 10 folhas.",
+			"descriptionEn": "Melano CC vitamin C Plus face mask (Rohto), pack of 10 sheets.",
+			"priceJpy": 723,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-75.jpg"
+		},
+		{
+			"slug": "one-stone-two-birds-mascara-acido-azelaico-7-folhas",
+			"name": "One Stone Two Birds Máscara Ácido Azelaico (7 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de ácido azelaico, pacote com 7 folhas (One Stone Two Birds).",
+			"descriptionEn": "Azelaic acid face mask, pack of 7 sheets (One Stone Two Birds).",
+			"priceJpy": 698,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-76.jpg"
+		},
+		{
+			"slug": "one-stone-two-birds-mascara-retinol-e-colageno-7-folhas",
+			"name": "One Stone Two Birds Máscara Retinol & Colágeno (7 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de retinol e colágeno, pacote com 7 folhas (One Stone Two Birds).",
+			"descriptionEn": "Retinol and collagen face mask, pack of 7 sheets (One Stone Two Birds).",
+			"priceJpy": 698,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-77.jpg"
+		},
+		{
+			"slug": "hadabisei-mascara-3d-vitamina-c-4-un",
+			"name": "Hadabisei Máscara 3D Vitamina C (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara 3D de vitamina C, que se ajusta ao formato do rosto, caixa com 4 unidades (Hadabisei).",
+			"descriptionEn": "3D vitamin C mask that fits the shape of your face, box of 4 (Hadabisei).",
+			"priceJpy": 833,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-hadabisei.jpg"
+		},
+		{
+			"slug": "kose-clear-turn-mascara-clareadora-50-folhas",
+			"name": "KOSÉ Clear Turn Máscara Clareadora (50 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara clareadora de uso diário, pacotão com 50 folhas (KOSÉ Clear Turn).",
+			"descriptionEn": "Brightening mask for daily use, big pack of 50 sheets (KOSÉ Clear Turn).",
+			"priceJpy": 1097,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "cat-80.jpg"
+		},
+		{
+			"slug": "kose-clear-turn-mascara-acido-tranexamico-5-un",
+			"name": "KOSÉ Clear Turn Máscara Ácido Tranexâmico (5 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara com ácido tranexâmico, pacote com 5 unidades (KOSÉ Clear Turn).",
+			"descriptionEn": "Mask with tranexamic acid, pack of 5 (KOSÉ Clear Turn).",
+			"priceJpy": 602,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-clear-turn-tranexamico.jpg"
+		},
+		{
+			"slug": "kose-clear-turn-mascara-de-colageno-5-un",
+			"name": "KOSÉ Clear Turn Máscara de Colágeno (5 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara de colágeno, pacote com 5 unidades (KOSÉ Clear Turn).",
+			"descriptionEn": "Collagen mask, pack of 5 (KOSÉ Clear Turn).",
+			"priceJpy": 602,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-clear-turn-colageno.jpg"
+		},
+		{
+			"slug": "kose-clear-turn-mascara-vitamina-c-5-un",
+			"name": "KOSÉ Clear Turn Máscara Vitamina C (5 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara de vitamina C, pacote com 5 unidades (KOSÉ Clear Turn).",
+			"descriptionEn": "Vitamin C mask, pack of 5 (KOSÉ Clear Turn).",
+			"priceJpy": 602,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-clear-turn-vitamina-c.jpg"
+		},
+		{
+			"slug": "lululun-lulupad-discos-de-limpeza-off-50-un",
+			"name": "LuLuLun LuLuPaD Discos de Limpeza OFF (50 un)",
+			"category": "skincare",
+			"descriptionPt": "Discos de limpeza LuLuPaD OFF, pra remover oleosidade e impurezas, caixa com 50 unidades.",
+			"descriptionEn": "LuLuPaD OFF cleansing pads, to remove oil and impurities, box of 50.",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-lulupad-off.jpg"
+		},
+		{
+			"slug": "lululun-lulupad-discos-hidratantes-on-50-un",
+			"name": "LuLuLun LuLuPaD Discos Hidratantes ON (50 un)",
+			"category": "skincare",
+			"descriptionPt": "Discos hidratantes LuLuPaD ON, pra um cuidado rápido de hidratação, caixa com 50 unidades.",
+			"descriptionEn": "LuLuPaD ON moisturizing pads, for a quick hydration boost, box of 50.",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-lulupad-on.jpg"
+		},
+		{
+			"slug": "lululun-mascara-hydra-5ala-28-folhas",
+			"name": "LuLuLun Máscara Hydra 5ALA (28 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara Hydra 5ALA, pacote com 28 folhas (LuLuLun).",
+			"descriptionEn": "Hydra 5ALA mask, pack of 28 sheets (LuLuLun).",
+			"priceJpy": 2640,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "lululun-mascara-hydra-ex-exossomo-28-folhas",
+			"name": "LuLuLun Máscara Hydra EX Exossomo (28 folhas)",
+			"category": "skincare",
+			"descriptionPt": "Máscara Hydra EX com exossomo, pacote com 28 folhas (LuLuLun).",
+			"descriptionEn": "Hydra EX mask with exosomes, pack of 28 sheets (LuLuLun).",
+			"priceJpy": 2750,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "anessa-protetor-solar-perfect-uv-milk-60ml",
+			"name": "Anessa Protetor Solar Perfect UV Milk 60ml",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em leite FPS50+ PA++++, o queridinho do Japão, frasco de 60 ml (Anessa · Shiseido).",
+			"descriptionEn": "SPF50+ PA++++ sunscreen milk, Japan's favorite, 60 ml bottle (Anessa · Shiseido).",
+			"priceJpy": 3058,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "hada-labo-gokujyun-premium-locao-170ml",
+			"name": "Hada Labo Gokujyun Premium Loção 170ml",
+			"category": "skincare",
+			"descriptionPt": "Loção hidratante com ácido hialurônico da linha Premium da Hada Labo, frasco de 170 ml (Rohto).",
+			"descriptionEn": "Moisturizing lotion with hyaluronic acid from Hada Labo's Premium line, 170 ml bottle (Rohto).",
+			"priceJpy": 1100,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-hadalabo-gokujyun-premium.jpg"
+		},
+		{
+			"slug": "melano-cc-serum-premium-anti-manchas-20ml",
+			"name": "Melano CC Sérum Premium Anti-Manchas 20ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum concentrado de vitamina C da linha Premium da Melano CC, tubo de 20 ml (Rohto).",
+			"descriptionEn": "Concentrated vitamin C serum from Melano CC's Premium line, 20 ml tube (Rohto).",
+			"priceJpy": 1628,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-melano-cc-premium.jpg"
+		},
+		{
+			"slug": "heroine-make-mascara-volume-e-curl",
+			"name": "Heroine Make Máscara Volume & Curl",
+			"category": "maquiagem",
+			"descriptionPt": "Máscara de cílios Volume & Curl da Heroine Make (Kiss Me), famosa pela fixação o dia todo.",
+			"descriptionEn": "Volume & Curl mascara by Heroine Make (Kiss Me), famous for holding all day.",
+			"priceJpy": 1320,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-heroine-make-mascara.jpg"
+		},
+		{
+			"slug": "canmake-marshmallow-press-powder",
+			"name": "Canmake Marshmallow Press Powder",
+			"category": "maquiagem",
+			"descriptionPt": "Pó facial compacto Marshmallow Finish da Canmake, com acabamento suave e aveludado.",
+			"descriptionEn": "Marshmallow Finish pressed face powder by Canmake, with a soft, velvety finish.",
+			"priceJpy": 1034,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-canmake-marshmallow-powder.jpg"
+		},
+		{
+			"slug": "skin-aqua-tone-up-uv-essence-lavanda-80g",
+			"name": "Skin Aqua Tone Up UV Essence Lavanda 80g",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar FPS50+ com efeito tone-up em tom lavanda, tubo de 80 g (Skin Aqua · Rohto).",
+			"descriptionEn": "SPF50+ sunscreen with a lavender tone-up effect, 80 g tube (Skin Aqua · Rohto).",
+			"priceJpy": 849,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-skin-aqua-tone-up.jpg"
+		},
+		{
+			"slug": "kikumasamune-locao-de-saque-high-moist-500ml",
+			"name": "Kikumasamune Loção de Saquê High Moist 500ml",
+			"category": "skincare",
+			"descriptionPt": "Loção de saquê super hidratante (High Moist), frasco grande com pump de 500 ml (Kikumasamune).",
+			"descriptionEn": "Super moisturizing sake lotion (High Moist), big 500 ml pump bottle (Kikumasamune).",
+			"priceJpy": 990,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-kikumasamune-high-moist.jpg"
+		},
+		{
+			"slug": "curel-creme-hidratante-intensivo-40g",
+			"name": "Curél Creme Hidratante Intensivo 40g",
+			"category": "skincare",
+			"descriptionPt": "Creme facial hidratante intensivo pensado para pele sensível, pote de 40 g (Curél · Kao).",
+			"descriptionEn": "Intensive moisturizing face cream made for sensitive skin, 40 g jar (Curél · Kao).",
+			"priceJpy": 2970,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-curel-creme.jpg"
+		},
+		{
+			"slug": "sekkisei-brightening-essence-lotion-200ml",
+			"name": "Sekkisei Brightening Essence Lotion 200ml",
+			"category": "skincare",
+			"descriptionPt": "Loção clareadora Brightening Essence da Sekkisei, frasco de 200 ml (KOSÉ).",
+			"descriptionEn": "Sekkisei Brightening Essence lotion, 200 ml bottle (KOSÉ).",
+			"priceJpy": 4180,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-sekkisei-lotion.jpg"
+		},
+		{
+			"slug": "cezanne-pearl-glow-highlight",
+			"name": "Cezanne Pearl Glow Highlight",
+			"category": "maquiagem",
+			"descriptionPt": "Iluminador Pearl Glow com brilho perolado para dar aquele glow no rosto (Cezanne).",
+			"descriptionEn": "Pearl Glow highlighter with a pearly shine for that glow on your face (Cezanne).",
+			"priceJpy": 660,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-cezanne-highlight.jpg"
+		},
+		{
+			"slug": "opera-lip-tint-n",
+			"name": "Opera Lip Tint N",
+			"category": "maquiagem",
+			"descriptionPt": "Batom tint Lip Tint N: cor bonita com textura leve e hidratante (Opera).",
+			"descriptionEn": "Lip Tint N lip tint: beautiful color with a light, moisturizing texture (Opera).",
+			"priceJpy": 1650,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-opera-lip-tint.jpg"
+		},
+		{
+			"slug": "canmake-cream-cheek",
+			"name": "Canmake Cream Cheek",
+			"category": "maquiagem",
+			"descriptionPt": "Blush em creme Cream Cheek, compacto prático para o dia a dia (Canmake).",
+			"descriptionEn": "Cream Cheek cream blush, a practical compact for everyday use (Canmake).",
+			"priceJpy": 638,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-canmake-cream-cheek.jpg"
+		},
+		{
+			"slug": "minon-amino-moist-mascara-facial-4-un",
+			"name": "Minon Amino Moist Máscara Facial (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial hidratante Amino Moist, pensada para pele sensível, caixa com 4 unidades (Minon).",
+			"descriptionEn": "Amino Moist hydrating face mask, made for sensitive skin, box of 4 (Minon).",
+			"priceJpy": 1320,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-minon-mascara.jpg"
+		},
+		{
+			"slug": "e-honey-deep-moist-shampoo-440ml",
+			"name": "&honey Deep Moist Shampoo 440ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo Deep Moist com mel, para hidratação profunda dos fios, frasco de 440 ml (&honey).",
+			"descriptionEn": "Deep Moist shampoo with honey, for deep hair hydration, 440 ml bottle (&honey).",
+			"priceJpy": 1595,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-ehoney-deep-moist-shampoo.jpg"
+		},
+		{
+			"slug": "meishoku-bigansui-locao-90ml",
+			"name": "Meishoku Bigansui Loção 90ml",
+			"category": "skincare",
+			"descriptionPt": "Loção facial clássica japonesa Bigansui, frasco de 90 ml (Meishoku).",
+			"descriptionEn": "Classic Japanese Bigansui face lotion, 90 ml bottle (Meishoku).",
+			"priceJpy": 990,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-bigansui.jpg"
+		},
+		{
+			"slug": "nivea-uv-super-water-gel-80g",
+			"name": "Nivea UV Super Water Gel 80g",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em gel FPS50+ bem levinho, que espalha fácil, frasco de 80 g (Nivea).",
+			"descriptionEn": "Very light SPF50+ sunscreen gel that spreads easily, 80 g bottle (Nivea).",
+			"priceJpy": 772,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-nivea-uv-gel.jpg"
+		},
+		{
+			"slug": "fancl-oleo-de-limpeza-suave-120ml",
+			"name": "FANCL Óleo de Limpeza Suave 120ml",
+			"category": "skincare",
+			"descriptionPt": "Óleo de limpeza suave Mild Cleansing Oil, frasco único de 120 ml (FANCL).",
+			"descriptionEn": "Mild Cleansing Oil gentle cleansing oil, single 120 ml bottle (FANCL).",
+			"priceJpy": 1980,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-fancl-cleansing-oil.jpg"
+		},
+		{
+			"slug": "sekkisei-brightening-emulsion-140ml",
+			"name": "Sekkisei Brightening Emulsion 140ml",
+			"category": "skincare",
+			"descriptionPt": "Emulsão clareadora Brightening da Sekkisei, frasco de 140 ml (KOSÉ).",
+			"descriptionEn": "Sekkisei Brightening emulsion, 140 ml bottle (KOSÉ).",
+			"priceJpy": 4510,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-sekkisei-emulsion.jpg"
+		},
+		{
+			"slug": "senka-perfect-whip-premium-clear-120g",
+			"name": "SENKA Perfect Whip Premium Clear 120g",
+			"category": "skincare",
+			"descriptionPt": "Espuma de limpeza Premium Perfect Whip Clear, tubo de 120 g (SENKA).",
+			"descriptionEn": "Premium Perfect Whip Clear cleansing foam, 120 g tube (SENKA).",
+			"priceJpy": 809,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "yolu-calm-night-repair-shampoo",
+			"name": "YOLU Calm Night Repair Shampoo",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo de cuidado noturno Calm Night Repair, frasco com pump (YOLU).",
+			"descriptionEn": "Calm Night Repair night care shampoo, pump bottle (YOLU).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "botanist-botanical-shampoo-moist",
+			"name": "BOTANIST Botanical Shampoo Moist",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo botânico Botanical Moist, frasco com pump (BOTANIST).",
+			"descriptionEn": "Botanical Moist botanical shampoo, pump bottle (BOTANIST).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "e-honey-melty-moist-repair-shampoo-440ml",
+			"name": "&honey Melty Moist Repair Shampoo 440ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo Melty Moist Repair com mel, para fios macios e hidratados, frasco de 440 ml (&honey).",
+			"descriptionEn": "Melty Moist Repair shampoo with honey, for soft, hydrated hair, 440 ml bottle (&honey).",
+			"priceJpy": 1595,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "canmake-mermaid-skin-gel-uv-01-clear-40g",
+			"name": "Canmake Mermaid Skin Gel UV 01 Clear 40g",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar em gel FPS50+ PA++++ que também funciona como primer, o queridinho do Japão, tubo de 40 g (Canmake).",
+			"descriptionEn": "SPF50+ PA++++ sunscreen gel that also works as a primer, Japan's favorite, 40 g tube (Canmake).",
+			"priceJpy": 770,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-canmake-mermaid-skin.jpg"
+		},
+		{
+			"slug": "cezanne-base-anti-oleosidade-pink-beige-30ml",
+			"name": "Cezanne Base Anti-Oleosidade Pink Beige 30ml",
+			"category": "maquiagem",
+			"descriptionPt": "Base (primer) que segura a oleosidade e o brilho o dia todo, tom Pink Beige com FPS28 PA++, 30 ml (Cezanne).",
+			"descriptionEn": "Primer base that controls oil and shine all day, Pink Beige shade with SPF28 PA++, 30 ml (Cezanne).",
+			"priceJpy": 660,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-cezanne-sebum-base.jpg"
+		},
+		{
+			"slug": "canmake-silky-souffle-eyes-01-noble-beige",
+			"name": "Canmake Silky Souffle Eyes 01 Noble Beige",
+			"category": "maquiagem",
+			"descriptionPt": "Quarteto de sombras Silky Souffle na cor 01 Noble Beige, tons neutros elegantes com brilho suave (Canmake).",
+			"descriptionEn": "Silky Souffle eyeshadow quad in shade 01 Noble Beige, elegant neutral tones with a soft shimmer (Canmake).",
+			"priceJpy": 825,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-canmake-souffle-eyes.jpg"
+		},
+		{
+			"slug": "club-suppin-powder-c-pastel-rose-26g",
+			"name": "Club Suppin Powder C Pastel Rose 26g",
+			"category": "maquiagem",
+			"descriptionPt": "Pó facial de acabamento “pele limpa” que pode ficar na pele, com perfume de rosa pastel, 26 g (Club Cosmetics).",
+			"descriptionEn": "“Clean skin” finish face powder you can leave on your skin, with a pastel rose scent, 26 g (Club Cosmetics).",
+			"priceJpy": 1760,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-club-suppin-powder.jpg"
+		},
+		{
+			"slug": "chacott-finishing-powder-moist-773-clear-20g",
+			"name": "Chacott Finishing Powder Moist 773 Clear 20g",
+			"category": "maquiagem",
+			"descriptionPt": "Pó finalizador hidratante na cor 773 Clear, o famoso pó das bailarinas japonesas, 20 g (Chacott).",
+			"descriptionEn": "Moisturizing finishing powder in shade 773 Clear, the famous Japanese ballerinas' powder, 20 g (Chacott).",
+			"priceJpy": 1980,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-chacott-finishing-powder.jpg"
+		},
+		{
+			"slug": "d-up-delineador-liquido-silky-wp-brown-black",
+			"name": "D-UP Delineador Líquido Silky WP Brown Black",
+			"category": "maquiagem",
+			"descriptionPt": "Delineador líquido à prova d'água na cor Brown Black (marrom-preto), traço fino e preciso (D-UP).",
+			"descriptionEn": "Waterproof liquid eyeliner in Brown Black, fine and precise line (D-UP).",
+			"priceJpy": 1430,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-dup-eyeliner.jpg"
+		},
+		{
+			"slug": "kate-lash-maximizer-hp-ex-1-7-4g",
+			"name": "KATE Lash Maximizer HP EX-1 7,4g",
+			"category": "maquiagem",
+			"descriptionPt": "Base para cílios que alonga e fixa a curvatura antes da máscara, 7,4 g (KATE · Kanebo).",
+			"descriptionEn": "Lash base that lengthens and holds the curl before mascara, 7.4 g (KATE · Kanebo).",
+			"priceJpy": 1320,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-kate-lash-maximizer.jpg"
+		},
+		{
+			"slug": "biore-zero-powder-sheet-cool-10-folhas",
+			"name": "Bioré Zero Powder Sheet Cool 10 folhas",
+			"category": "corpo",
+			"descriptionPt": "Lenço em pó refrescante que tira o suor e a oleosidade na hora, versão Cool sem fragrância, pacote com 10 folhas (Bioré · Kao).",
+			"descriptionEn": "Refreshing powder sheets that wipe away sweat and oil instantly, Cool unscented version, pack of 10 sheets (Bioré · Kao).",
+			"priceJpy": 330,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-biore-powder-sheet.jpg"
+		},
+		{
+			"slug": "keana-mascara-de-arroz-10-folhas",
+			"name": "Keana Máscara de Arroz 10 folhas",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial de extrato de arroz que hidrata e ajuda a fechar os poros, pacote com 10 folhas (Keana Nadeshiko · Ishizawa).",
+			"descriptionEn": "Rice extract face mask that hydrates and helps tighten pores, pack of 10 sheets (Keana Nadeshiko · Ishizawa).",
+			"priceJpy": 715,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-keana-rice-mask.jpg"
+		},
+		{
+			"slug": "kate-lip-monster-03-kagerou-3g",
+			"name": "KATE Lip Monster 03 Kagerou 3g",
+			"category": "maquiagem",
+			"descriptionPt": "Batom de longa duração na cor 03 Kagerou, o famoso “monstro” que não sai dos lábios, 3 g (KATE · Kanebo).",
+			"descriptionEn": "Long-lasting lipstick in shade 03 Kagerou, the famous “monster” that won't leave your lips, 3 g (KATE · Kanebo).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-kate-lip-monster.jpg"
+		},
+		{
+			"slug": "theratis-shampoo-night-repair-435ml",
+			"name": "Theratis Shampoo Night Repair 435ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo de reparação noturna com mel e proteínas, frasco de 435 ml (Theratis by mixim).",
+			"descriptionEn": "Night repair shampoo with honey and proteins, 435 ml bottle (Theratis by mixim).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-theratis-shampoo.jpg"
+		},
+		{
+			"slug": "e-honey-creamy-shampoo-ex-damage-repair-440ml",
+			"name": "&honey Creamy Shampoo EX Damage Repair 440ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo cremoso de reparação intensa com mel, para cabelos danificados, frasco de 440 ml (&honey).",
+			"descriptionEn": "Creamy intense repair shampoo with honey, for damaged hair, 440 ml bottle (&honey).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-ehoney-creamy-shampoo.jpg"
+		},
+		{
+			"slug": "yolu-tratamento-calm-night-repair-440g",
+			"name": "YOLU Tratamento Calm Night Repair 440g",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento noturno Calm Night Repair, o par do shampoo YOLU, pote de 440 g (YOLU).",
+			"descriptionEn": "Calm Night Repair night treatment, the match to the YOLU shampoo, 440 g jar (YOLU).",
+			"priceJpy": 1540,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-yolu-treatment.jpg"
+		},
+		{
+			"slug": "botanist-tratamento-damage-care-460g",
+			"name": "BOTANIST Tratamento Damage Care 460g",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento botânico Damage Care para cabelos danificados, frasco de 460 g (BOTANIST).",
+			"descriptionEn": "Botanical Damage Care treatment for damaged hair, 460 g bottle (BOTANIST).",
+			"priceJpy": 1310,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-botanist-damage-treatment.jpg"
+		},
+		{
+			"slug": "diane-tratamento-extra-damage-repair-450ml",
+			"name": "Diane Tratamento Extra Damage Repair 450ml",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento Extra Damage Repair, o par do shampoo Diane, frasco de 450 ml (Diane Perfect Beauty).",
+			"descriptionEn": "Extra Damage Repair treatment, the match to the Diane shampoo, 450 ml bottle (Diane Perfect Beauty).",
+			"priceJpy": 814,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-diane-treatment.jpg"
+		},
+		{
+			"slug": "refa-heart-brush-rose-gold",
+			"name": "ReFa HEART BRUSH Rose Gold",
+			"category": "acessorios",
+			"descriptionPt": "Escova de cabelo em formato de coração que desembaraça sem puxar e dá brilho aos fios, na cor Rose Gold (ReFa).",
+			"descriptionEn": "Heart-shaped hair brush that detangles without pulling and adds shine, in Rose Gold (ReFa).",
+			"priceJpy": 2970,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-heart-brush.jpg"
+		},
+		{
+			"slug": "refa-heart-brush-ray",
+			"name": "ReFa HEART BRUSH RAY",
+			"category": "acessorios",
+			"descriptionPt": "Versão canelada da escova de coração da ReFa: desembaraça, alinha os fios e deixa um brilho espelhado (ReFa).",
+			"descriptionEn": "The ridged version of ReFa's heart brush: detangles, smooths hair and leaves a mirror shine (ReFa).",
+			"priceJpy": 2970,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-heart-brush-ray.jpg"
+		},
+		{
+			"slug": "refa-heart-scalp",
+			"name": "ReFa HEART SCALP",
+			"category": "acessorios",
+			"descriptionPt": "Escova de couro cabeludo em formato de coração: massageia, limpa os poros e relaxa na hora do shampoo (ReFa).",
+			"descriptionEn": "Heart-shaped scalp brush: massages, cleans pores and relaxes you at shampoo time (ReFa).",
+			"priceJpy": 2970,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-heart-scalp.jpg"
+		},
+		{
+			"slug": "refa-ion-care-shampoo-300ml",
+			"name": "ReFa ION CARE SHAMPOO 300ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo da linha Ion Care com minerais iônicos, para fios limpos, alinhados e com brilho, frasco de 300 ml (ReFa).",
+			"descriptionEn": "Shampoo from the Ion Care line with ionic minerals, for clean, smooth, shiny hair, 300 ml bottle (ReFa).",
+			"priceJpy": 2420,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-ion-care-shampoo.jpg"
+		},
+		{
+			"slug": "refa-ion-care-treatment-290g",
+			"name": "ReFa ION CARE TREATMENT 290g",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento da linha Ion Care, o par do shampoo: hidrata, sela os fios e devolve o brilho, pote de 290 g (ReFa).",
+			"descriptionEn": "Treatment from the Ion Care line, the match to the shampoo: hydrates, seals strands and restores shine, 290 g jar (ReFa).",
+			"priceJpy": 2640,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-ion-care-treatment.jpg"
+		},
+		{
+			"slug": "tsubaki-premium-ex-repair-mask-180g",
+			"name": "TSUBAKI Premium EX Repair Mask 180g",
+			"category": "cabelo",
+			"descriptionPt": "Máscara de reparação intensiva da linha Premium EX, pote de 180 g (TSUBAKI · Shiseido).",
+			"descriptionEn": "Intensive repair mask from the Premium EX line, 180 g jar (TSUBAKI · Shiseido).",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "cat-tsubaki-ex-mask.jpg"
+		},
+		{
+			"slug": "fino-premium-touch-hair-mask-230g",
+			"name": "FINO Premium Touch Hair Mask 230g",
+			"category": "cabelo",
+			"descriptionPt": "A máscara capilar queridinha do Japão: reparação profunda e brilho, pote de 230 g (FINO · Shiseido).",
+			"descriptionEn": "Japan's beloved hair mask: deep repair and shine, 230 g jar (FINO · Shiseido).",
+			"priceJpy": 836,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "cat-fino-mascara.jpg"
+		},
+		{
+			"slug": "skin1004-madagascar-centella-ampoule-55ml",
+			"name": "SKIN1004 Madagascar Centella Ampoule 55ml",
+			"category": "skincare",
+			"descriptionPt": "Ampoule de centella de Madagascar que acalma, hidrata e ajuda a recuperar a pele sensível, frasco de 55 ml (SKIN1004).",
+			"descriptionEn": "Madagascar centella ampoule that soothes, hydrates and helps sensitive skin recover, 55 ml bottle (SKIN1004).",
+			"priceJpy": 2200,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-skin1004-centella-ampoule.jpg"
+		},
+		{
+			"slug": "skin1004-hyalu-cica-water-fit-sun-serum-fps50-50ml",
+			"name": "SKIN1004 Hyalu-Cica Water-Fit Sun Serum FPS50+ 50ml",
+			"category": "protetor",
+			"descriptionPt": "Protetor solar FPS50+ com centella e ácido hialurônico: protege sem deixar a pele branca nem pegajosa, tubo de 50 ml (SKIN1004).",
+			"descriptionEn": "SPF50+ sunscreen with centella and hyaluronic acid: protects without white cast or stickiness, 50 ml tube (SKIN1004).",
+			"priceJpy": 2530,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-skin1004-hyalu-cica-sun-serum.jpg"
+		},
+		{
+			"slug": "skin1004-light-cleansing-oil-200ml",
+			"name": "SKIN1004 Light Cleansing Oil 200ml",
+			"category": "skincare",
+			"descriptionPt": "Óleo de limpeza leve com centella que remove maquiagem e protetor solar sem ressecar, frasco de 200 ml (SKIN1004).",
+			"descriptionEn": "Light cleansing oil with centella that removes makeup and sunscreen without drying the skin, 200 ml bottle (SKIN1004).",
+			"priceJpy": 2530,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-skin1004-cleansing-oil.jpg"
+		},
+		{
+			"slug": "skin1004-tone-brightening-capsule-ampoule-50ml",
+			"name": "SKIN1004 Tone Brightening Capsule Ampoule 50ml",
+			"category": "skincare",
+			"descriptionPt": "Ampoule iluminadora em cápsulas que ajuda a uniformizar o tom e devolver a luminosidade da pele, frasco de 50 ml (SKIN1004).",
+			"descriptionEn": "Brightening capsule ampoule that helps even out skin tone and bring back radiance, 50 ml bottle (SKIN1004).",
+			"priceJpy": 2750,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-skin1004-tone-brightening-ampoule.jpg"
+		},
+		{
+			"slug": "medicube-zero-pore-pad-2-0-70-pads",
+			"name": "Medicube Zero Pore Pad 2.0 (70 pads)",
+			"category": "skincare",
+			"descriptionPt": "Discos esfoliantes que limpam os poros e suavizam a textura da pele, pote com 70 pads (Medicube).",
+			"descriptionEn": "Exfoliating toner pads that clear pores and smooth skin texture, jar with 70 pads (Medicube).",
+			"priceJpy": 2400,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-zero-pore-pad.jpg"
+		},
+		{
+			"slug": "medicube-pdrn-pink-peptide-ampoule-30ml",
+			"name": "Medicube PDRN Pink Peptide Ampoule 30ml",
+			"category": "skincare",
+			"descriptionPt": "Ampoule rosa com PDRN e peptídeos, para firmeza e aquele brilho de pele saudável, frasco de 30 ml (Medicube).",
+			"descriptionEn": "Pink ampoule with PDRN and peptides, for firmness and a healthy glow, 30 ml bottle (Medicube).",
+			"priceJpy": 2800,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-pdrn-ampoule.jpg"
+		},
+		{
+			"slug": "medicube-pdrn-pink-collagen-capsule-cream-55g",
+			"name": "Medicube PDRN Pink Collagen Capsule Cream 55g",
+			"category": "skincare",
+			"descriptionPt": "Creme em cápsulas com PDRN e colágeno que hidrata fundo e ajuda na firmeza da pele, pote de 55 g (Medicube).",
+			"descriptionEn": "Capsule cream with PDRN and collagen that deeply hydrates and helps skin firmness, 55 g jar (Medicube).",
+			"priceJpy": 2970,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-pdrn-capsule-cream.jpg"
+		},
+		{
+			"slug": "medicube-pdrn-pink-cica-soothing-toner-250ml",
+			"name": "Medicube PDRN Pink Cica Soothing Toner 250ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico calmante com PDRN e cica que hidrata e acalma a pele, frasco de 250 ml (Medicube).",
+			"descriptionEn": "Soothing toner with PDRN and cica that hydrates and calms the skin, 250 ml bottle (Medicube).",
+			"priceJpy": 2300,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-pdrn-toner.jpg"
+		},
+		{
+			"slug": "celimax-the-vita-a-retinal-shot-tightening-booster-15ml",
+			"name": "Celimax The Vita A Retinal Shot Tightening Booster 15ml",
+			"category": "skincare",
+			"descriptionPt": "Booster concentrado com retinal para firmeza e poros — o queridinho anti-idade do momento, tubo de 15 ml (Celimax).",
+			"descriptionEn": "Concentrated retinal booster for firmness and pores — the anti-aging favorite of the moment, 15 ml tube (Celimax).",
+			"priceJpy": 3200,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-celimax-retinal-booster.jpg"
+		},
+		{
+			"slug": "celimax-retinol-shot-tightening-serum-30ml",
+			"name": "Celimax Retinol Shot Tightening Serum 30ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum com retinol que suaviza linhas finas e melhora a textura da pele, frasco de 30 ml (Celimax).",
+			"descriptionEn": "Retinol serum that smooths fine lines and improves skin texture, 30 ml bottle (Celimax).",
+			"priceJpy": 3800,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-celimax-retinol-serum.jpg"
+		},
+		{
+			"slug": "refa-aile-brush-silver",
+			"name": "ReFa AILE BRUSH Silver",
+			"category": "acessorios",
+			"descriptionPt": "Escova premium de design elegante que desembaraça e alinha os fios com brilho, na cor Silver (ReFa).",
+			"descriptionEn": "Premium brush with an elegant design that detangles and smooths hair with shine, in Silver (ReFa).",
+			"priceJpy": 3800,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-aile-brush.jpg"
+		},
+		{
+			"slug": "refa-honey-queen-shampoo-500ml",
+			"name": "ReFa HONEY QUEEN Shampoo 500ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo da linha Honey Queen com mel: limpa hidratando e deixa os fios macios e perfumados, frasco de 500 ml (ReFa).",
+			"descriptionEn": "Honey Queen shampoo with honey: cleanses while hydrating, leaving hair soft and fragrant, 500 ml bottle (ReFa).",
+			"priceJpy": 2860,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-honey-queen-shampoo.jpg"
+		},
+		{
+			"slug": "refa-honey-queen-treatment-500g",
+			"name": "ReFa HONEY QUEEN Treatment 500g",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento da linha Honey Queen, o par do shampoo: nutrição com mel para fios sedosos, pote de 500 g (ReFa).",
+			"descriptionEn": "Honey Queen treatment, the match to the shampoo: honey nourishment for silky hair, 500 g jar (ReFa).",
+			"priceJpy": 2860,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-honey-queen-treatment.jpg"
+		},
+		{
+			"slug": "refa-honey-queen-kit-shampoo-treatment",
+			"name": "ReFa HONEY QUEEN Kit Shampoo + Treatment",
+			"category": "cabelo",
+			"descriptionPt": "O kit da linha Honey Queen: shampoo 500 ml + tratamento 500 g com mel e geleia real, para fios macios, brilhosos e super hidratados (ReFa).",
+			"descriptionEn": "The Honey Queen kit: 500 ml shampoo + 500 g treatment with honey and royal jelly, for soft, shiny, deeply hydrated hair (ReFa).",
+			"priceJpy": 5720,
+			"priceType": "reference",
+			"weightGrams": 1500,
+			"isLimitedEdition": false,
+			"image": "expansao-refa-honey-queen-kit.jpg"
+		},
+		{
+			"slug": "refa-honey-queen-shampoo-rose-500ml",
+			"name": "ReFa HONEY QUEEN Shampoo Rose 500ml",
+			"category": "cabelo",
+			"descriptionPt": "Versão Rose do shampoo Honey Queen: mel de rosas e geleia real para domar o frizz e as ondas, frasco de 500 ml (ReFa).",
+			"descriptionEn": "The Rose version of the Honey Queen shampoo: rose honey and royal jelly to tame frizz and waves, 500 ml bottle (ReFa).",
+			"priceJpy": 2860,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "refa-honey-queen-treatment-rose-500g",
+			"name": "ReFa HONEY QUEEN Treatment Rose 500g",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento da linha Rose, o par do shampoo: nutrição com mel de rosas para fios sedosos e alinhados, pote de 500 g (ReFa).",
+			"descriptionEn": "Treatment from the Rose line, the match to the shampoo: rose honey nourishment for silky, smooth hair, 500 g jar (ReFa).",
+			"priceJpy": 2860,
+			"priceType": "reference",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "refa-honey-queen-kit-rose-shampoo-treatment",
+			"name": "ReFa HONEY QUEEN Kit Rose Shampoo + Treatment",
+			"category": "cabelo",
+			"descriptionPt": "O kit da linha Rose: shampoo 500 ml + tratamento 500 g com mel de rosas e geleia real, para fios alinhados, macios e perfumados (ReFa).",
+			"descriptionEn": "The Rose line kit: 500 ml shampoo + 500 g treatment with rose honey and royal jelly, for smooth, soft, fragrant hair (ReFa).",
+			"priceJpy": 5720,
+			"priceType": "reference",
+			"weightGrams": 1500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "biodance-bio-collagen-real-deep-mask-4-un",
+			"name": "Biodance Bio-Collagen Real Deep Mask (4 un)",
+			"category": "skincare",
+			"descriptionPt": "A máscara viral de colágeno: vira transparente enquanto age — firmeza e glow. Caixa com 4 unidades de 34 g (Biodance).",
+			"descriptionEn": "The viral collagen mask: turns clear as it works — firmness and glow. Box of 4 masks, 34 g each (Biodance).",
+			"priceJpy": 2600,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "biodance-hydro-cera-nol-real-deep-mask-4-un",
+			"name": "Biodance Hydro Cera-nol Real Deep Mask (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Hidratação profunda e barreira forte, com ceramidas e pantenol. Caixa com 4 unidades de 34 g (Biodance).",
+			"descriptionEn": "Deep hydration and a stronger barrier, with ceramides and panthenol. Box of 4 masks, 34 g each (Biodance).",
+			"priceJpy": 2600,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "biodance-radiant-vita-niacinamide-real-deep-mask-4-un",
+			"name": "Biodance Radiant Vita Niacinamide Real Deep Mask (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Niacinamida para manchas e tom de pele uniforme. Caixa com 4 unidades de 34 g (Biodance).",
+			"descriptionEn": "Niacinamide for dark spots and an even skin tone. Box of 4 masks, 34 g each (Biodance).",
+			"priceJpy": 2600,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "biodance-refreshing-sea-kelp-real-deep-mask-4-un",
+			"name": "Biodance Refreshing Sea Kelp Real Deep Mask (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Alga marinha (kelp) que acalma e refresca a pele. Caixa com 4 unidades de 34 g (Biodance).",
+			"descriptionEn": "Sea kelp that soothes and refreshes the skin. Box of 4 masks, 34 g each (Biodance).",
+			"priceJpy": 2600,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "quality-1st-derma-laser-super-nmn100-7-un",
+			"name": "Quality 1st Derma Laser Super NMN100 (7 un)",
+			"category": "skincare",
+			"descriptionPt": "NMN + niacinamida: cuidado anti-idade intensivo. Pacote com 7 máscaras (Quality 1st Derma Laser).",
+			"descriptionEn": "NMN + niacinamide: intensive age care. Pack of 7 sheet masks (Quality 1st Derma Laser).",
+			"priceJpy": 770,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "quality-1st-derma-laser-super-tea-tree-100-7-un",
+			"name": "Quality 1st Derma Laser Super Tea Tree 100 (7 un)",
+			"category": "skincare",
+			"descriptionPt": "Tea tree para acalmar a pele com tendência a espinhas. Pacote com 7 máscaras (Quality 1st Derma Laser).",
+			"descriptionEn": "Tea tree to calm blemish-prone skin. Pack of 7 sheet masks (Quality 1st Derma Laser).",
+			"priceJpy": 770,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "mediheal-the-n-m-f-aqua-ampoule-mask-jex-3-un",
+			"name": "Mediheal THE N.M.F Aqua Ampoule Mask JEX (3 un)",
+			"category": "skincare",
+			"descriptionPt": "O clássico coreano de hidratação profunda — versão japonesa JEX. Caixa com 3 máscaras (Mediheal).",
+			"descriptionEn": "The Korean deep-hydration classic — Japanese JEX version. Box of 3 masks (Mediheal).",
+			"priceJpy": 1069,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "anua-heartleaf-70-soothing-collagen-mask-4-un",
+			"name": "Anua Heartleaf 70 Soothing Collagen Mask (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Heartleaf + colágeno: acalma a pele sensível e firma. Caixa com 4 máscaras de 38 g (Anua).",
+			"descriptionEn": "Heartleaf + collagen: soothes sensitive skin and firms. Box of 4 masks, 38 g each (Anua).",
+			"priceJpy": 2600,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-r5-anua-heartleaf-collagen.jpg"
+		},
+		{
+			"slug": "vt-cica-daily-soothing-mask-30-un",
+			"name": "VT Cica Daily Soothing Mask (30 un)",
+			"category": "skincare",
+			"descriptionPt": "Cica calmante para usar todo dia. Caixa com 30 máscaras (VT).",
+			"descriptionEn": "Daily soothing cica care. Box of 30 masks (VT).",
+			"priceJpy": 2420,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-r5-vt-cica-daily.jpg"
+		},
+		{
+			"slug": "numbuzin-no-3-tingle-pore-mascara-4-un",
+			"name": "numbuzin No.3 Tingle-Pore Máscara (4 un)",
+			"category": "skincare",
+			"descriptionPt": "A famosa máscara dos poros: pele lisa, macia e com viço. Caixa com 4 máscaras (numbuzin).",
+			"descriptionEn": "The famous pore mask: smooth, soft, glowing skin. Box of 4 masks (numbuzin).",
+			"priceJpy": 1090,
+			"priceType": "reference",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-r5-numbuzin-no3.jpg"
+		},
+		{
+			"slug": "anessa-brightening-uv-gel-tone-up-90g",
+			"name": "Anessa Brightening UV Gel Tone Up 90g",
+			"category": "protetor",
+			"descriptionPt": "Gel protetor da Anessa que ilumina a pele e disfarça os poros, efeito tone up.",
+			"descriptionEn": "Anessa sunscreen gel that brightens the skin and blurs pores, with a tone-up effect.",
+			"priceJpy": 2508,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anessa-toneup-gel.jpg"
+		},
+		{
+			"slug": "anessa-brush-on-powder-fps50",
+			"name": "Anessa Brush On Powder FPS50+",
+			"category": "protetor",
+			"descriptionPt": "Pó protetor com pincel embutido: passa por cima da maquiagem e retoca sem borrar.",
+			"descriptionEn": "Powder sunscreen with a built-in brush: apply over makeup and touch up without smudging it.",
+			"priceJpy": 3498,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anessa-brush-on.jpg"
+		},
+		{
+			"slug": "anessa-day-serum-fps50-30ml",
+			"name": "Anessa Day Serum FPS50+ 30ml",
+			"category": "protetor",
+			"descriptionPt": "Sérum diurno com FPS50+ que hidrata e protege ao mesmo tempo.",
+			"descriptionEn": "Day serum with SPF50+ that moisturizes and protects at the same time.",
+			"priceJpy": 3498,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anessa-day-serum.jpg"
+		},
+		{
+			"slug": "anessa-perfect-uv-mild-milk-60ml",
+			"name": "Anessa Perfect UV Mild Milk 60ml",
+			"category": "protetor",
+			"descriptionPt": "Versão suave (mild) do leite protetor nº 1 do Japão, para peles sensíveis.",
+			"descriptionEn": "The mild version of Japan's No. 1 sunscreen milk, made for sensitive skin.",
+			"priceJpy": 3058,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anessa-mild-milk.jpg"
+		},
+		{
+			"slug": "biore-uv-aqua-rich-refil-eco-120ml",
+			"name": "Bioré UV Aqua Rich Refil Eco 120ml",
+			"category": "protetor",
+			"descriptionPt": "Refil econômico do Bioré UV Aqua Rich, para repor o frasco pump.",
+			"descriptionEn": "Budget refill of the Bioré UV Aqua Rich, to refill the pump bottle.",
+			"priceJpy": 1628,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-biore-refil-eco.jpg"
+		},
+		{
+			"slug": "skin-aqua-tone-up-uv-essence-pink-80g",
+			"name": "Skin Aqua Tone Up UV Essence Pink 80g",
+			"category": "protetor",
+			"descriptionPt": "Protetor tone up rosa: corrige o tom e ilumina com brilho saudável.",
+			"descriptionEn": "Pink tone-up sunscreen: evens out the tone and brightens with a healthy glow.",
+			"priceJpy": 877,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-skinaqua-toneup-pink.jpg"
+		},
+		{
+			"slug": "skin-aqua-tone-up-uv-essence-blue-80g",
+			"name": "Skin Aqua Tone Up UV Essence Blue 80g",
+			"category": "protetor",
+			"descriptionPt": "Protetor tone up azul: neutraliza o amarelado e deixa a pele translúcida.",
+			"descriptionEn": "Blue tone-up sunscreen: neutralizes yellowness and leaves the skin looking translucent.",
+			"priceJpy": 877,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-skinaqua-toneup-blue.jpg"
+		},
+		{
+			"slug": "skin-aqua-tone-up-uv-essence-mint-green-80g",
+			"name": "Skin Aqua Tone Up UV Essence Mint Green 80g",
+			"category": "protetor",
+			"descriptionPt": "Protetor tone up verde-menta: disfarça vermelhidão e poros.",
+			"descriptionEn": "Mint-green tone-up sunscreen: softens the look of redness and pores.",
+			"priceJpy": 877,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "skin-aqua-super-moisture-gel-110g",
+			"name": "Skin Aqua Super Moisture Gel 110g",
+			"category": "protetor",
+			"descriptionPt": "Gel protetor leve e refrescante para o corpo todo, rende muito.",
+			"descriptionEn": "Light, refreshing sunscreen gel for the whole body — goes a long way.",
+			"priceJpy": 767,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "skin-aqua-super-moisture-barrier-gel-100g",
+			"name": "Skin Aqua Super Moisture Barrier Gel 100g",
+			"category": "protetor",
+			"descriptionPt": "Gel protetor com barreira reforçada contra suor e água.",
+			"descriptionEn": "Sunscreen gel with a reinforced barrier against sweat and water.",
+			"priceJpy": 866,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "melano-cc-deep-day-care-uv-milk-50g",
+			"name": "Melano CC Deep Day Care UV Milk 50g",
+			"category": "protetor",
+			"descriptionPt": "Leite protetor com vitamina C da linha Melano CC.",
+			"descriptionEn": "Sunscreen milk with vitamin C from the Melano CC line.",
+			"priceJpy": 1210,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "nature-republic-fresh-powdery-sun-stick",
+			"name": "Nature Republic Fresh Powdery Sun Stick",
+			"category": "protetor",
+			"descriptionPt": "Protetor em bastão com acabamento em pó: passa sem sujar a mão.",
+			"descriptionEn": "Sun stick with a powdery finish: goes on without getting your hands messy.",
+			"priceJpy": 1650,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": null
+		},
+		{
+			"slug": "unlabel-lab-v-smooth-uv-stick-clear",
+			"name": "unlabel LAB V Smooth UV Stick Clear",
+			"category": "protetor",
+			"descriptionPt": "Protetor em bastão transparente com vitamina C, sem cor.",
+			"descriptionEn": "Clear sun stick with vitamin C, no tint.",
+			"priceJpy": 1485,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-unlabel-sunstick-clear.jpg"
+		},
+		{
+			"slug": "unlabel-lab-v-smooth-uv-stick-rose-beige",
+			"name": "unlabel LAB V Smooth UV Stick Rose Beige",
+			"category": "protetor",
+			"descriptionPt": "Protetor em bastão com cor rosé, efeito de base leve.",
+			"descriptionEn": "Sun stick with a rosé tint, works like a light base.",
+			"priceJpy": 1485,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-unlabel-sunstick-rose.jpg"
+		},
+		{
+			"slug": "sana-soy-milk-wrinkle-uv-milk-fps43",
+			"name": "SANA Soy Milk Wrinkle UV Milk FPS43",
+			"category": "protetor",
+			"descriptionPt": "Leite protetor de soja com cuidado anti-idade, FPS43.",
+			"descriptionEn": "Soy milk sunscreen with anti-aging care, SPF43.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-wrinkle-uv-milk.jpg"
+		},
+		{
+			"slug": "sana-locao-de-soja-moist",
+			"name": "SANA Loção de Soja Moist",
+			"category": "skincare",
+			"descriptionPt": "Loção hidratante de leite de soja, a clássica japonesa de hidratação diária.",
+			"descriptionEn": "Moisturizing soy milk lotion, the classic Japanese daily hydrator.",
+			"priceJpy": 910,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-lotion-moist.jpg"
+		},
+		{
+			"slug": "sana-locao-milky-de-soja",
+			"name": "SANA Loção Milky de Soja",
+			"category": "skincare",
+			"descriptionPt": "Versão milky (mais cremosa) da loção de soja, para pele seca.",
+			"descriptionEn": "The milky, creamier version of the soy lotion, for dry skin.",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-lotion-milky.jpg"
+		},
+		{
+			"slug": "sana-creme-facial-de-soja-50g",
+			"name": "SANA Creme Facial de Soja 50g",
+			"category": "skincare",
+			"descriptionPt": "Creme facial de soja que sela a hidratação.",
+			"descriptionEn": "Soy face cream that seals in the moisture.",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-face-cream.jpg"
+		},
+		{
+			"slug": "sana-wrinkle-night-cream",
+			"name": "SANA Wrinkle Night Cream",
+			"category": "skincare",
+			"descriptionPt": "Creme noturno de soja com retinol puro, cuidado anti-idade.",
+			"descriptionEn": "Soy night cream with pure retinol, anti-aging care.",
+			"priceJpy": 921,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-wrinkle-night-cream.jpg"
+		},
+		{
+			"slug": "sana-creme-para-olhos-4-em-1",
+			"name": "SANA Creme para Olhos 4 em 1",
+			"category": "skincare",
+			"descriptionPt": "Creme de olhos de soja 4 em 1: hidrata, firma e cuida das olheiras.",
+			"descriptionEn": "4-in-1 soy eye cream: moisturizes, firms and helps with dark circles.",
+			"priceJpy": 836,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-olhos-4em1.jpg"
+		},
+		{
+			"slug": "sana-wrinkle-eye-cream-n",
+			"name": "SANA Wrinkle Eye Cream N",
+			"category": "skincare",
+			"descriptionPt": "Creme de olhos anti-rugas da linha Wrinkle da SANA.",
+			"descriptionEn": "Anti-wrinkle eye cream from the SANA Wrinkle line.",
+			"priceJpy": 968,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-wrinkle-eye-n.jpg"
+		},
+		{
+			"slug": "sana-w-care-creme-para-olhos",
+			"name": "SANA W Care Creme para Olhos",
+			"category": "skincare",
+			"descriptionPt": "Creme de olhos de cuidado duplo (rugas e manchas) da SANA.",
+			"descriptionEn": "Dual-care eye cream for wrinkles and dark spots, from SANA.",
+			"priceJpy": 1100,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-sana-olhos-wcare.jpg"
+		},
+		{
+			"slug": "hada-labo-gokujyun-aging-care-locao",
+			"name": "Hada Labo Gokujyun Aging Care Loção",
+			"category": "skincare",
+			"descriptionPt": "Loção anti-idade da Hada Labo com ácido hialurônico.",
+			"descriptionEn": "Anti-aging lotion from Hada Labo, with hyaluronic acid.",
+			"priceJpy": 1221,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-hadalabo-aging-care.jpg"
+		},
+		{
+			"slug": "hada-labo-shirojyun-locao",
+			"name": "Hada Labo Shirojyun Loção",
+			"category": "skincare",
+			"descriptionPt": "Loção clareadora da Hada Labo (linha Shirojyun).",
+			"descriptionEn": "Brightening lotion from Hada Labo (Shirojyun line).",
+			"priceJpy": 866,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-hadalabo-shirojyun.jpg"
+		},
+		{
+			"slug": "melano-cc-essence-vitamina-c-20ml",
+			"name": "Melano CC Essence Vitamina C 20ml",
+			"category": "skincare",
+			"descriptionPt": "O famoso sérum de vitamina C pura da Melano CC, para manchas.",
+			"descriptionEn": "The famous pure vitamin C serum from Melano CC, for dark spots.",
+			"priceJpy": 1210,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-melano-cc-essence.jpg"
+		},
+		{
+			"slug": "melano-cc-emulsao",
+			"name": "Melano CC Emulsão",
+			"category": "skincare",
+			"descriptionPt": "Emulsão hidratante com vitamina C da Melano CC.",
+			"descriptionEn": "Moisturizing emulsion with vitamin C, from Melano CC.",
+			"priceJpy": 990,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-melano-cc-emulsao.jpg"
+		},
+		{
+			"slug": "melano-cc-enzyme-wash",
+			"name": "Melano CC Enzyme Wash",
+			"category": "skincare",
+			"descriptionPt": "Sabonete facial enzimático da Melano CC, limpa os poros.",
+			"descriptionEn": "Enzyme face wash from Melano CC, deep-cleans the pores.",
+			"priceJpy": 715,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-melano-cc-enzyme-wash.jpg"
+		},
+		{
+			"slug": "e-honey-capsule-serum-vitamin-c",
+			"name": "&honey Capsule Serum Vitamin C",
+			"category": "skincare",
+			"descriptionPt": "Sérum em cápsulas de vitamina C da &honey.",
+			"descriptionEn": "Vitamin C capsule serum from &honey.",
+			"priceJpy": 2480,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-capsule-serum.jpg"
+		},
+		{
+			"slug": "numbuzin-no-9-nad-mascara-4-un",
+			"name": "numbuzin No.9 NAD+ Máscara (4 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara facial coreana No.9 com NAD+ e peptídeos, efeito lifting.",
+			"descriptionEn": "Korean No.9 sheet mask with NAD+ and peptides, lifting effect.",
+			"priceJpy": 1250,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-numbuzin-no9-mask.jpg"
+		},
+		{
+			"slug": "anua-azelaic-acid-mascara-7-un",
+			"name": "Anua Azelaic Acid Máscara (7 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara em folha com ácido azelaico e cica, para acne e vermelhidão.",
+			"descriptionEn": "Sheet mask with azelaic acid and cica, for acne and redness.",
+			"priceJpy": 770,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anua-azelaic-mask.jpg"
+		},
+		{
+			"slug": "anua-pdrn-mascara-7-un",
+			"name": "Anua PDRN Máscara (7 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara em folha com PDRN e ácido hialurônico, hidratação profunda.",
+			"descriptionEn": "Sheet mask with PDRN and hyaluronic acid, deep hydration.",
+			"priceJpy": 770,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-anua-pdrn-mask.jpg"
+		},
+		{
+			"slug": "lululun-hydra-ex-7-un",
+			"name": "LuLuLun Hydra EX (7 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara japonesa de hidratação intensa da linha Hydra EX.",
+			"descriptionEn": "Japanese sheet mask for intense hydration, from the Hydra EX line.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-lululun-hydra-ex-7.jpg"
+		},
+		{
+			"slug": "lululun-precious-balance-7-un",
+			"name": "LuLuLun Precious Balance (7 un)",
+			"category": "skincare",
+			"descriptionPt": "Máscara de equilíbrio da linha Precious (verde), para pele madura.",
+			"descriptionEn": "Balancing sheet mask from the Precious line (green), for mature skin.",
+			"priceJpy": 987,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-lululun-precious-green.jpg"
+		},
+		{
+			"slug": "e-honey-deep-moist-body-milk",
+			"name": "&honey Deep Moist Body Milk",
+			"category": "corpo",
+			"descriptionPt": "Leite corporal hidratante profundo da &honey.",
+			"descriptionEn": "Deep-moisture body milk from &honey.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-body-milk-deep.jpg"
+		},
+		{
+			"slug": "tirtir-mask-fit-red-cushion",
+			"name": "TIRTIR Mask Fit Red Cushion",
+			"category": "maquiagem",
+			"descriptionPt": "A base cushion coreana mais famosa do Japão, cobertura que dura o dia todo.",
+			"descriptionEn": "The most famous Korean cushion foundation in Japan — coverage that lasts all day.",
+			"priceJpy": 2970,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-tirtir-red-cushion.jpg"
+		},
+		{
+			"slug": "fino-premium-touch-oil-airy-smooth",
+			"name": "FINO Premium Touch Oil Airy Smooth",
+			"category": "cabelo",
+			"descriptionPt": "Óleo FINO de tampa branca: leve, para fios finos, sem pesar.",
+			"descriptionEn": "FINO oil with the white cap: light, for fine hair, never weighs it down.",
+			"priceJpy": 1298,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-fino-oil-airy.jpg"
+		},
+		{
+			"slug": "orbis-essence-in-hair-milk",
+			"name": "ORBIS Essence in Hair Milk",
+			"category": "cabelo",
+			"descriptionPt": "Leite capilar sem enxágue da ORBIS, hidrata sem pesar.",
+			"descriptionEn": "Leave-in hair milk from ORBIS, moisturizes without weighing the hair down.",
+			"priceJpy": 1320,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-orbis-hair-milk.jpg"
+		},
+		{
+			"slug": "orbis-hair-mask",
+			"name": "ORBIS Hair Mask",
+			"category": "cabelo",
+			"descriptionPt": "Máscara capilar de tratamento intensivo da ORBIS.",
+			"descriptionEn": "Intensive treatment hair mask from ORBIS.",
+			"priceJpy": 1540,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-orbis-hair-mask.jpg"
+		},
+		{
+			"slug": "ululis-matomake-stick-ultra-hold",
+			"name": "ululis Matomake Stick Ultra Hold",
+			"category": "cabelo",
+			"descriptionPt": "Stick que abaixa os fiozinhos rebeldes com fixação ultra.",
+			"descriptionEn": "Stick that tames flyaway baby hairs with ultra hold.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-ululis-matomake.jpg"
+		},
+		{
+			"slug": "ululis-miracle-lock-stick",
+			"name": "ululis Miracle Lock Stick",
+			"category": "cabelo",
+			"descriptionPt": "Stick de fixação para os fiozinhos, versão Miracle Lock.",
+			"descriptionEn": "Hair stick for flyaways, Miracle Lock version.",
+			"priceJpy": 1210,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-ululis-miracle-lock.jpg"
+		},
+		{
+			"slug": "e-honey-matomake-stick-kinmokusei",
+			"name": "&honey Matomake Stick Kinmokusei",
+			"category": "cabelo",
+			"descriptionPt": "Stick anti-frizz da &honey com perfume de kinmokusei (osmanthus).",
+			"descriptionEn": "Anti-frizz stick from &honey with kinmokusei (osmanthus) scent.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-matomake-kinmokusei.jpg"
+		},
+		{
+			"slug": "matomage-hair-styling-stick-regular",
+			"name": "Matomage Hair Styling Stick Regular",
+			"category": "cabelo",
+			"descriptionPt": "O clássico stick japonês que segura os fiozinhos o dia todo (rosa, fixação regular).",
+			"descriptionEn": "The classic Japanese stick that holds flyaways all day (pink, regular hold).",
+			"priceJpy": 657,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-matomage-regular.jpg"
+		},
+		{
+			"slug": "matomage-hair-styling-stick-super-hold",
+			"name": "Matomage Hair Styling Stick Super Hold",
+			"category": "cabelo",
+			"descriptionPt": "Versão super hold do stick Matomage, fixação máxima.",
+			"descriptionEn": "The super hold version of the Matomage stick, maximum hold.",
+			"priceJpy": 657,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-matomage-superhold.jpg"
+		},
+		{
+			"slug": "diane-perfect-beauty-oil-refil",
+			"name": "Diane Perfect Beauty Oil Refil",
+			"category": "cabelo",
+			"descriptionPt": "Refil do óleo capilar Diane, para repor o frasco.",
+			"descriptionEn": "Refill of the Diane hair oil, to refill your bottle.",
+			"priceJpy": 1078,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-diane-oil-refil.jpg"
+		},
+		{
+			"slug": "diane-moist-oil",
+			"name": "Diane Moist Oil",
+			"category": "cabelo",
+			"descriptionPt": "Óleo capilar hidratante da Diane.",
+			"descriptionEn": "Moisturizing hair oil from Diane.",
+			"priceJpy": 1408,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-diane-moist-oil.jpg"
+		},
+		{
+			"slug": "oshima-tsubaki-oil-40ml",
+			"name": "Oshima Tsubaki Oil 40ml",
+			"category": "cabelo",
+			"descriptionPt": "Óleo de camélia puro japonês, o tradicional cuidado dos cabelos.",
+			"descriptionEn": "Pure Japanese camellia oil, the traditional hair care.",
+			"priceJpy": 1298,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-oshima-oil-40.jpg"
+		},
+		{
+			"slug": "oshima-tsubaki-oil-60ml",
+			"name": "Oshima Tsubaki Oil 60ml",
+			"category": "cabelo",
+			"descriptionPt": "Óleo de camélia puro, frasco maior de 60 ml.",
+			"descriptionEn": "Pure camellia oil in the bigger 60 ml bottle.",
+			"priceJpy": 1848,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-oshima-oil-60.jpg"
+		},
+		{
+			"slug": "kurobara-camellia-oil",
+			"name": "Kurobara Camellia Oil",
+			"category": "cabelo",
+			"descriptionPt": "Óleo de camélia Kurobara, marca tradicional japonesa.",
+			"descriptionEn": "Camellia oil from Kurobara, a traditional Japanese brand.",
+			"priceJpy": 1320,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-kurobara-oil.jpg"
+		},
+		{
+			"slug": "kurobara-hair-milk",
+			"name": "Kurobara Hair Milk",
+			"category": "cabelo",
+			"descriptionPt": "Leite capilar de camélia da Kurobara, sem enxágue.",
+			"descriptionEn": "Camellia hair milk from Kurobara, leave-in.",
+			"priceJpy": 833,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-kurobara-milk.jpg"
+		},
+		{
+			"slug": "kurobara-hair-cream",
+			"name": "Kurobara Hair Cream",
+			"category": "cabelo",
+			"descriptionPt": "Creme capilar de camélia da Kurobara.",
+			"descriptionEn": "Camellia hair cream from Kurobara.",
+			"priceJpy": 712,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-kurobara-cream.jpg"
+		},
+		{
+			"slug": "the-answer-ex-moist-treatment",
+			"name": "THE ANSWER EX Moist Treatment",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento capilar premium da Kao, versão Moist (hidratação).",
+			"descriptionEn": "Premium hair treatment from Kao, Moist version (hydration).",
+			"priceJpy": 1848,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-the-answer-moist.jpg"
+		},
+		{
+			"slug": "the-answer-ex-gloss-treatment",
+			"name": "THE ANSWER EX Gloss Treatment",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento capilar premium da Kao, versão Gloss (brilho).",
+			"descriptionEn": "Premium hair treatment from Kao, Gloss version (shine).",
+			"priceJpy": 1848,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-the-answer-gloss.jpg"
+		},
+		{
+			"slug": "the-answer-ex-repair-treatment",
+			"name": "THE ANSWER EX Repair Treatment",
+			"category": "cabelo",
+			"descriptionPt": "Tratamento capilar premium da Kao, versão Repair (reparação de danos).",
+			"descriptionEn": "Premium hair treatment from Kao, Repair version (damage repair).",
+			"priceJpy": 1848,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-the-answer-repair.jpg"
+		},
+		{
+			"slug": "e-honey-colorful-shampoo-lavender-250ml",
+			"name": "&honey Colorful Shampoo Lavender 250ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo color care da &honey (lavanda), para cabelos com coloração.",
+			"descriptionEn": "Color care shampoo from &honey (lavender), for colored hair.",
+			"priceJpy": 1650,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-colorful-lavender.jpg"
+		},
+		{
+			"slug": "e-honey-colorful-shampoo-pink-250ml",
+			"name": "&honey Colorful Shampoo Pink 250ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo color care da &honey (pink), para cabelos com coloração.",
+			"descriptionEn": "Color care shampoo from &honey (pink), for colored hair.",
+			"priceJpy": 1650,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-colorful-pink.jpg"
+		},
+		{
+			"slug": "e-honey-colorful-shampoo-beige-250ml",
+			"name": "&honey Colorful Shampoo Beige 250ml",
+			"category": "cabelo",
+			"descriptionPt": "Shampoo color care da &honey (bege), para cabelos com coloração.",
+			"descriptionEn": "Color care shampoo from &honey (beige), for colored hair.",
+			"priceJpy": 1650,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "lote6-honey-colorful-beige.jpg"
+		},
+		{
+			"slug": "skin1004-madagascar-centella-toning-toner-210ml",
+			"name": "SKIN1004 Madagascar Centella Toning Toner 210ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico com centella de Madagascar que acalma e hidrata a pele depois da limpeza, preparando para os próximos passos da rotina, frasco de 210 ml (SKIN1004).",
+			"descriptionEn": "Toner with Madagascar centella that soothes and hydrates the skin after cleansing, prepping it for the next steps of your routine, 210 ml bottle (SKIN1004).",
+			"priceJpy": 2365,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-skin1004-toning-toner.jpg"
+		},
+		{
+			"slug": "skin1004-madagascar-centella-quick-calming-pad-70-pads",
+			"name": "SKIN1004 Madagascar Centella Quick Calming Pad (70 pads)",
+			"category": "skincare",
+			"descriptionPt": "Discos embebidos em centella que acalmam a pele na hora: é só apoiar sobre a área irritada por alguns minutos ou passar no rosto todo, pote com 70 pads (SKIN1004).",
+			"descriptionEn": "Centella-soaked pads that calm the skin fast: rest them on irritated areas for a few minutes or swipe over the whole face, jar with 70 pads (SKIN1004).",
+			"priceJpy": 2640,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-skin1004-calming-pad.jpg"
+		},
+		{
+			"slug": "vt-retinal-peptide-capsule-cream-50ml",
+			"name": "VT Retinal Peptide Capsule Cream 50ml",
+			"category": "skincare",
+			"descriptionPt": "Creme em cápsulas com retinal e peptídeos, para firmeza e poros: as cápsulas estouram na pele e se misturam ao gel na hora de aplicar, pote de 50 ml (VT). Use à noite.",
+			"descriptionEn": "Capsule cream with retinal and peptides, for firmness and pores: the capsules burst on the skin and blend into the gel as you apply, 50 ml jar (VT). Use at night.",
+			"priceJpy": 2200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-vt-retinal-capsule.jpg"
+		},
+		{
+			"slug": "vt-pdrn-capsule-cream-50ml",
+			"name": "VT PDRN+ Capsule Cream 50ml",
+			"category": "skincare",
+			"descriptionPt": "Creme em cápsulas com PDRN que hidrata fundo e ajuda na elasticidade da pele: misture as cápsulas ao gel e aplique no rosto, pote de 50 ml (VT).",
+			"descriptionEn": "Capsule cream with PDRN that deeply hydrates and helps skin elasticity: mix the capsules into the gel and apply to the face, 50 ml jar (VT).",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-vt-pdrn-capsule.jpg"
+		},
+		{
+			"slug": "vt-vitamin-c-astaxanthin-capsule-cream-50ml",
+			"name": "VT Vitamin C Astaxanthin Capsule Cream 50ml",
+			"category": "skincare",
+			"descriptionPt": "Creme em cápsulas com vitamina C e astaxantina, dupla antioxidante que ajuda a devolver o viço e a luminosidade da pele, pote de 50 ml (VT).",
+			"descriptionEn": "Capsule cream with vitamin C and astaxanthin, an antioxidant combo that helps bring back skin radiance and glow, 50 ml jar (VT).",
+			"priceJpy": 2200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-vt-vitc-capsule.jpg"
+		},
+		{
+			"slug": "medicube-pdrn-pink-niacinamide-milky-toner-150ml",
+			"name": "Medicube PDRN Pink Niacinamide Milky Toner 150ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico leitoso com PDRN e niacinamida que hidrata e ajuda a uniformizar o tom da pele, com textura cremosa que não pesa, frasco de 150 ml (Medicube).",
+			"descriptionEn": "Milky toner with PDRN and niacinamide that hydrates and helps even out skin tone, with a creamy yet lightweight texture, 150 ml bottle (Medicube).",
+			"priceJpy": 2420,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-medicube-milky-toner.jpg"
+		},
+		{
+			"slug": "anua-pdrn-hyaluronic-acid-capsule-100-serum-30ml",
+			"name": "Anua PDRN Hyaluronic Acid Capsule 100 Serum 30ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum com PDRN e ácido hialurônico que hidrata fundo e ajuda na firmeza, deixando aquele viço de pele bem cuidada, frasco de 30 ml (Anua).",
+			"descriptionEn": "Serum with PDRN and hyaluronic acid that deeply hydrates and helps skin firmness, for that healthy, well-cared glow, 30 ml bottle (Anua).",
+			"priceJpy": 2970,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-anua-pdrn-serum.jpg"
+		},
+		{
+			"slug": "numbuzin-tonico-no-9-nmn-pdrn-glow-boosting-150ml",
+			"name": "numbuzin Tônico No.9 NMN PDRN Glow Boosting 150ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico-essência com NMN, PDRN e 50 peptídeos que hidrata, ilumina e ajuda na firmeza logo no primeiro passo da rotina, frasco de 150 ml (numbuzin).",
+			"descriptionEn": "Essence toner with NMN, PDRN and 50 peptides that hydrates, brightens and helps firmness from the very first step of your routine, 150 ml bottle (numbuzin).",
+			"priceJpy": 2200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-numbuzin-no9-toner.jpg"
+		},
+		{
+			"slug": "softymo-speedy-cleansing-oil-edicao-pokemon-pikachu",
+			"name": "Softymo Speedy Cleansing Oil — Edição Pokémon (Pikachu)",
+			"category": "skincare",
+			"descriptionPt": "Óleo de limpeza rapidinho que dissolve maquiagem e protetor solar sem deixar a pele oleosa — nesta edição limitada com o Pikachu na embalagem (KOSÉ Softymo).",
+			"descriptionEn": "Fast cleansing oil that melts away makeup and sunscreen without leaving the skin greasy — in this limited edition with Pikachu on the package (KOSÉ Softymo).",
+			"priceJpy": 659,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": true,
+			"image": "donki-softymo-pokemon.jpg"
+		},
+		{
+			"slug": "rosette-gommage-clearpeel-kuromi-120g",
+			"name": "Rosette Gommage ClearPeel × Kuromi 120g",
+			"category": "skincare",
+			"descriptionPt": "Gel esfoliante (gommage) que remove as células mortas em bolinhas e deixa a pele lisinha — edição limitada com a Kuromi na embalagem, tubo de 120 g (Rosette). Massageie no rosto seco ou úmido e enxágue.",
+			"descriptionEn": "Exfoliating gommage gel that rolls away dead skin cells and leaves the skin smooth — limited edition with Kuromi on the package, 120 g tube (Rosette). Massage onto dry or damp skin and rinse off.",
+			"priceJpy": 550,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": true,
+			"image": "donki-rosette-kuromi.jpg"
+		},
+		{
+			"slug": "medicube-age-r-booster-glow-aparelho",
+			"name": "Medicube AGE-R Booster Glow (aparelho)",
+			"category": "acessorios",
+			"descriptionPt": "Aparelho de ultrassom “gota d'água” que potencializa a absorção dos seus séruns e ajuda no viço e na firmeza da pele (Medicube). Atenção: aparelho com bateria embutida — envio somente por EMS.",
+			"descriptionEn": "Water-drop ultrasound device that boosts absorption of your serums and helps with skin glow and firmness (Medicube). Please note: built-in battery device — EMS shipping only.",
+			"priceJpy": 24200,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "donki-medicube-booster-glow.jpg"
+		},
+		{
+			"slug": "medicube-one-day-exosome-shot-2000-30ml",
+			"name": "Medicube One Day Exosome Shot 2000 30ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum facial com exossomos e AHA + BHA + PHA: renova a pele, desobstrui os poros e melhora a textura. 30 ml (Medicube)",
+			"descriptionEn": "Facial serum with exosomes and AHA + BHA + PHA: renews the skin, unclogs pores and improves texture. 30 ml (Medicube)",
+			"priceJpy": 2783,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-exosome-shot.jpg"
+		},
+		{
+			"slug": "bioheal-boh-probioderm-3d-lifting-serum-30ml",
+			"name": "BIOHEAL BOH Probioderm 3D Lifting Serum 30ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum firmador com PLGA e probióticos: efeito lifting, melhora a elasticidade e o contorno do rosto. 30 ml (BIOHEAL BOH)",
+			"descriptionEn": "Firming serum with PLGA and probiotics: lifting effect, improves elasticity and facial contour. 30 ml (BIOHEAL BOH)",
+			"priceJpy": 3520,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-bioheal-boh-probioderm-serum.png"
+		},
+		{
+			"slug": "medicube-azelaic-acid-niacinamide-clear-toner-250ml",
+			"name": "Medicube Azelaic Acid Niacinamide Clear Toner 250ml",
+			"category": "skincare",
+			"descriptionPt": "Tônico facial com ácido azelaico 4% e niacinamida: ajuda nas manchinhas, controla a oleosidade e acalma a pele. 250 ml (Medicube)",
+			"descriptionEn": "Facial toner with 4% azelaic acid and niacinamide: helps with dark spots, controls oiliness and soothes the skin. 250 ml (Medicube)",
+			"priceJpy": 2420,
+			"priceType": "store",
+			"weightGrams": 1000,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-azelaic-toner.webp"
+		},
+		{
+			"slug": "medicube-zero-pore-blackhead-mud-mask-100g",
+			"name": "Medicube Zero Pore Blackhead Mud Mask 100g",
+			"category": "skincare",
+			"descriptionPt": "Máscara de argila azul que limpa os poros e ajuda a remover cravos, com AHA + BHA + PHA. 100 g (Medicube)",
+			"descriptionEn": "Blue clay mask that deep-cleans pores and helps remove blackheads, with AHA + BHA + PHA. 100 g (Medicube)",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-medicube-zero-pore-mud-mask.jpg"
+		},
+		{
+			"slug": "numbuzin-serum-no-5-goodbye-blemish-50ml",
+			"name": "numbuzin Sérum No.5 Goodbye Blemish 50ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum clareador com glutationa e vitaminas: ajuda a uniformizar o tom e dar viço à pele com manchinhas. 50 ml (numbuzin)",
+			"descriptionEn": "Brightening serum with glutathione and vitamins: helps even out skin tone and give a healthy glow to skin with dark spots. 50 ml (numbuzin)",
+			"priceJpy": 2530,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-numbuzin-no5-serum.webp"
+		},
+		{
+			"slug": "numbuzin-serum-no-3-skin-softening-50ml",
+			"name": "numbuzin Sérum No.3 Skin Softening 50ml",
+			"category": "skincare",
+			"descriptionPt": "Sérum de fermentados (bifida e galactomyces): suaviza a textura, cuida dos poros e deixa a pele macia e luminosa. 50 ml (numbuzin)",
+			"descriptionEn": "Fermented serum (bifida and galactomyces): softens texture, cares for pores and leaves skin soft and luminous. 50 ml (numbuzin)",
+			"priceJpy": 2970,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-numbuzin-no3-serum.webp"
+		},
+		{
+			"slug": "skin1004-madagascar-centella-ampoule-foam-125ml",
+			"name": "SKIN1004 Madagascar Centella Ampoule Foam 125ml",
+			"category": "skincare",
+			"descriptionPt": "Espuma de limpeza suave com centella de Madagascar: limpa sem ressecar e acalma a pele sensível. 125 ml (SKIN1004)",
+			"descriptionEn": "Gentle cleansing foam with Madagascar centella: cleanses without drying and soothes sensitive skin. 125 ml (SKIN1004)",
+			"priceJpy": 1980,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-skin1004-ampoule-foam.webp"
+		},
+		{
+			"slug": "ululis-pink-neko-sleek-hair-oil-100ml",
+			"name": "ululis PINK neko Sleek Hair Oil 100ml",
+			"category": "cabelo",
+			"descriptionPt": "Óleo capilar leve de edição fofa (orelhinhas de gato): alinha os fios, tira o frizz e dá brilho sem pesar. 100 ml (ululis)",
+			"descriptionEn": "Light hair oil in a cute edition (cat ears): smooths the strands, tames frizz and adds shine without weighing hair down. 100 ml (ululis)",
+			"priceJpy": 1540,
+			"priceType": "store",
+			"weightGrams": 500,
+			"isLimitedEdition": false,
+			"image": "expansao-ululis-pink-neko-oil.webp"
+		}
+	],
+	"kits": [
+		{
+			"slug": "kit-pele-oleosa-mista",
+			"name": "Kit Pele Oleosa/Mista",
+			"description": "Rotina leve, que limpa bem, ajuda a controlar a oleosidade e não pesa na pele.",
+			"items": [
+				{
+					"stepLabel": "Limpeza",
+					"productSlug": "senka-perfect-whip-white-clay"
+				},
+				{
+					"stepLabel": "Loção/Tônico",
+					"productSlug": "meishoku-bigansui-locao-90ml"
+				},
+				{
+					"stepLabel": "Sérum",
+					"productSlug": "melano-cc-serum-premium-anti-manchas-20ml"
+				},
+				{
+					"stepLabel": "Hidratante",
+					"productSlug": "shiseido-aqualabel-gel-creme-all-in-one"
+				},
+				{
+					"stepLabel": "Protetor solar",
+					"productSlug": "by365-protetor-em-creme-sem-cor-fps50"
+				}
+			]
+		},
+		{
+			"slug": "kit-pele-seca",
+			"name": "Kit Pele Seca",
+			"description": "Hidratação em camadas, do começo ao fim, pra pele seca ficar macia e confortável.",
+			"items": [
+				{
+					"stepLabel": "Limpeza",
+					"productSlug": "biore-the-cleanse-moist-rosa-190ml"
+				},
+				{
+					"stepLabel": "Loção/Tônico",
+					"productSlug": "torriden-tonico-dive-in-300ml"
+				},
+				{
+					"stepLabel": "Sérum",
+					"productSlug": "torriden-serum-dive-in-acido-hialuronico-50ml"
+				},
+				{
+					"stepLabel": "Hidratante",
+					"productSlug": "snp-creme-barreira-de-colageno"
+				},
+				{
+					"stepLabel": "Protetor solar",
+					"productSlug": "skin1004-hyalu-cica-water-fit-sun-serum-fps50-50ml"
+				}
+			]
+		},
+		{
+			"slug": "kit-pele-sensivel",
+			"name": "Kit Pele Sensível",
+			"description": "Produtos suaves e calmantes, sem complicação, pra pele que reage fácil.",
+			"items": [
+				{
+					"stepLabel": "Limpeza",
+					"productSlug": "skin1004-light-cleansing-oil-200ml"
+				},
+				{
+					"stepLabel": "Loção/Tônico",
+					"productSlug": "hada-labo-gokujyun-premium-locao-170ml"
+				},
+				{
+					"stepLabel": "Sérum",
+					"productSlug": "skin1004-madagascar-centella-ampoule-55ml"
+				},
+				{
+					"stepLabel": "Hidratante",
+					"productSlug": "curel-creme-hidratante-intensivo-40g"
+				},
+				{
+					"stepLabel": "Protetor solar",
+					"productSlug": "canmake-mermaid-skin-gel-uv-01-clear-40g"
+				}
+			]
+		}
+	]
+}
