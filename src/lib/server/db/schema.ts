@@ -38,6 +38,8 @@ export const products = sqliteTable(
 		weightGrams: integer().notNull(),
 		isLimitedEdition: integer({ mode: 'boolean' }).notNull().default(false),
 		image: text(),
+		// Nome e descrições normalizados por productSearchText, usados na busca da vitrine.
+		searchText: text().notNull(),
 		isActive: integer({ mode: 'boolean' }).notNull().default(true),
 		createdAt: integer({ mode: 'timestamp' })
 			.notNull()

@@ -3,6 +3,7 @@ import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from '../src/lib/server/db/schema.ts';
 import type { PriceType } from '../src/lib/server/db/schema.ts';
+import { productSearchText } from '../src/lib/server/search.ts';
 
 type SeedCatalog = {
 	settings: { domesticShippingJpy: number; serviceFeeJpy: number; brlCentsPerHundredJpy: number };
@@ -77,7 +78,8 @@ await db.transaction(async (tx) => {
 		.values(
 			catalog.products.map(({ category, ...product }) => ({
 				...product,
-				categoryId: requireId(categoryIds, category)
+				categoryId: requireId(categoryIds, category),
+				searchText: productSearchText(product)
 			}))
 		)
 		.returning({ id: schema.products.id, slug: schema.products.slug });

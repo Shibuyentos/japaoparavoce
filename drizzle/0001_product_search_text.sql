@@ -1,0 +1,1 @@
+ALTER TABLE `products` ADD `search_text` text NOT NULL;
