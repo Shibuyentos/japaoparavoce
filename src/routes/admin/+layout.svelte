@@ -7,7 +7,16 @@
 
 	let { data, children }: LayoutProps = $props();
 
-	const links = [{ href: resolve('/admin/pedidos'), label: 'Pedidos' }];
+	// "Resumo" é a raiz do painel, então só fica marcado no endereço exato dele.
+	const links = [
+		{ href: resolve('/admin'), label: 'Resumo', exact: true },
+		{ href: resolve('/admin/pedidos'), label: 'Pedidos', exact: false }
+	];
+
+	function isCurrent(link: (typeof links)[number]): boolean {
+		const { pathname } = page.url;
+		return link.exact ? pathname === link.href : pathname.startsWith(link.href);
+	}
 </script>
 
 <svelte:head>
@@ -25,10 +34,7 @@
 
 			<nav aria-label="Painel">
 				{#each links as link (link.href)}
-					<a
-						href={link.href}
-						aria-current={page.url.pathname.startsWith(link.href) ? 'page' : undefined}
-					>
+					<a href={link.href} aria-current={isCurrent(link) ? 'page' : undefined}>
 						{link.label}
 					</a>
 				{/each}
@@ -146,6 +152,16 @@
 		.store,
 		.user {
 			display: none;
+		}
+
+		/* No celular o botão de sair sobe para a linha do logo e o menu ocupa a linha de baixo. */
+		nav {
+			order: 1;
+			flex-basis: 100%;
+		}
+
+		form {
+			margin-left: auto;
 		}
 	}
 </style>

@@ -1,8 +1,6 @@
-import { redirect } from '@sveltejs/kit';
-import { resolve } from '$app/paths';
+import { getDashboard } from '#lib/server/dashboard.ts';
 import type { PageServerLoad } from './$types';
 
-// Por enquanto o painel abre direto nos pedidos.
-export const load: PageServerLoad = () => {
-	redirect(303, resolve('/admin/pedidos'));
+export const load: PageServerLoad = async () => {
+	return { dashboard: await getDashboard() };
 };

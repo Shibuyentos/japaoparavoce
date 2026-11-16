@@ -29,3 +29,20 @@ export function weightBandLabel(grams: number): string {
 export function formatDateTime(date: Date): string {
 	return dateTimeFormat.format(date);
 }
+
+// Os dias do resumo chegam como 'AAAA-MM-DD', já no calendário da loja. Tratar a data
+// como UTC evita que o fuso de quem está vendo a página mude o dia exibido.
+const dayFormat = new Intl.DateTimeFormat('pt-BR', {
+	day: '2-digit',
+	month: '2-digit',
+	timeZone: 'UTC'
+});
+const weekdayFormat = new Intl.DateTimeFormat('pt-BR', { weekday: 'short', timeZone: 'UTC' });
+
+export function formatDay(dateKey: string): string {
+	return dayFormat.format(new Date(`${dateKey}T00:00:00Z`));
+}
+
+export function formatWeekday(dateKey: string): string {
+	return weekdayFormat.format(new Date(`${dateKey}T00:00:00Z`));
+}

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import OrderStatusBadge from '#lib/components/OrderStatusBadge.svelte';
+	import OrdersTable from '#lib/components/admin/OrdersTable.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
-	import { formatDateTime, formatJpy } from '#lib/format.ts';
 	import { ORDER_STATUS_LABELS } from '#lib/order-status.ts';
 	import type { OrderStatus } from '#lib/types.ts';
 	import type { PageProps } from './$types';
@@ -42,38 +41,8 @@
 			{data.activeStatus ? 'Nenhum pedido com esse status.' : 'Ainda não chegou nenhum pedido.'}
 		</p>
 	{:else}
-		<div class="table-scroll">
-			<table>
-				<thead>
-					<tr>
-						<th>Pedido</th>
-						<th>Status</th>
-						<th>Data</th>
-						<th>Cliente</th>
-						<th>Entrega</th>
-						<th class="number">Itens</th>
-						<th class="number">Total</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each data.orders as order (order.code)}
-						<tr>
-							<td>
-								<a href={resolve('/admin/pedidos/[code]', { code: order.code })}>{order.code}</a>
-							</td>
-							<td><OrderStatusBadge status={order.status} /></td>
-							<td>{formatDateTime(order.createdAt)}</td>
-							<td>
-								{order.customerName}
-								<span class="handle">@{order.instagramHandle}</span>
-							</td>
-							<td>{order.regionName}</td>
-							<td class="number">{order.itemCount}</td>
-							<td class="number">{formatJpy(order.totalJpy)}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+		<div class="list">
+			<OrdersTable orders={data.orders} />
 		</div>
 	{/if}
 </div>
@@ -127,55 +96,7 @@
 		color: var(--muted);
 	}
 
-	.table-scroll {
+	.list {
 		margin-top: 18px;
-		overflow-x: auto;
-		border: 1px solid #f6d3e0;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow-card);
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 15px;
-		white-space: nowrap;
-	}
-
-	th,
-	td {
-		padding: 11px 14px;
-		text-align: left;
-		border-bottom: 1px solid var(--line-soft);
-	}
-
-	th {
-		font-size: 13px;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--muted);
-		background: var(--pink-bg);
-	}
-
-	tbody tr:last-child td {
-		border-bottom: none;
-	}
-
-	tbody tr:hover {
-		background: #fffafc;
-	}
-
-	td a {
-		font-weight: 800;
-	}
-
-	.number {
-		text-align: right;
-	}
-
-	.handle {
-		display: block;
-		font-size: 13.5px;
-		color: var(--muted);
 	}
 </style>
