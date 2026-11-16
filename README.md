@@ -41,9 +41,15 @@ O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo
 | `npm run db:studio`   | Abre o Drizzle Studio para inspecionar o banco    |
 | `npm run user:create` | Cria um acesso ao painel ou troca a senha de um   |
 
+## Conta da cliente
+
+Para enviar um pedido a cliente cria uma conta (`/cadastro`) ou entra (`/entrar`). Em `/conta` ficam os dados dela e a lista "Meus pedidos", com o andamento de cada um.
+
+Clientes e administração usam a mesma tabela de usuários, separados pelo papel (`customer` ou `admin`). Só o papel `admin` entra no painel.
+
 ## Painel administrativo
 
-O painel fica em `/admin` e exige login. Ele abre num resumo dos últimos 30 dias (indicadores, pedidos por dia e produtos mais pedidos) e tem a lista de pedidos, onde o status de cada um é atualizado.
+O painel fica em `/admin` e exige login de administração. Ele abre num resumo dos últimos 30 dias (indicadores, pedidos por dia e produtos mais pedidos) e tem a lista de pedidos, onde o status de cada um é atualizado.
 
 Os acessos são criados pelo terminal:
 
@@ -51,7 +57,7 @@ Os acessos são criados pelo terminal:
 npm run user:create -- email@exemplo.com "Nome da pessoa"
 ```
 
-O comando pede a senha (mínimo de 10 caracteres). Rodar de novo com o mesmo e-mail troca o nome e a senha.
+O comando pede a senha (mínimo de 10 caracteres). Rodar de novo com o mesmo e-mail troca o nome e a senha; se o e-mail for de uma cliente, a conta dela passa a ter acesso ao painel.
 
 ## Build de produção
 
