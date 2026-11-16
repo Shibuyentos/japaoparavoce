@@ -1,12 +1,12 @@
 <script lang="ts">
 	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
-	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
+	import AddToCartButton from '#lib/components/AddToCartButton.svelte';
 	import LimitedBadge from '#lib/components/LimitedBadge.svelte';
 	import ProductImage from '#lib/components/ProductImage.svelte';
 	import ProductPrice from '#lib/components/ProductPrice.svelte';
 	import WeightChip from '#lib/components/WeightChip.svelte';
 	import { resolve } from '$app/paths';
-	import { INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
+	import { STORE_NAME } from '#lib/config.ts';
 	import { vitrineHref } from '#lib/links.ts';
 	import type { PageProps } from './$types';
 
@@ -48,13 +48,10 @@
 				/>
 				<p class="order-note">
 					Produto <strong>sob encomenda</strong>: eu compro na loja do Japão depois do pagamento
-					confirmado e envio com rastreio. Frete e taxa de serviço são somados no orçamento.
+					confirmado e envio com rastreio. Frete e taxa de serviço são somados no seu pedido.
 				</p>
 				<div class="actions">
-					<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-						<InstagramIcon />
-						Pedir pelo Instagram
-					</a>
+					<AddToCartButton kind="product" slug={product.slug} />
 					<a class="btn btn-ghost" href={resolve('/vitrine')}>
 						<ArrowLeft />
 						Voltar para a vitrine

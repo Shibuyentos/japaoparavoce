@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Ban from '@lucide/svelte/icons/ban';
+	import Calculator from '@lucide/svelte/icons/calculator';
 	import Clock from '@lucide/svelte/icons/clock';
 	import CreditCard from '@lucide/svelte/icons/credit-card';
 	import Package from '@lucide/svelte/icons/package';
@@ -8,6 +9,7 @@
 	import ShieldCheck from '@lucide/svelte/icons/shield-check';
 	import TrendingUp from '@lucide/svelte/icons/trending-up';
 	import Truck from '@lucide/svelte/icons/truck';
+	import { resolve } from '$app/paths';
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
 	import { INSTAGRAM_URL } from '#lib/config.ts';
 
@@ -78,6 +80,10 @@
 				frete só sai com a sua caixa fechada e pesada, porque ele depende do peso final, das medidas
 				da embalagem e do país de destino.
 			</p>
+			<a class="btn btn-ghost" href={resolve('/carrinho')}>
+				<Calculator />
+				Simular o frete do meu pedido
+			</a>
 		</div>
 
 		<div class="final-cta">
@@ -175,6 +181,10 @@
 		margin: 10px 0 0;
 		color: var(--muted);
 		max-width: 68ch;
+	}
+
+	.shipping .btn {
+		margin-top: 16px;
 	}
 
 	.final-cta {

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { INSTAGRAM_URL } from '#lib/config.ts';
 	import { formatBrl, formatJpy } from '#lib/format.ts';
 	import { productHref } from '#lib/links.ts';
 	import type { KitSummary } from '#lib/types.ts';
-	import ProductImage from './ProductImage.svelte';
+	import AddToCartButton from './AddToCartButton.svelte';
+	import ProductThumb from './ProductThumb.svelte';
 
 	let { kit }: { kit: KitSummary } = $props();
 </script>
@@ -16,9 +16,7 @@
 		{#each kit.steps as step, index (step.product.slug)}
 			<li>
 				<span class="number" aria-hidden="true">{index + 1}</span>
-				<div class="thumb">
-					<ProductImage image={step.product.image} name={step.product.name} />
-				</div>
+				<ProductThumb image={step.product.image} name={step.product.name} />
 				<div class="step-info">
 					<span class="label">{step.label}</span>
 					<a href={productHref(step.product.slug)}>{step.product.name}</a>
@@ -32,11 +30,7 @@
 
 	<p class="total">Total do kit: {formatJpy(kit.totalJpy)} · ≈ {formatBrl(kit.totalBrlCents)}</p>
 	<p class="note">O total é a soma dos produtos acima. O frete é calculado no seu pedido.</p>
-	<p class="note center">
-		Quer o kit? <a href={INSTAGRAM_URL} target="_blank" rel="external noopener"
-			>Chama no Instagram</a
-		> e fala o nome dele 💬
-	</p>
+	<AddToCartButton kind="kit" slug={kit.slug} label="Adicionar kit ao pedido" />
 </article>
 
 <style>
@@ -96,27 +90,6 @@
 		box-shadow: 0 3px 8px rgba(160, 110, 10, 0.3);
 	}
 
-	.thumb {
-		flex: none;
-		width: 54px;
-		border: 1px solid var(--line-soft);
-		border-radius: 10px;
-		overflow: hidden;
-	}
-
-	.thumb :global(img) {
-		padding: 3px;
-	}
-
-	.thumb :global(.placeholder span) {
-		display: none;
-	}
-
-	.thumb :global(.placeholder svg) {
-		width: 22px;
-		height: 22px;
-	}
-
 	.step-info {
 		display: flex;
 		flex-direction: column;
@@ -162,9 +135,5 @@
 		margin: 0;
 		font-size: 13.5px;
 		color: var(--muted);
-	}
-
-	.center {
-		text-align: center;
 	}
 </style>

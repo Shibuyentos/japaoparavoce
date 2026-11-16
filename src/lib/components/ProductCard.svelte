@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { productHref } from '#lib/links.ts';
 	import type { ProductSummary } from '#lib/types.ts';
+	import AddToCartButton from './AddToCartButton.svelte';
 	import LimitedBadge from './LimitedBadge.svelte';
 	import ProductImage from './ProductImage.svelte';
 	import ProductPrice from './ProductPrice.svelte';
@@ -23,6 +24,9 @@
 			priceBrlCents={product.priceBrlCents}
 			priceType={product.priceType}
 		/>
+		<div class="add">
+			<AddToCartButton kind="product" slug={product.slug} label="Adicionar" compact />
+		</div>
 	</div>
 </article>
 
@@ -88,6 +92,11 @@
 
 	.body :global(.price) {
 		margin-top: auto;
+	}
+
+	/* Fica acima do link que cobre o cartão, senão o clique no botão abriria o produto. */
+	.add {
+		position: relative;
 	}
 
 	@media (max-width: 480px) {

@@ -4,10 +4,10 @@
 	import SiteHeader from '#lib/components/SiteHeader.svelte';
 	import type { LayoutProps } from './$types';
 
-	let { children }: LayoutProps = $props();
+	let { data, children }: LayoutProps = $props();
 </script>
 
-<SiteHeader />
+<SiteHeader cartItemCount={data.cartItemCount} />
 
 <main>
 	{@render children()}
