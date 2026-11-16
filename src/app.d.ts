@@ -1,12 +1,11 @@
-// See https://svelte.dev/docs/kit/types#app.d.ts
-// for information about these interfaces
+import type { AdminUser } from '#lib/types.ts';
+
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
+		interface Locals {
+			// Preenchido só nas rotas do painel (ver hooks.server.ts).
+			user: AdminUser | null;
+		}
 	}
 }
 

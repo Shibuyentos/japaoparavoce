@@ -1,6 +1,6 @@
-import type { PriceType } from './server/db/schema';
+import type { OrderStatus, PriceType } from './server/db/schema';
 
-export type { PriceType };
+export type { OrderStatus, PriceType };
 
 export type CategoryWithCount = {
 	slug: string;
@@ -88,4 +88,30 @@ export type OrderDetails = {
 	lines: OrderLine[];
 	charges: OrderCharges;
 	totals: OrderTotals;
+};
+
+export type AdminUser = {
+	id: number;
+	name: string;
+	email: string;
+};
+
+// Pedido como o painel vê: inclui o status e os dados da cliente.
+export type AdminOrderDetails = OrderDetails & {
+	status: OrderStatus;
+	customerName: string;
+	instagramHandle: string;
+	note: string | null;
+	createdAt: Date;
+};
+
+export type AdminOrderSummary = {
+	code: string;
+	status: OrderStatus;
+	customerName: string;
+	instagramHandle: string;
+	regionName: string;
+	itemCount: number;
+	totalJpy: number;
+	createdAt: Date;
 };

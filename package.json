@@ -19,7 +19,8 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"db:seed": "node --env-file=.env seed/seed.ts"
+		"db:seed": "node --env-file=.env seed/seed.ts",
+		"user:create": "node --env-file=.env scripts/create-user.ts"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

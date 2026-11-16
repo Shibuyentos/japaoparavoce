@@ -2,6 +2,7 @@ import { fail, redirect, type Cookies } from '@sveltejs/kit';
 import { resolve } from '$app/paths';
 import { addToCart, MAX_QUANTITY, readCart, writeCart } from '#lib/server/cart.ts';
 import { findProductBySlug, listKits } from '#lib/server/catalog.ts';
+import { textField } from '#lib/server/forms.ts';
 import { createOrder, quoteCart, validateOrderCustomer } from '#lib/server/orders.ts';
 import { listShippingRegions } from '#lib/server/shipping.ts';
 import type { Actions, PageServerLoad } from './$types';
@@ -19,11 +20,6 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 	return { quote, regions, maxQuantity: MAX_QUANTITY };
 };
-
-function textField(data: FormData, name: string): string {
-	const value = data.get(name);
-	return typeof value === 'string' ? value : '';
-}
 
 function addProducts(cookies: Cookies, slugs: string[]) {
 	const cart = readCart(cookies);
