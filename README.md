@@ -39,6 +39,17 @@ O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo
 | `npm run db:migrate`  | Aplica as migrations pendentes                    |
 | `npm run db:seed`     | Popula um banco vazio com o catálogo de `seed/`   |
 | `npm run db:studio`   | Abre o Drizzle Studio para inspecionar o banco    |
+| `npm run user:create` | Cria um acesso ao painel ou troca a senha de um   |
+
+## Painel administrativo
+
+O painel fica em `/admin` e exige login. Os acessos são criados pelo terminal:
+
+```sh
+npm run user:create -- email@exemplo.com "Nome da pessoa"
+```
+
+O comando pede a senha (mínimo de 10 caracteres). Rodar de novo com o mesmo e-mail troca o nome e a senha.
 
 ## Build de produção
 
