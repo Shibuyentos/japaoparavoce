@@ -1,11 +1,19 @@
 import { randomInt } from 'node:crypto';
-import { and, asc, eq, inArray } from 'drizzle-orm';
-import type { CartLine, CartQuote, OrderDetails, ShippingRegion } from '#lib/types.ts';
+import { and, asc, count, desc, eq, inArray, sql } from 'drizzle-orm';
+import type {
+	AdminOrderDetails,
+	AdminOrderSummary,
+	CartLine,
+	CartQuote,
+	OrderDetails,
+	OrderStatus,
+	ShippingRegion
+} from '#lib/types.ts';
 import type { Cart } from './cart';
 import { getStoreSettings } from './catalog';
 import { db } from './db';
-import { orderItems, orders, products, shippingRegions } from './db/schema';
-import { calculateOrderTotals, orderWeightGrams } from './pricing';
+import { ORDER_STATUSES, orderItems, orders, products, shippingRegions } from './db/schema';
+import { calculateOrderTotals, orderTotalJpy, orderWeightGrams } from './pricing';
 import { findShippingPriceJpy } from './shipping';
 
 async function loadCartLines(cart: Cart): Promise<CartLine[]> {
@@ -127,18 +135,25 @@ export async function createOrder(quote: CartQuote, customer: OrderCustomer): Pr
 	return code;
 }
 
-export async function findOrderByCode(code: string): Promise<OrderDetails | undefined> {
+const orderCharges = {
+	domesticShippingJpy: orders.domesticShippingJpy,
+	serviceFeeJpy: orders.serviceFeeJpy,
+	internationalShippingJpy: orders.internationalShippingJpy,
+	brlCentsPerHundredJpy: orders.brlCentsPerHundredJpy
+};
+
+// Pedido completo, com os dados da cliente: só o painel pode usar.
+export async function findAdminOrderByCode(code: string): Promise<AdminOrderDetails | undefined> {
 	const [order] = await db
 		.select({
-			id: orders.id,
 			code: orders.code,
+			status: orders.status,
+			customerName: orders.customerName,
+			instagramHandle: orders.instagramHandle,
+			note: orders.note,
+			createdAt: orders.createdAt,
 			regionName: shippingRegions.name,
-			charges: {
-				domesticShippingJpy: orders.domesticShippingJpy,
-				serviceFeeJpy: orders.serviceFeeJpy,
-				internationalShippingJpy: orders.internationalShippingJpy,
-				brlCentsPerHundredJpy: orders.brlCentsPerHundredJpy
-			}
+			charges: orderCharges
 		})
 		.from(orders)
 		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
@@ -154,14 +169,74 @@ export async function findOrderByCode(code: string): Promise<OrderDetails | unde
 			quantity: orderItems.quantity
 		})
 		.from(orderItems)
-		.where(eq(orderItems.orderId, order.id))
+		.innerJoin(orders, eq(orders.id, orderItems.orderId))
+		.where(eq(orders.code, code))
 		.orderBy(asc(orderItems.id));
+
+	return { ...order, lines, totals: calculateOrderTotals(lines, order.charges) };
+}
+
+// Versão da página de confirmação, aberta a quem tem o código: sem os dados da cliente.
+export async function findOrderByCode(code: string): Promise<OrderDetails | undefined> {
+	const order = await findAdminOrderByCode(code);
+	if (!order) return undefined;
 
 	return {
 		code: order.code,
 		regionName: order.regionName,
-		lines,
+		lines: order.lines,
 		charges: order.charges,
-		totals: calculateOrderTotals(lines, order.charges)
+		totals: order.totals
 	};
+}
+
+export function parseOrderStatus(value: string): OrderStatus | undefined {
+	return ORDER_STATUSES.find((status) => status === value);
+}
+
+// Mais recentes primeiro.
+export async function listAdminOrders(status?: OrderStatus): Promise<AdminOrderSummary[]> {
+	const rows = await db
+		.select({
+			code: orders.code,
+			status: orders.status,
+			customerName: orders.customerName,
+			instagramHandle: orders.instagramHandle,
+			createdAt: orders.createdAt,
+			regionName: shippingRegions.name,
+			charges: orderCharges,
+			itemCount: sql`sum(${orderItems.quantity})`.mapWith(Number),
+			productsJpy: sql`sum(${orderItems.unitPriceJpy} * ${orderItems.quantity})`.mapWith(Number)
+		})
+		.from(orders)
+		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
+		.innerJoin(orderItems, eq(orderItems.orderId, orders.id))
+		.where(status ? eq(orders.status, status) : undefined)
+		.groupBy(orders.id, shippingRegions.id)
+		.orderBy(desc(orders.id));
+
+	return rows.map(({ charges, productsJpy, ...order }) => ({
+		...order,
+		totalJpy: orderTotalJpy(productsJpy, charges)
+	}));
+}
+
+export async function countOrdersByStatus(): Promise<Partial<Record<OrderStatus, number>>> {
+	const rows = await db
+		.select({ status: orders.status, total: count() })
+		.from(orders)
+		.groupBy(orders.status);
+
+	return Object.fromEntries(rows.map((row) => [row.status, row.total]));
+}
+
+// Devolve false quando não existe pedido com esse código.
+export async function updateOrderStatus(code: string, status: OrderStatus): Promise<boolean> {
+	const updated = await db
+		.update(orders)
+		.set({ status })
+		.where(eq(orders.code, code))
+		.returning({ id: orders.id });
+
+	return updated.length > 0;
 }

@@ -10,13 +10,18 @@ export function orderWeightGrams(lines: PricedLine[]): number {
 	return lines.reduce((sum, line) => sum + line.weightGrams * line.quantity, 0);
 }
 
-export function calculateOrderTotals(lines: PricedLine[], charges: OrderCharges): OrderTotals {
-	const productsJpy = lines.reduce((sum, line) => sum + line.unitPriceJpy * line.quantity, 0);
-	const totalJpy =
+export function orderTotalJpy(productsJpy: number, charges: OrderCharges): number {
+	return (
 		productsJpy +
 		charges.domesticShippingJpy +
 		charges.serviceFeeJpy +
-		(charges.internationalShippingJpy ?? 0);
+		(charges.internationalShippingJpy ?? 0)
+	);
+}
+
+export function calculateOrderTotals(lines: PricedLine[], charges: OrderCharges): OrderTotals {
+	const productsJpy = lines.reduce((sum, line) => sum + line.unitPriceJpy * line.quantity, 0);
+	const totalJpy = orderTotalJpy(productsJpy, charges);
 
 	return {
 		itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
