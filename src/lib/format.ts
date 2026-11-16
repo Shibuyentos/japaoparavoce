@@ -21,9 +21,17 @@ export function formatWeight(grams: number): string {
 	return grams >= 1000 ? `${kilogramFormat.format(grams / 1000)} kg` : `${grams} g`;
 }
 
+// O peso de um produto é uma faixa estimada para o frete, não o peso exato.
 export function weightBandLabel(grams: number): string {
-	const size = grams <= 500 ? 'Leve' : grams <= 1500 ? 'Médio' : 'Pesado';
-	return `${size} · até ${formatWeight(grams)}`;
+	return `até ${formatWeight(grams)}`;
+}
+
+export function weightBandName(grams: number): string {
+	return grams <= 500 ? 'Leve' : grams <= 1500 ? 'Médio' : 'Pesado';
+}
+
+export function countLabel(count: number, singular: string, plural: string): string {
+	return count === 1 ? `1 ${singular}` : `${count} ${plural}`;
 }
 
 export function formatDateTime(date: Date): string {

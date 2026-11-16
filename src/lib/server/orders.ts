@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { and, asc, count, desc, eq, gte, inArray, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, inArray, like, or, sql, type SQL } from 'drizzle-orm';
 import type {
 	AdminOrderDetails,
 	AdminOrderSummary,
@@ -176,13 +176,14 @@ export async function findAdminOrderByCode(code: string): Promise<AdminOrderDeta
 	return { ...order, lines, totals: calculateOrderTotals(lines, order.charges) };
 }
 
-// Versão da página de confirmação, aberta a quem tem o código: sem os dados da cliente.
+// Versão da página de acompanhamento, aberta a quem tem o código: sem os dados da cliente.
 export async function findOrderByCode(code: string): Promise<OrderDetails | undefined> {
 	const order = await findAdminOrderByCode(code);
 	if (!order) return undefined;
 
 	return {
 		code: order.code,
+		status: order.status,
 		regionName: order.regionName,
 		lines: order.lines,
 		charges: order.charges,
@@ -194,19 +195,46 @@ export function parseOrderStatus(value: string): OrderStatus | undefined {
 	return ORDER_STATUSES.find((status) => status === value);
 }
 
+// O código tem sempre este formato (ver generateOrderCode).
+const ORDER_CODE_PATTERN = new RegExp(`^[${CODE_ALPHABET}]{${CODE_LENGTH}}$`);
+
+// Aceita o código como a cliente costuma digitar ou colar: minúsculo, com espaços ou com "#".
+// Devolve undefined quando o texto não tem o formato de um código de pedido.
+export function parseOrderCode(value: string): string | undefined {
+	const code = value.replace(/[\s#]/g, '').toUpperCase();
+	return ORDER_CODE_PATTERN.test(code) ? code : undefined;
+}
+
 export type OrderListFilters = {
 	status?: OrderStatus;
+	// Trecho do código do pedido, do nome ou do Instagram da cliente.
+	search?: string;
 	// Só os pedidos feitos a partir desse instante.
 	since?: Date;
 	limit?: number;
 };
 
 // Mais recentes primeiro.
-export async function listAdminOrders({ status, since, limit }: OrderListFilters = {}): Promise<
-	AdminOrderSummary[]
-> {
+export async function listAdminOrders({
+	status,
+	search,
+	since,
+	limit
+}: OrderListFilters = {}): Promise<AdminOrderSummary[]> {
 	const conditions: SQL[] = [];
 	if (status) conditions.push(eq(orders.status, status));
+
+	// O LIKE do SQLite ignora maiúsculas só nas letras sem acento.
+	const term = search?.trim().replace(/^@/, '');
+	if (term) {
+		const pattern = `%${term}%`;
+		const matches = or(
+			like(orders.code, pattern),
+			like(orders.customerName, pattern),
+			like(orders.instagramHandle, pattern)
+		);
+		if (matches) conditions.push(matches);
+	}
 	if (since) conditions.push(gte(orders.createdAt, since));
 
 	const query = db
