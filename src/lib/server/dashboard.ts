@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, gte, ne, sql } from 'drizzle-orm';
 import type {
-	AdminOrderSummary,
+	OrderListItem,
 	DailyOrderCount,
 	OrderStatus,
 	PeriodSummary,
@@ -8,7 +8,7 @@ import type {
 } from '#lib/types.ts';
 import { db } from './db';
 import { orderItems, orders, products } from './db/schema';
-import { countOrdersByStatus, listAdminOrders } from './orders';
+import { countOrdersByStatus, listOrders } from './orders';
 import { lastStoreDays, storeDateKey, storeDayStart } from './store-days';
 
 const PERIOD_DAYS = 30;
@@ -22,7 +22,7 @@ function sumBy<T>(items: T[], value: (item: T) => number): number {
 	return items.reduce((total, item) => total + value(item), 0);
 }
 
-function summarizePeriod(periodOrders: AdminOrderSummary[]): PeriodSummary {
+function summarizePeriod(periodOrders: OrderListItem[]): PeriodSummary {
 	const paidOrders = periodOrders.filter((order) => PAID_STATUSES.includes(order.status));
 
 	return {
@@ -34,7 +34,7 @@ function summarizePeriod(periodOrders: AdminOrderSummary[]): PeriodSummary {
 	};
 }
 
-function countOrdersByDay(periodOrders: AdminOrderSummary[], days: string[]): DailyOrderCount[] {
+function countOrdersByDay(periodOrders: OrderListItem[], days: string[]): DailyOrderCount[] {
 	const counts = new Map<string, number>();
 	for (const order of periodOrders) {
 		const day = storeDateKey(order.createdAt);
@@ -67,13 +67,12 @@ export async function getDashboard(now = new Date()) {
 
 	const [statusCounts, loadedOrders, recentOrders, topProducts] = await Promise.all([
 		countOrdersByStatus(),
-		listAdminOrders({ since: storeDayStart(days[0]) }),
-		listAdminOrders({ limit: RECENT_ORDER_COUNT }),
+		listOrders({ since: storeDayStart(days[0]) }),
+		listOrders({ limit: RECENT_ORDER_COUNT }),
 		listTopProducts(currentStart)
 	]);
 
-	const isCurrent = (order: AdminOrderSummary) =>
-		order.createdAt.getTime() >= currentStart.getTime();
+	const isCurrent = (order: OrderListItem) => order.createdAt.getTime() >= currentStart.getTime();
 	const currentOrders = loadedOrders.filter(isCurrent);
 	const previousOrders = loadedOrders.filter((order) => !isCurrent(order));
 

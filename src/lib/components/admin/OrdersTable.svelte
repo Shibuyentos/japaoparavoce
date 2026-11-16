@@ -2,9 +2,9 @@
 	import { resolve } from '$app/paths';
 	import OrderStatusBadge from '#lib/components/OrderStatusBadge.svelte';
 	import { formatDateTime, formatJpy } from '#lib/format.ts';
-	import type { AdminOrderSummary } from '#lib/types.ts';
+	import type { OrderListItem } from '#lib/types.ts';
 
-	let { orders }: { orders: AdminOrderSummary[] } = $props();
+	let { orders }: { orders: OrderListItem[] } = $props();
 </script>
 
 <div class="table-scroll">

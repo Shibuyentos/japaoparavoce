@@ -1,10 +1,10 @@
-import type { AdminUser } from '#lib/types.ts';
+import type { SessionUser } from '#lib/types.ts';
 
 declare global {
 	namespace App {
 		interface Locals {
-			// Preenchido só nas rotas do painel (ver hooks.server.ts).
-			user: AdminUser | null;
+			// Quem está logado, ou null. Preenchido a cada requisição em hooks.server.ts.
+			user: SessionUser | null;
 		}
 	}
 }

@@ -7,9 +7,10 @@
 	import { resolve } from '$app/paths';
 	import OrderSummary from '#lib/components/OrderSummary.svelte';
 	import ProductThumb from '#lib/components/ProductThumb.svelte';
+	import TextField from '#lib/components/TextField.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
 	import { formatJpy, weightBandLabel } from '#lib/format.ts';
-	import { productHref } from '#lib/links.ts';
+	import { loginHref, productHref, registerHref } from '#lib/links.ts';
 	import type { PageProps, SubmitFunction } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -140,64 +141,66 @@
 						{/if}
 					</div>
 
-					<form class="panel" method="POST" action="?/checkout" use:enhance={sendOrder}>
-						<h2>Enviar pedido</h2>
-						<p class="note">
-							O pagamento é combinado depois, na conversa pelo direct do Instagram. Nada é cobrado
-							aqui no site.
-						</p>
+					{#if data.user}
+						<form class="panel checkout" method="POST" action="?/checkout" use:enhance={sendOrder}>
+							<h2>Enviar pedido</h2>
+							<p class="note">
+								O pagamento é combinado depois, na conversa pelo direct do Instagram. Nada é cobrado
+								aqui no site.
+							</p>
 
-						<label for="name">Seu nome</label>
-						<input
-							id="name"
-							name="name"
-							autocomplete="name"
-							maxlength="80"
-							required
-							value={form?.values?.name ?? ''}
-							aria-invalid={form?.errors?.name ? 'true' : undefined}
-							aria-describedby={form?.errors?.name ? 'name-error' : undefined}
-						/>
-						{#if form?.errors?.name}
-							<p class="field-error" id="name-error">{form.errors.name}</p>
-						{/if}
+							<TextField
+								name="name"
+								label="Seu nome"
+								autocomplete="name"
+								maxlength={80}
+								required
+								value={form?.values?.name ?? data.user.name}
+								error={form?.errors?.name}
+							/>
+							<TextField
+								name="instagram"
+								label="Seu Instagram"
+								placeholder="@seunome"
+								autocapitalize="none"
+								autocomplete="off"
+								maxlength={31}
+								required
+								value={form?.values?.instagram ?? ''}
+								error={form?.errors?.instagram}
+							/>
 
-						<label for="instagram">Seu Instagram</label>
-						<input
-							id="instagram"
-							name="instagram"
-							placeholder="@seunome"
-							autocapitalize="none"
-							autocomplete="off"
-							maxlength="31"
-							required
-							value={form?.values?.instagram ?? ''}
-							aria-invalid={form?.errors?.instagram ? 'true' : undefined}
-							aria-describedby={form?.errors?.instagram ? 'instagram-error' : undefined}
-						/>
-						{#if form?.errors?.instagram}
-							<p class="field-error" id="instagram-error">{form.errors.instagram}</p>
-						{/if}
+							<div class="field">
+								<label for="note">Observação <span class="optional">(opcional)</span></label>
+								<textarea
+									id="note"
+									name="note"
+									rows="3"
+									maxlength="500"
+									placeholder="Cor, tamanho, dúvida sobre algum item…"
+									aria-invalid={form?.errors?.note ? 'true' : undefined}
+									aria-describedby={form?.errors?.note ? 'note-error' : undefined}
+									>{form?.values?.note ?? ''}</textarea
+								>
+								{#if form?.errors?.note}
+									<p class="field-error" id="note-error">{form.errors.note}</p>
+								{/if}
+							</div>
 
-						<label for="note">Observação <span class="optional">(opcional)</span></label>
-						<textarea
-							id="note"
-							name="note"
-							rows="3"
-							maxlength="500"
-							placeholder="Cor, tamanho, dúvida sobre algum item…"
-							aria-invalid={form?.errors?.note ? 'true' : undefined}
-							aria-describedby={form?.errors?.note ? 'note-error' : undefined}
-							>{form?.values?.note ?? ''}</textarea
-						>
-						{#if form?.errors?.note}
-							<p class="field-error" id="note-error">{form.errors.note}</p>
-						{/if}
-
-						<button class="btn btn-primary" disabled={sending}>
-							<Send />{sending ? 'Enviando…' : 'Enviar pedido'}
-						</button>
-					</form>
+							<button class="btn btn-primary" disabled={sending}>
+								<Send />{sending ? 'Enviando…' : 'Enviar pedido'}
+							</button>
+						</form>
+					{:else}
+						<div class="panel checkout">
+							<h2>Enviar pedido</h2>
+							<p class="note">
+								Entre na sua conta para enviar o pedido. Os produtos continuam aqui enquanto isso.
+							</p>
+							<a class="btn btn-primary" href={loginHref(resolve('/carrinho'))}>Entrar</a>
+							<a class="btn btn-ghost" href={registerHref(resolve('/carrinho'))}>Criar conta</a>
+						</div>
+					{/if}
 				</aside>
 			</div>
 		{/if}
@@ -372,11 +375,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		background: var(--surface);
-		border: 1px solid #f6d3e0;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow-card);
-		padding: 20px 18px 22px;
+	}
+
+	.checkout {
+		gap: 14px;
 	}
 
 	.panel h2 {
@@ -391,8 +393,13 @@
 		margin-bottom: 6px;
 	}
 
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
 	label {
-		margin-top: 6px;
 		font-size: 14.5px;
 		font-weight: 800;
 	}
@@ -402,7 +409,6 @@
 		color: var(--muted);
 	}
 
-	input,
 	select,
 	textarea {
 		width: 100%;
@@ -419,7 +425,6 @@
 		resize: vertical;
 	}
 
-	input:focus,
 	select:focus,
 	textarea:focus {
 		outline: none;
@@ -442,9 +447,5 @@
 		margin: 4px 0 0;
 		font-size: 14px;
 		color: var(--muted);
-	}
-
-	.panel > .btn {
-		margin-top: 12px;
 	}
 </style>

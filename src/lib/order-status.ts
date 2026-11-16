@@ -8,3 +8,6 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
 	shipped: 'Enviado',
 	cancelled: 'Cancelado'
 };
+
+// Etapas por onde um pedido passa até chegar à cliente. "Cancelado" fica fora do caminho.
+export const ORDER_PROGRESS: OrderStatus[] = ['received', 'quoted', 'paid', 'shipped'];

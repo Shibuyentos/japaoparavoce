@@ -13,3 +13,20 @@ export function vitrineHref(categorySlug: string | null, search = '') {
 export function productHref(slug: string) {
 	return resolve('/vitrine/[slug]', { slug });
 }
+
+export function orderHref(code: string) {
+	return resolve('/conta/pedidos/[code]', { code });
+}
+
+// O destino vai junto para a pessoa voltar aonde estava depois de entrar ou criar a conta.
+export function loginHref(destination?: string) {
+	return destination
+		? resolve(`/entrar?destino=${encodeURIComponent(destination)}`)
+		: resolve('/entrar');
+}
+
+export function registerHref(destination?: string) {
+	return destination
+		? resolve(`/cadastro?destino=${encodeURIComponent(destination)}`)
+		: resolve('/cadastro');
+}

@@ -14,7 +14,7 @@
 {#if isAdmin}
 	{@render children()}
 {:else}
-	<SiteHeader cartItemCount={data.cartItemCount} />
+	<SiteHeader cartItemCount={data.cartItemCount} user={data.user} />
 
 	<main>
 		{@render children()}

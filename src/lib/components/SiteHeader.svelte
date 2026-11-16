@@ -1,11 +1,20 @@
 <script lang="ts">
 	import ShoppingBag from '@lucide/svelte/icons/shopping-bag';
+	import UserRound from '@lucide/svelte/icons/user-round';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
+	import type { SessionUser } from '#lib/types.ts';
 	import InstagramIcon from './InstagramIcon.svelte';
 
-	let { cartItemCount }: { cartItemCount: number } = $props();
+	type Props = {
+		cartItemCount: number;
+		user: SessionUser | null;
+	};
+
+	let { cartItemCount, user }: Props = $props();
+
+	const firstName = $derived(user?.name.split(' ')[0]);
 
 	const cartLabel = $derived(
 		cartItemCount === 1 ? 'Meu pedido: 1 item' : `Meu pedido: ${cartItemCount} itens`
@@ -48,15 +57,31 @@
 					<span class="count">{cartItemCount}</span>
 				{/if}
 			</a>
-			<a
-				class="instagram"
-				href={INSTAGRAM_URL}
-				target="_blank"
-				rel="external noopener"
-				aria-label="Instagram"
-			>
+			{#if user}
+				<a
+					class="account"
+					href={resolve('/conta')}
+					aria-label="Minha conta"
+					aria-current={page.url.pathname.startsWith(resolve('/conta')) ? 'page' : undefined}
+				>
+					<UserRound />
+					<span class="hide-mobile">Olá, {firstName}</span>
+				</a>
+			{:else}
+				<a
+					class="account"
+					href={resolve('/entrar')}
+					aria-label="Entrar na minha conta"
+					aria-current={page.url.pathname === resolve('/entrar') ? 'page' : undefined}
+				>
+					<UserRound />
+					<span class="hide-mobile">Entrar</span>
+				</a>
+			{/if}
+			<!-- No celular o Instagram sai do cabeçalho para caber a conta; ele continua no rodapé. -->
+			<a class="instagram hide-mobile" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
 				<InstagramIcon />
-				<span class="hide-mobile">Instagram</span>
+				Instagram
 			</a>
 		</nav>
 	</div>
@@ -114,6 +139,7 @@
 		background: var(--chip-bg);
 	}
 
+	.account,
 	.cart,
 	.instagram {
 		display: inline-flex;
@@ -143,6 +169,7 @@
 		color: #ffffff;
 	}
 
+	.account :global(svg),
 	.cart :global(svg),
 	.instagram :global(svg) {
 		width: 18px;

@@ -1,22 +1,30 @@
 import { redirect } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit/hooks';
-import { findSessionUser } from '#lib/server/auth.ts';
+import { findSessionUser, loginPathFor } from '#lib/server/auth.ts';
 
-const ADMIN_PATH = '/admin';
-const LOGIN_PATH = '/admin/login';
+const ADMIN_LOGIN_PATH = '/admin/login';
 
-// Todo o painel exige login. A checagem fica aqui, e não no `load` do layout, porque
-// um layout não é executado antes das form actions das páginas.
+function isUnder(pathname: string, base: string): boolean {
+	return pathname === base || pathname.startsWith(`${base}/`);
+}
+
+// As áreas restritas são protegidas aqui, e não no `load` de um layout, porque um layout
+// não é executado antes das form actions das páginas.
 export const handle: Handle = async ({ event, resolve }) => {
+	const user = await findSessionUser(event.cookies);
+	event.locals.user = user;
+
 	const { pathname } = event.url;
-	const isAdminPath = pathname === ADMIN_PATH || pathname.startsWith(`${ADMIN_PATH}/`);
 
-	event.locals.user = isAdminPath ? await findSessionUser(event.cookies) : null;
+	if (isUnder(pathname, '/admin')) {
+		const isAdmin = user?.role === 'admin';
+		const isLoginPath = pathname === ADMIN_LOGIN_PATH;
+		if (!isAdmin && !isLoginPath) redirect(303, ADMIN_LOGIN_PATH);
+		if (isAdmin && isLoginPath) redirect(303, '/admin');
+	}
 
-	if (isAdminPath) {
-		const isLoginPath = pathname === LOGIN_PATH;
-		if (!event.locals.user && !isLoginPath) redirect(303, LOGIN_PATH);
-		if (event.locals.user && isLoginPath) redirect(303, ADMIN_PATH);
+	if (isUnder(pathname, '/conta') && !user) {
+		redirect(303, loginPathFor(pathname));
 	}
 
 	return resolve(event);

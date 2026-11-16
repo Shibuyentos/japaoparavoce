@@ -1,5 +1,6 @@
 import { fail, redirect, type Cookies } from '@sveltejs/kit';
 import { resolve } from '$app/paths';
+import { requireUser } from '#lib/server/auth.ts';
 import { addToCart, MAX_QUANTITY, readCart, writeCart } from '#lib/server/cart.ts';
 import { findProductBySlug, listKits } from '#lib/server/catalog.ts';
 import { textField } from '#lib/server/forms.ts';
@@ -78,7 +79,10 @@ export const actions: Actions = {
 		writeCart(cookies, cart);
 	},
 
-	checkout: async ({ request, cookies }) => {
+	checkout: async (event) => {
+		const user = requireUser(event);
+		const { request, cookies } = event;
+
 		const data = await request.formData();
 		const values = {
 			name: textField(data, 'name'),
@@ -98,10 +102,10 @@ export const actions: Actions = {
 			});
 		}
 
-		const code = await createOrder(quote, validation.customer);
+		const code = await createOrder(quote, validation.customer, user.id);
 
 		cart.items.clear();
 		writeCart(cookies, cart);
-		redirect(303, resolve('/pedidos/[code]', { code }));
+		redirect(303, resolve('/conta/pedidos/[code]', { code }));
 	}
 };

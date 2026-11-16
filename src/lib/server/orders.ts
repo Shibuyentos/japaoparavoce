@@ -2,17 +2,18 @@ import { randomInt } from 'node:crypto';
 import { and, asc, count, desc, eq, gte, inArray, sql, type SQL } from 'drizzle-orm';
 import type {
 	AdminOrderDetails,
-	AdminOrderSummary,
 	CartLine,
 	CartQuote,
 	OrderDetails,
+	OrderLine,
+	OrderListItem,
 	OrderStatus,
 	ShippingRegion
 } from '#lib/types.ts';
 import type { Cart } from './cart';
 import { getStoreSettings } from './catalog';
 import { db } from './db';
-import { ORDER_STATUSES, orderItems, orders, products, shippingRegions } from './db/schema';
+import { ORDER_STATUSES, orderItems, orders, products, shippingRegions, users } from './db/schema';
 import { calculateOrderTotals, jpyToBrlCents, orderTotalJpy, orderWeightGrams } from './pricing';
 import { findShippingPriceJpy } from './shipping';
 
@@ -103,7 +104,11 @@ function generateOrderCode(): string {
 	return code;
 }
 
-export async function createOrder(quote: CartQuote, customer: OrderCustomer): Promise<string> {
+export async function createOrder(
+	quote: CartQuote,
+	customer: OrderCustomer,
+	userId: number
+): Promise<string> {
 	const code = generateOrderCode();
 
 	await db.transaction(async (tx) => {
@@ -111,6 +116,7 @@ export async function createOrder(quote: CartQuote, customer: OrderCustomer): Pr
 			.insert(orders)
 			.values({
 				code,
+				userId,
 				customerName: customer.name,
 				instagramHandle: customer.instagramHandle,
 				note: customer.note,
@@ -142,25 +148,16 @@ const orderCharges = {
 	brlCentsPerHundredJpy: orders.brlCentsPerHundredJpy
 };
 
-// Pedido completo, com os dados da cliente: só o painel pode usar.
-export async function findAdminOrderByCode(code: string): Promise<AdminOrderDetails | undefined> {
-	const [order] = await db
-		.select({
-			code: orders.code,
-			status: orders.status,
-			customerName: orders.customerName,
-			instagramHandle: orders.instagramHandle,
-			note: orders.note,
-			createdAt: orders.createdAt,
-			regionName: shippingRegions.name,
-			charges: orderCharges
-		})
-		.from(orders)
-		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
-		.where(eq(orders.code, code));
-	if (!order) return undefined;
+const orderDetailColumns = {
+	code: orders.code,
+	status: orders.status,
+	createdAt: orders.createdAt,
+	regionName: shippingRegions.name,
+	charges: orderCharges
+};
 
-	const lines = await db
+function loadOrderLines(code: string): Promise<OrderLine[]> {
+	return db
 		.select({
 			name: orderItems.productName,
 			priceType: orderItems.priceType,
@@ -172,22 +169,42 @@ export async function findAdminOrderByCode(code: string): Promise<AdminOrderDeta
 		.innerJoin(orders, eq(orders.id, orderItems.orderId))
 		.where(eq(orders.code, code))
 		.orderBy(asc(orderItems.id));
+}
 
+// Pedido completo, com os dados de contato: só o painel pode usar.
+export async function findAdminOrderByCode(code: string): Promise<AdminOrderDetails | undefined> {
+	const [order] = await db
+		.select({
+			...orderDetailColumns,
+			customerName: orders.customerName,
+			instagramHandle: orders.instagramHandle,
+			note: orders.note,
+			accountEmail: users.email
+		})
+		.from(orders)
+		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
+		.leftJoin(users, eq(users.id, orders.userId))
+		.where(eq(orders.code, code));
+	if (!order) return undefined;
+
+	const lines = await loadOrderLines(code);
 	return { ...order, lines, totals: calculateOrderTotals(lines, order.charges) };
 }
 
-// Versão da página de confirmação, aberta a quem tem o código: sem os dados da cliente.
-export async function findOrderByCode(code: string): Promise<OrderDetails | undefined> {
-	const order = await findAdminOrderByCode(code);
+// Pedido para a área "Minha conta": só é encontrado se pertencer a essa conta.
+export async function findCustomerOrder(
+	userId: number,
+	code: string
+): Promise<OrderDetails | undefined> {
+	const [order] = await db
+		.select(orderDetailColumns)
+		.from(orders)
+		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
+		.where(and(eq(orders.code, code), eq(orders.userId, userId)));
 	if (!order) return undefined;
 
-	return {
-		code: order.code,
-		regionName: order.regionName,
-		lines: order.lines,
-		charges: order.charges,
-		totals: order.totals
-	};
+	const lines = await loadOrderLines(code);
+	return { ...order, lines, totals: calculateOrderTotals(lines, order.charges) };
 }
 
 export function parseOrderStatus(value: string): OrderStatus | undefined {
@@ -196,17 +213,20 @@ export function parseOrderStatus(value: string): OrderStatus | undefined {
 
 export type OrderListFilters = {
 	status?: OrderStatus;
+	// Só os pedidos dessa conta.
+	userId?: number;
 	// Só os pedidos feitos a partir desse instante.
 	since?: Date;
 	limit?: number;
 };
 
 // Mais recentes primeiro.
-export async function listAdminOrders({ status, since, limit }: OrderListFilters = {}): Promise<
-	AdminOrderSummary[]
+export async function listOrders({ status, userId, since, limit }: OrderListFilters = {}): Promise<
+	OrderListItem[]
 > {
 	const conditions: SQL[] = [];
 	if (status) conditions.push(eq(orders.status, status));
+	if (userId !== undefined) conditions.push(eq(orders.userId, userId));
 	if (since) conditions.push(gte(orders.createdAt, since));
 
 	const query = db

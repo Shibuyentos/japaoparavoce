@@ -29,9 +29,13 @@ const db = drizzle(createClient({ url }), { schema, casing: 'snake_case' });
 const passwordHash = await hashPassword(password);
 
 // Rodar de novo com um e-mail já cadastrado troca o nome e a senha dessa pessoa.
+// Se o e-mail for de uma cliente, a conta dela passa a ter acesso ao painel.
 await db
 	.insert(schema.users)
-	.values({ email, name, passwordHash })
-	.onConflictDoUpdate({ target: schema.users.email, set: { name, passwordHash } });
+	.values({ email, name, passwordHash, role: 'admin' })
+	.onConflictDoUpdate({
+		target: schema.users.email,
+		set: { name, passwordHash, role: 'admin' }
+	});
 
 console.log(`Acesso ao painel salvo para ${email}.`);

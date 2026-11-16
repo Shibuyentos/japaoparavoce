@@ -55,6 +55,10 @@
 						</dd>
 					</div>
 					<div>
+						<dt>Conta</dt>
+						<dd>{order.accountEmail ?? 'Conta removida'}</dd>
+					</div>
+					<div>
 						<dt>Entrega</dt>
 						<dd>{order.regionName}</dd>
 					</div>

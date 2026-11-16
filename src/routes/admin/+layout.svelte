@@ -41,7 +41,7 @@
 				<a href={resolve('/')}>Ver a loja</a>
 			</nav>
 
-			<form method="POST" action="/admin/sair">
+			<form method="POST" action="/sair">
 				<span class="user">{data.user.name}</span>
 				<button aria-label="Sair do painel"><LogOut />Sair</button>
 			</form>

@@ -1,4 +1,4 @@
-import { countOrdersByStatus, listAdminOrders, parseOrderStatus } from '#lib/server/orders.ts';
+import { countOrdersByStatus, listOrders, parseOrderStatus } from '#lib/server/orders.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const activeStatus = parseOrderStatus(url.searchParams.get('status') ?? '') ?? null;
 
 	const [orders, counts] = await Promise.all([
-		listAdminOrders({ status: activeStatus ?? undefined }),
+		listOrders({ status: activeStatus ?? undefined }),
 		countOrdersByStatus()
 	]);
 

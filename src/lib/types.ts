@@ -1,6 +1,6 @@
-import type { OrderStatus, PriceType } from './server/db/schema';
+import type { OrderStatus, PriceType, UserRole } from './server/db/schema';
 
-export type { OrderStatus, PriceType };
+export type { OrderStatus, PriceType, UserRole };
 
 export type CategoryWithCount = {
 	slug: string;
@@ -84,28 +84,33 @@ export type CartQuote = {
 
 export type OrderDetails = {
 	code: string;
+	status: OrderStatus;
+	createdAt: Date;
 	regionName: string;
 	lines: OrderLine[];
 	charges: OrderCharges;
 	totals: OrderTotals;
 };
 
-export type AdminUser = {
+// Quem está logado, seja cliente ou administração.
+export type SessionUser = {
 	id: number;
 	name: string;
 	email: string;
+	role: UserRole;
 };
 
-// Pedido como o painel vê: inclui o status e os dados da cliente.
+// Pedido como o painel vê: inclui os dados de contato de quem pediu.
 export type AdminOrderDetails = OrderDetails & {
-	status: OrderStatus;
 	customerName: string;
 	instagramHandle: string;
 	note: string | null;
-	createdAt: Date;
+	// E-mail da conta que fez o pedido; null se a conta não existe mais.
+	accountEmail: string | null;
 };
 
-export type AdminOrderSummary = {
+// Pedido como aparece nas listas: painel, resumo e "Meus pedidos".
+export type OrderListItem = {
 	code: string;
 	status: OrderStatus;
 	customerName: string;
