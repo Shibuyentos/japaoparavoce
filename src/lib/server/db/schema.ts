@@ -17,6 +17,10 @@ export type PriceType = (typeof PRICE_TYPES)[number];
 export const ORDER_STATUSES = ['received', 'quoted', 'paid', 'shipped', 'cancelled'] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
+// 'customer' compra na loja; 'admin' também entra no painel.
+export const USER_ROLES = ['customer', 'admin'] as const;
+export type UserRole = (typeof USER_ROLES)[number];
+
 export const categories = sqliteTable('categories', {
 	id: integer().primaryKey({ autoIncrement: true }),
 	slug: text().notNull().unique(),
@@ -120,26 +124,32 @@ export const storeSettings = sqliteTable('store_settings', {
 
 // Um pedido guarda uma cópia dos valores do momento em que foi enviado (preços, taxas, frete e
 // câmbio), porque todos eles mudam com o tempo. Os totais são calculados a partir dessas cópias.
-export const orders = sqliteTable('orders', {
-	id: integer().primaryKey({ autoIncrement: true }),
-	// Código público: identifica o pedido no link de confirmação e na conversa com a cliente.
-	code: text().notNull().unique(),
-	status: text({ enum: ORDER_STATUSES }).notNull().default('received'),
-	customerName: text().notNull(),
-	instagramHandle: text().notNull(),
-	note: text(),
-	shippingRegionId: integer()
-		.notNull()
-		.references(() => shippingRegions.id),
-	domesticShippingJpy: integer().notNull(),
-	serviceFeeJpy: integer().notNull(),
-	// Nulo quando o peso passa da última faixa da tabela EMS: o frete é combinado caso a caso.
-	internationalShippingJpy: integer(),
-	brlCentsPerHundredJpy: integer().notNull(),
-	createdAt: integer({ mode: 'timestamp' })
-		.notNull()
-		.$defaultFn(() => new Date())
-});
+export const orders = sqliteTable(
+	'orders',
+	{
+		id: integer().primaryKey({ autoIncrement: true }),
+		// Código público: identifica o pedido no link de confirmação e na conversa com a cliente.
+		code: text().notNull().unique(),
+		// Conta de quem fez o pedido. Se a conta for apagada, o pedido continua existindo sem ela.
+		userId: integer().references(() => users.id, { onDelete: 'set null' }),
+		status: text({ enum: ORDER_STATUSES }).notNull().default('received'),
+		customerName: text().notNull(),
+		instagramHandle: text().notNull(),
+		note: text(),
+		shippingRegionId: integer()
+			.notNull()
+			.references(() => shippingRegions.id),
+		domesticShippingJpy: integer().notNull(),
+		serviceFeeJpy: integer().notNull(),
+		// Nulo quando o peso passa da última faixa da tabela EMS: o frete é combinado caso a caso.
+		internationalShippingJpy: integer(),
+		brlCentsPerHundredJpy: integer().notNull(),
+		createdAt: integer({ mode: 'timestamp' })
+			.notNull()
+			.$defaultFn(() => new Date())
+	},
+	(table) => [index('orders_user_id_idx').on(table.userId)]
+);
 
 export const orderItems = sqliteTable(
 	'order_items',
@@ -160,12 +170,13 @@ export const orderItems = sqliteTable(
 	(table) => [index('order_items_order_id_idx').on(table.orderId)]
 );
 
-// Quem pode entrar no painel administrativo.
+// Contas do site: quem compra na loja e quem administra o painel.
 export const users = sqliteTable('users', {
 	id: integer().primaryKey({ autoIncrement: true }),
 	email: text().notNull().unique(),
 	name: text().notNull(),
 	passwordHash: text().notNull(),
+	role: text({ enum: USER_ROLES }).notNull().default('customer'),
 	createdAt: integer({ mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => new Date())
