@@ -5,11 +5,11 @@
 	const steps = [
 		{
 			title: 'Peça meu endereço no direct',
-			text: 'Antes de comprar, me chama no Instagram: eu te passo o meu endereço no Japão na conversa — ele não fica publicado aqui, é só pra clientes.'
+			text: 'Antes de comprar, me chama no Instagram: eu te passo o meu endereço no Japão na conversa. Ele não fica publicado aqui, é só pra clientes.'
 		},
 		{
-			title: 'Compra na loja que você quiser',
-			text: 'Faz a sua compra normalmente no site da loja japonesa e coloca o meu endereço como endereço de entrega.'
+			title: 'Compre na loja que você quiser',
+			text: 'Faça a sua compra normalmente no site da loja japonesa e coloque o meu endereço como endereço de entrega.'
 		},
 		{
 			title: 'Eu recebo e confiro com foto',
@@ -60,149 +60,140 @@
 	];
 </script>
 
-<section id="redirecionamento" class="section-band">
-	<div class="wrap">
-		<span class="kicker">Redirecionamento</span>
-		<h2>Seu endereço no Japão sou eu! 🏠</h2>
+<section id="redirecionamento">
+	<div class="wrap wrap-wide">
+		<h2>Seu endereço no Japão sou eu</h2>
 		<p class="lead">
 			Tem loja no Japão que não entrega fora do país? Você compra sozinha no site da loja, manda
 			entregar no meu endereço aqui no Japão, e eu recebo, confiro com foto e reenvio pra sua casa
-			com rastreio. É o jeito de comprar em qualquer loja japonesa, mesmo nas que não enviam pro
-			exterior.
+			com rastreio.
 		</p>
 
-		<figure>
-			<img
-				src="/images/site/donki-corredor.jpg"
-				alt="Corredor de cosméticos em uma Don Quijote no Japão, com prateleiras cheias de produtos"
-				loading="lazy"
-			/>
-			<figcaption>
-				Foto ilustrativa: um corredor de cosméticos da Don Quijote, no Japão — suas compras chegam
-				até mim e daqui vão pra sua casa.
-			</figcaption>
-		</figure>
-
-		<Steps {steps} />
-
-		<h3 class="shops-title">Lojas japonesas pra você comprar e mandar entregar aqui</h3>
-		<div class="shops">
-			{#each shops as shop (shop.name)}
-				<a class="shop" href={shop.url} target="_blank" rel="noopener">
-					<span class="shop-name">{shop.name}<ExternalLink /></span>
-					<span class="shop-note">{shop.note}</span>
-					<span class="shop-go">Visitar a loja</span>
-				</a>
-			{/each}
+		<div class="steps">
+			<Steps {steps} />
 		</div>
 
-		<p class="note">
-			Você paga os produtos direto pra loja. Pra mim, você paga só a minha taxa de serviço e o frete
-			internacional do reenvio — tudo combinado antes, no direct. A loja que você quer não está na
-			lista? Se ela entregar dentro do Japão, dá pra redirecionar: me pergunta no direct. 💗
-		</p>
+		<div class="shops">
+			<div>
+				<h3>Lojas pra comprar e mandar entregar aqui</h3>
+				<p class="note">
+					Você paga os produtos direto pra loja. Pra mim, você paga só a minha taxa de serviço e o
+					frete internacional do reenvio, tudo combinado antes, no direct. A loja que você quer não
+					está na lista? Se ela entregar dentro do Japão, dá pra redirecionar: me pergunta no
+					direct.
+				</p>
+			</div>
+			<ul>
+				{#each shops as shop (shop.name)}
+					<li>
+						<a href={shop.url} target="_blank" rel="noopener">
+							<span>
+								<strong>{shop.name}</strong>
+								<span class="shop-note">{shop.note}</span>
+							</span>
+							<ExternalLink aria-hidden="true" />
+							<span class="visually-hidden">(abre em outra aba)</span>
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 </section>
 
 <style>
-	figure {
-		margin: 26px 0 0;
+	section {
+		padding-top: 72px;
 	}
 
-	figure img {
-		border-radius: var(--radius);
-		box-shadow: var(--shadow);
-		width: 100%;
-		aspect-ratio: 16 / 10;
-		object-fit: cover;
-		object-position: center 30%;
-	}
-
-	figcaption {
-		font-size: 13.5px;
-		color: var(--muted);
-		margin-top: 9px;
-		text-align: center;
-	}
-
-	.shops-title {
-		margin-top: 40px;
-		font-size: 21px;
+	.steps {
+		margin-top: 24px;
 	}
 
 	.shops {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 12px;
-		margin-top: 16px;
+		gap: 16px;
+		margin-top: 48px;
 	}
 
-	@media (min-width: 700px) {
-		.shops {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 14px;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.shops {
-			grid-template-columns: repeat(4, 1fr);
-			gap: 16px;
-		}
-	}
-
-	.shop {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-		text-decoration: none;
-		background: #ffffff;
-		border: 1.5px solid #f6d3e0;
-		border-radius: 16px;
-		padding: 18px 16px;
-		color: var(--ink);
-		box-shadow: 0 8px 22px rgba(200, 95, 134, 0.07);
-	}
-
-	.shop:hover {
-		border-color: var(--pink);
-	}
-
-	.shop-name {
-		font-size: 19px;
-		font-weight: 800;
-		color: var(--ink-strong);
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 8px;
-	}
-
-	.shop-name :global(svg) {
-		width: 18px;
-		height: 18px;
-		stroke: var(--pink);
-		flex: none;
-	}
-
-	.shop-note {
-		font-size: 14px;
-		color: var(--muted);
-		line-height: 1.45;
-	}
-
-	.shop-go {
-		margin-top: auto;
-		padding-top: 6px;
-		font-size: 14px;
-		font-weight: 800;
-		color: var(--pink-dark);
+	.shops h3 {
+		font-family: var(--font-display);
+		font-size: 1.375rem;
 	}
 
 	.note {
-		margin: 22px 0 0;
-		font-size: 15.5px;
-		color: var(--muted);
 		max-width: 68ch;
+		margin-top: 10px;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		border-top: 1px solid var(--line);
+	}
+
+	li:last-child {
+		border-bottom: 1px solid var(--line);
+	}
+
+	li a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 12px 0;
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	li a:hover strong {
+		text-decoration: underline;
+	}
+
+	strong {
+		display: block;
+	}
+
+	.shop-note {
+		font-size: 0.875rem;
+		color: var(--ink-soft);
+	}
+
+	li a :global(svg) {
+		flex: none;
+		width: 18px;
+		height: 18px;
+		color: var(--beni);
+	}
+
+	@media (min-width: 900px) {
+		section {
+			padding-top: 112px;
+		}
+
+		.steps {
+			margin-top: 40px;
+		}
+
+		.shops {
+			margin-top: 64px;
+		}
+
+		ul {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			column-gap: 72px;
+		}
+
+		/* Com duas colunas, a última linha de cada coluna fecha a lista. */
+		li:nth-last-child(2):nth-child(odd) {
+			border-bottom: 1px solid var(--line);
+		}
 	}
 </style>

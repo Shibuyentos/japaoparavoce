@@ -1,12 +1,20 @@
-import { listCategories, listHighlightedProducts, listKits } from '#lib/server/catalog.ts';
+import {
+	getStoreFees,
+	listCategories,
+	listHighlightedProducts,
+	listKits
+} from '#lib/server/catalog.ts';
+import { listShippingTable } from '#lib/server/shipping.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-	const [categories, highlightedProducts, kits] = await Promise.all([
+	const [categories, highlightedProducts, kits, fees, shippingTable] = await Promise.all([
 		listCategories(),
-		listHighlightedProducts(8),
-		listKits()
+		listHighlightedProducts(10),
+		listKits(),
+		getStoreFees(),
+		listShippingTable()
 	]);
 
-	return { categories, highlightedProducts, kits };
+	return { categories, highlightedProducts, kits, fees, shippingTable };
 };

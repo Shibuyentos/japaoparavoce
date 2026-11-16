@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { resolve } from '$app/paths';
 	import { STORE_NAME } from '#lib/config.ts';
 	import type { PageProps } from './$types';
 
@@ -10,93 +11,81 @@
 	<title>Entrar · Painel {STORE_NAME}</title>
 </svelte:head>
 
-<div class="wrap">
-	<form method="POST" use:enhance>
-		<img src="/images/site/logo.webp" alt="" width="64" height="64" />
-		<h1>Painel da loja</h1>
+<div class="wrap login">
+	<img src="/images/site/icone-192.webp" alt="" width="64" height="64" />
+	<h1>Painel da loja</h1>
+	<p class="store">{STORE_NAME}</p>
 
+	<form method="POST" use:enhance>
 		{#if form?.message}
-			<p class="error" role="alert">{form.message}</p>
+			<p class="notice" role="alert">{form.message}</p>
 		{/if}
 
-		<label for="email">E-mail</label>
-		<input
-			id="email"
-			name="email"
-			type="email"
-			autocomplete="username"
-			required
-			value={form?.email ?? ''}
-		/>
+		<div>
+			<label for="email">E-mail</label>
+			<input
+				id="email"
+				name="email"
+				type="email"
+				autocomplete="username"
+				autocapitalize="none"
+				spellcheck="false"
+				required
+				value={form?.email ?? ''}
+			/>
+		</div>
 
-		<label for="password">Senha</label>
-		<input id="password" name="password" type="password" autocomplete="current-password" required />
+		<div>
+			<label for="password">Senha</label>
+			<input
+				id="password"
+				name="password"
+				type="password"
+				autocomplete="current-password"
+				required
+			/>
+		</div>
 
 		<button class="btn btn-primary">Entrar</button>
 	</form>
+
+	<a class="back" href={resolve('/')}>Voltar para a loja</a>
 </div>
 
 <style>
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-		max-width: 380px;
-		margin: 6vh auto 0;
-		background: var(--surface);
-		border: 1px solid #f6d3e0;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow-card);
-		padding: 28px 24px;
-	}
-
-	img {
-		border-radius: 18px;
-		margin: 0 auto;
+	.login {
+		max-width: 400px;
+		padding-top: 8vh;
 	}
 
 	h1 {
-		font-size: 24px;
-		font-weight: 800;
-		text-align: center;
-		color: var(--pink-title);
-		margin-bottom: 8px;
+		margin-top: 16px;
+		font-size: 1.75rem;
+	}
+
+	.store {
+		color: var(--ink-soft);
+	}
+
+	form {
+		display: grid;
+		gap: 16px;
+		margin-top: 28px;
 	}
 
 	label {
-		margin-top: 6px;
-		font-size: 14.5px;
-		font-weight: 800;
-	}
-
-	input {
-		width: 100%;
-		font-family: inherit;
-		font-size: 16px;
-		color: var(--ink);
-		border: 2px solid var(--pink-input);
-		border-radius: 12px;
-		padding: 10px 12px;
-	}
-
-	input:focus {
-		outline: none;
-		border-color: var(--pink);
-		box-shadow: 0 0 0 4px rgba(236, 127, 168, 0.16);
-	}
-
-	.error {
-		margin: 0;
-		background: var(--warn-bg);
-		border: 1.5px solid var(--warn-line);
-		border-radius: 12px;
-		padding: 10px 12px;
-		font-size: 15px;
-		font-weight: 700;
-		color: var(--warn-ink);
+		margin-bottom: 6px;
 	}
 
 	.btn {
-		margin-top: 14px;
+		margin-top: 4px;
+	}
+
+	.back {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin-top: 20px;
+		font-size: 0.9375rem;
 	}
 </style>

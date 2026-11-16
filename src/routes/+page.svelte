@@ -1,107 +1,66 @@
 <script lang="ts">
-	import ShoppingBag from '@lucide/svelte/icons/shopping-bag';
-	import CategoryChips from '#lib/components/CategoryChips.svelte';
+	import CategoryTabs from '#lib/components/CategoryTabs.svelte';
+	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
 	import KitCard from '#lib/components/KitCard.svelte';
-	import ProductCard from '#lib/components/ProductCard.svelte';
-	import Steps from '#lib/components/Steps.svelte';
+	import ProductShelf from '#lib/components/ProductShelf.svelte';
 	import Forwarding from '#lib/components/home/Forwarding.svelte';
 	import Hero from '#lib/components/home/Hero.svelte';
+	import HowItWorks from '#lib/components/home/HowItWorks.svelte';
 	import MoreCategories from '#lib/components/home/MoreCategories.svelte';
 	import Notices from '#lib/components/home/Notices.svelte';
-	import Services from '#lib/components/home/Services.svelte';
 	import { resolve } from '$app/paths';
-	import { STORE_NAME } from '#lib/config.ts';
+	import { INSTAGRAM_HANDLE, INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
 	import { vitrineHref } from '#lib/links.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
-	const howItWorks = [
-		{
-			title: 'Você escolhe o produto',
-			text: 'Escolhe na vitrine ou me chama no Instagram com o link ou a foto do que você quer.'
-		},
-		{
-			title: 'Eu passo o orçamento completo',
-			text: 'Produto + fretes + minha taxa, tudo somado antes. Sem surpresa depois.'
-		},
-		{
-			title: 'Você paga e eu compro na loja',
-			text: 'Com o pagamento feito, eu vou até a loja e compro o seu produto, novinho.'
-		},
-		{
-			title: 'Embalo, posto e mando o rastreio',
-			text: 'Embalo com cuidado, posto no correio e te mando o código de rastreio.'
-		}
-	];
+	const productCount = $derived(
+		data.categories.reduce((sum, category) => sum + category.productCount, 0)
+	);
 </script>
 
 <svelte:head>
 	<title>{STORE_NAME}</title>
 	<meta
 		name="description"
-		content="Do Japão Pra Você — compro produtos novos nas lojas do Japão e envio pra você com rastreio. Skincare japonês e coreano direto das lojas do Japão, sob encomenda."
+		content="Do Japão Pra Você: compro produtos novos nas lojas do Japão e envio pra você com rastreio. Skincare japonês e coreano direto das lojas do Japão, sob encomenda."
 	/>
 </svelte:head>
 
 <Hero />
 
-<section id="como-funciona">
-	<div class="wrap">
-		<span class="kicker">Passo a passo</span>
-		<h2>Como funciona</h2>
-		<p class="lead">É simples: você escolhe, eu compro na loja e envio pra você. Em 4 passos:</p>
-		<Steps steps={howItWorks} />
-	</div>
-</section>
-
-<section id="vitrine" class="section-band">
+<section id="vitrine" class="showcase">
 	<div class="wrap wrap-wide">
-		<span class="kicker">Destaques da vitrine</span>
-		<div class="vitrine-intro">
-			<div>
-				<h2>Skincare japonês e coreano direto das lojas do Japão 🇯🇵✨</h2>
-				<p class="lead">
-					Eu fotografo os produtos de verdade nas lojas do Japão e anoto o
-					<strong>preço real da etiqueta</strong>. Não é estoque: cada item é
-					<strong>sob encomenda</strong>, comprado na loja especialmente pra você.
-				</p>
-			</div>
-			<figure>
-				<img
-					src="/images/site/donki-kbeauty.jpg"
-					alt="Corredor de cosméticos em uma Don Quijote no Japão"
-					loading="lazy"
-				/>
-				<figcaption>Foto ilustrativa: o setor de cosméticos de uma loja no Japão.</figcaption>
-			</figure>
+		<div class="heading">
+			<h2>Novidades da vitrine</h2>
+			<p class="lead">
+				Skincare japonês e coreano com o <strong>preço da etiqueta da loja</strong>, já com imposto.
+				Não é estoque: cada item é comprado sob encomenda, especialmente pra você.
+			</p>
 		</div>
 
-		<div class="categories">
-			<CategoryChips categories={data.categories} hrefFor={(slug) => vitrineHref(slug)} />
+		<CategoryTabs categories={data.categories} hrefFor={(slug) => vitrineHref(slug)} />
+
+		<div class="shelf">
+			<ProductShelf products={data.highlightedProducts} />
 		</div>
 
-		<div class="grid-products">
-			{#each data.highlightedProducts as product (product.slug)}
-				<ProductCard {product} />
-			{/each}
-		</div>
-
-		<div class="see-all">
-			<a class="btn btn-primary" href={resolve('/vitrine')}><ShoppingBag />Ver toda a vitrine</a>
-		</div>
+		<a class="btn btn-primary" href={resolve('/vitrine')}>Ver os {productCount} produtos</a>
 	</div>
 </section>
+
+<HowItWorks fees={data.fees} shippingTable={data.shippingTable} />
 
 {#if data.kits.length > 0}
-	<section id="kits" class="section-band">
-		<div class="wrap">
-			<h2>Kits de Skincare para Iniciantes</h2>
+	<section id="kits" class="kits">
+		<div class="wrap wrap-wide">
+			<h2>Kits de skincare para iniciantes</h2>
 			<p class="lead">
-				Não sabe por onde começar? Montei {data.kits.length} rotinas prontinhas, uma para cada tipo de
-				pele. É só seguir as etapas na ordem, todo dia.
+				Não sabe por onde começar? Montei {data.kits.length} rotinas prontas, uma para cada tipo de pele.
+				É só seguir as etapas na ordem, todo dia.
 			</p>
-			<div class="kits">
+			<div class="kit-list">
 				{#each data.kits as kit (kit.slug)}
 					<KitCard {kit} />
 				{/each}
@@ -110,67 +69,110 @@
 	</section>
 {/if}
 
-<Services />
 <Forwarding />
 <MoreCategories />
 <Notices />
 
+<section class="closing">
+	<div class="wrap wrap-wide">
+		<h2>Quer algo que não está na vitrine?</h2>
+		<p class="lead">
+			Me chama no Instagram com o link ou a foto do que você quer. Eu monto seu orçamento completo,
+			sem compromisso.
+		</p>
+		<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
+			<InstagramIcon />Chamar {INSTAGRAM_HANDLE}
+		</a>
+	</div>
+</section>
+
 <style>
-	.vitrine-intro {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 24px;
-		align-items: center;
-		margin-top: 8px;
+	.showcase,
+	.kits {
+		padding-top: 72px;
 	}
 
-	@media (min-width: 860px) {
-		.vitrine-intro {
-			grid-template-columns: 1.1fr 0.9fr;
-		}
+	.heading {
+		margin-bottom: 12px;
 	}
 
-	figure {
-		margin: 0;
+	.shelf {
+		margin: 20px 0 32px;
 	}
 
-	figure img {
-		border-radius: var(--radius);
-		box-shadow: var(--shadow);
+	.showcase .btn {
 		width: 100%;
-		aspect-ratio: 16 / 9;
-		object-fit: cover;
 	}
 
-	figcaption {
-		font-size: 13.5px;
-		color: var(--muted);
-		margin-top: 9px;
-		text-align: center;
+	/* A vitrine da página inicial mostra só fileiras completas: o que sobraria numa fileira
+	   pela metade fica escondido conforme o número de colunas. */
+	.shelf :global(li:nth-child(n + 9)) {
+		display: none;
 	}
 
-	.categories {
-		margin-top: 26px;
-	}
-
-	.see-all {
-		display: flex;
-		justify-content: center;
+	.kit-list {
+		display: grid;
+		gap: 48px;
 		margin-top: 28px;
 	}
 
-	.kits {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 18px;
-		margin-top: 30px;
+	.closing {
+		margin-top: 72px;
+		padding: 48px 0;
+		background: var(--blush);
 	}
 
-	@media (min-width: 980px) {
+	.closing .btn {
+		margin-top: 22px;
+	}
+
+	/* O rodapé encosta na faixa de fechamento, sem o espaço que separa as outras seções. */
+	:global(main:has(.closing) + footer) {
+		margin-top: 0;
+	}
+
+	@media (min-width: 640px) {
+		.showcase .btn {
+			width: auto;
+		}
+
+		.shelf :global(li:nth-child(9)) {
+			display: flex;
+		}
+	}
+
+	@media (min-width: 900px) {
+		.showcase,
 		.kits {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 16px;
-			align-items: start;
+			padding-top: 112px;
+		}
+
+		.heading {
+			margin-bottom: 20px;
+		}
+
+		.shelf {
+			margin: 28px 0 40px;
+		}
+
+		.shelf :global(li:nth-child(9)) {
+			display: none;
+		}
+
+		.kit-list {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 56px;
+			margin-top: 40px;
+		}
+
+		.closing {
+			margin-top: 112px;
+			padding: 80px 0;
+		}
+	}
+	@media (min-width: 1200px) {
+		.shelf :global(li:nth-child(n + 9)) {
+			display: flex;
 		}
 	}
 </style>

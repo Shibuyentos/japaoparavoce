@@ -13,26 +13,36 @@
 		change?: number;
 		formatChange?: (amount: number) => string;
 		href?: ResolvedPathname;
+		// Destaca o número: usado na fila quando há pedidos esperando uma ação.
+		highlight?: boolean;
 	};
 
-	let { label, value, hint, change, formatChange = String, href }: Props = $props();
+	let {
+		label,
+		value,
+		hint,
+		change,
+		formatChange = String,
+		href,
+		highlight = false
+	}: Props = $props();
 </script>
 
-<svelte:element this={href ? 'a' : 'div'} class="tile" {href}>
+<svelte:element this={href ? 'a' : 'div'} class="tile" class:highlight {href}>
 	<span class="label">
 		{label}
-		{#if href}<ArrowRight />{/if}
+		{#if href}<ArrowRight aria-hidden="true" />{/if}
 	</span>
 	<span class="value">{value}</span>
 
 	{#if change !== undefined}
 		<span class="change" class:up={change > 0} class:down={change < 0}>
 			{#if change > 0}
-				<ArrowUp />+{formatChange(change)}
+				<ArrowUp aria-hidden="true" />+{formatChange(change)}
 			{:else if change < 0}
-				<ArrowDown />−{formatChange(-change)}
+				<ArrowDown aria-hidden="true" />−{formatChange(-change)}
 			{:else}
-				<Equal />igual
+				<Equal aria-hidden="true" />igual
 			{/if}
 			<span class="visually-hidden">em relação ao período anterior</span>
 		</span>
@@ -48,16 +58,14 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
-		padding: 14px 16px 16px;
-		background: var(--surface);
-		border: 1px solid #f6d3e0;
-		border-radius: 16px;
+		padding: 12px 0 4px;
+		border-top: 2px solid var(--ink);
 		color: var(--ink);
 		text-decoration: none;
 	}
 
-	a.tile:hover {
-		border-color: var(--pink);
+	a.tile:hover .label {
+		text-decoration: underline;
 	}
 
 	.label {
@@ -65,45 +73,38 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 8px;
-		font-size: 14px;
+		font-size: 0.875rem;
 		font-weight: 700;
-		color: var(--muted);
+		line-height: 1.3;
 	}
 
 	.label :global(svg) {
+		flex: none;
 		width: 16px;
 		height: 16px;
-		flex: none;
-	}
-
-	a.tile:hover .label :global(svg) {
-		color: var(--pink-dark);
+		color: var(--beni);
 	}
 
 	.value {
-		font-size: 28px;
-		font-weight: 800;
+		font-family: var(--font-display);
+		font-size: 1.75rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
 		line-height: 1.2;
-		color: var(--ink-strong);
 	}
 
-	@media (max-width: 639px) {
-		.tile {
-			padding: 12px 12px 14px;
-		}
-
-		.value {
-			font-size: 23px;
-		}
+	.highlight .value {
+		color: var(--beni);
 	}
 
 	.change {
 		display: inline-flex;
 		align-items: center;
 		gap: 3px;
-		font-size: 13.5px;
-		font-weight: 800;
-		color: var(--muted);
+		font-size: 0.8125rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-soft);
 	}
 
 	.change :global(svg) {
@@ -112,15 +113,15 @@
 	}
 
 	.up {
-		color: #1f6b35;
+		color: var(--ok);
 	}
 
 	.down {
-		color: var(--japan-red);
+		color: var(--danger);
 	}
 
 	.hint {
-		font-size: 13.5px;
-		color: var(--muted);
+		font-size: 0.8125rem;
+		color: var(--ink-soft);
 	}
 </style>

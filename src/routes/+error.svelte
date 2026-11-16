@@ -10,30 +10,39 @@
 	<title>{notFound ? 'Página não encontrada' : 'Algo deu errado'} · {STORE_NAME}</title>
 </svelte:head>
 
-<section>
-	<div class="wrap">
-		<span class="kicker">Erro {page.status}</span>
-		{#if notFound}
-			<h1>Não encontrei essa página</h1>
-			<p class="lead">
-				O link pode estar desatualizado ou o produto saiu da vitrine. Dá uma olhada nos produtos
-				disponíveis agora.
-			</p>
-		{:else}
-			<h1>Algo deu errado</h1>
-			<p class="lead">Tente de novo em alguns instantes.</p>
-		{/if}
+<div class="wrap page">
+	<p class="status">Erro {page.status}</p>
+	{#if notFound}
+		<h1>Não encontrei essa página</h1>
+		<p class="lead">
+			O link pode estar desatualizado ou o produto saiu da vitrine. Veja os produtos disponíveis
+			agora ou acompanhe um pedido pelo código.
+		</p>
+	{:else}
+		<h1>Algo deu errado</h1>
+		<p class="lead">Tente de novo em alguns instantes.</p>
+	{/if}
+	<div class="actions">
 		<a class="btn btn-primary" href={resolve('/vitrine')}>Ver a vitrine</a>
+		<a class="btn btn-quiet" href={resolve('/pedidos')}>Acompanhar pedido</a>
 	</div>
-</section>
+</div>
 
 <style>
-	h1 {
-		font-size: clamp(28px, 6vw, 40px);
-		font-weight: 800;
+	.page {
+		padding-top: 56px;
 	}
 
-	.btn {
+	.status {
+		margin-bottom: 8px;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
 		margin-top: 24px;
 	}
 </style>
