@@ -12,6 +12,11 @@ import {
 export const PRICE_TYPES = ['store', 'reference'] as const;
 export type PriceType = (typeof PRICE_TYPES)[number];
 
+// Acompanha o passo a passo da loja: pedido recebido, orçamento enviado no direct,
+// pagamento confirmado e caixa postada.
+export const ORDER_STATUSES = ['received', 'quoted', 'paid', 'shipped', 'cancelled'] as const;
+export type OrderStatus = (typeof ORDER_STATUSES)[number];
+
 export const categories = sqliteTable('categories', {
 	id: integer().primaryKey({ autoIncrement: true }),
 	slug: text().notNull().unique(),
@@ -119,6 +124,7 @@ export const orders = sqliteTable('orders', {
 	id: integer().primaryKey({ autoIncrement: true }),
 	// Código público: identifica o pedido no link de confirmação e na conversa com a cliente.
 	code: text().notNull().unique(),
+	status: text({ enum: ORDER_STATUSES }).notNull().default('received'),
 	customerName: text().notNull(),
 	instagramHandle: text().notNull(),
 	note: text(),
@@ -153,3 +159,23 @@ export const orderItems = sqliteTable(
 	},
 	(table) => [index('order_items_order_id_idx').on(table.orderId)]
 );
+
+// Quem pode entrar no painel administrativo.
+export const users = sqliteTable('users', {
+	id: integer().primaryKey({ autoIncrement: true }),
+	email: text().notNull().unique(),
+	name: text().notNull(),
+	passwordHash: text().notNull(),
+	createdAt: integer({ mode: 'timestamp' })
+		.notNull()
+		.$defaultFn(() => new Date())
+});
+
+export const sessions = sqliteTable('sessions', {
+	// SHA-256 do token que fica no cookie: quem ler o banco não consegue reutilizar a sessão.
+	id: text().primaryKey(),
+	userId: integer()
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	expiresAt: integer({ mode: 'timestamp' }).notNull()
+});
