@@ -112,3 +112,44 @@ export const storeSettings = sqliteTable('store_settings', {
 		.$defaultFn(() => new Date())
 		.$onUpdateFn(() => new Date())
 });
+
+// Um pedido guarda uma cópia dos valores do momento em que foi enviado (preços, taxas, frete e
+// câmbio), porque todos eles mudam com o tempo. Os totais são calculados a partir dessas cópias.
+export const orders = sqliteTable('orders', {
+	id: integer().primaryKey({ autoIncrement: true }),
+	// Código público: identifica o pedido no link de confirmação e na conversa com a cliente.
+	code: text().notNull().unique(),
+	customerName: text().notNull(),
+	instagramHandle: text().notNull(),
+	note: text(),
+	shippingRegionId: integer()
+		.notNull()
+		.references(() => shippingRegions.id),
+	domesticShippingJpy: integer().notNull(),
+	serviceFeeJpy: integer().notNull(),
+	// Nulo quando o peso passa da última faixa da tabela EMS: o frete é combinado caso a caso.
+	internationalShippingJpy: integer(),
+	brlCentsPerHundredJpy: integer().notNull(),
+	createdAt: integer({ mode: 'timestamp' })
+		.notNull()
+		.$defaultFn(() => new Date())
+});
+
+export const orderItems = sqliteTable(
+	'order_items',
+	{
+		id: integer().primaryKey({ autoIncrement: true }),
+		orderId: integer()
+			.notNull()
+			.references(() => orders.id, { onDelete: 'cascade' }),
+		productId: integer()
+			.notNull()
+			.references(() => products.id),
+		productName: text().notNull(),
+		unitPriceJpy: integer().notNull(),
+		priceType: text({ enum: PRICE_TYPES }).notNull(),
+		weightGrams: integer().notNull(),
+		quantity: integer().notNull()
+	},
+	(table) => [index('order_items_order_id_idx').on(table.orderId)]
+);
