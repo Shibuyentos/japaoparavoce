@@ -39,3 +39,12 @@ O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo
 | `npm run db:migrate`  | Aplica as migrations pendentes                    |
 | `npm run db:seed`     | Popula um banco vazio com o catálogo de `seed/`   |
 | `npm run db:studio`   | Abre o Drizzle Studio para inspecionar o banco    |
+
+## Build de produção
+
+```sh
+npm run build
+ORIGIN=http://localhost:3000 node --env-file=.env build
+```
+
+`ORIGIN` é o endereço público do site. O SvelteKit compara esse valor com a origem de cada formulário enviado (proteção contra CSRF); sem ele, adicionar produtos ao pedido e enviar o pedido respondem 403.
