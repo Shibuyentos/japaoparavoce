@@ -113,5 +113,28 @@ export type AdminOrderSummary = {
 	regionName: string;
 	itemCount: number;
 	totalJpy: number;
+	totalBrlCents: number;
+	serviceFeeJpy: number;
 	createdAt: Date;
+};
+
+// Números de um período no resumo do painel. "Pago" inclui os pedidos já enviados.
+export type PeriodSummary = {
+	orderCount: number;
+	paidCount: number;
+	paidJpy: number;
+	paidBrlCents: number;
+	serviceFeesJpy: number;
+};
+
+export type DailyOrderCount = {
+	// Dia no calendário da loja, como 'AAAA-MM-DD'.
+	date: string;
+	count: number;
+};
+
+export type TopProduct = {
+	slug: string;
+	name: string;
+	quantity: number;
 };

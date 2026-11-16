@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ url }) => {
 	const activeStatus = parseOrderStatus(url.searchParams.get('status') ?? '') ?? null;
 
 	const [orders, counts] = await Promise.all([
-		listAdminOrders(activeStatus ?? undefined),
+		listAdminOrders({ status: activeStatus ?? undefined }),
 		countOrdersByStatus()
 	]);
 

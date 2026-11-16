@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { and, asc, count, desc, eq, inArray, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, inArray, sql, type SQL } from 'drizzle-orm';
 import type {
 	AdminOrderDetails,
 	AdminOrderSummary,
@@ -13,7 +13,7 @@ import type { Cart } from './cart';
 import { getStoreSettings } from './catalog';
 import { db } from './db';
 import { ORDER_STATUSES, orderItems, orders, products, shippingRegions } from './db/schema';
-import { calculateOrderTotals, orderTotalJpy, orderWeightGrams } from './pricing';
+import { calculateOrderTotals, jpyToBrlCents, orderTotalJpy, orderWeightGrams } from './pricing';
 import { findShippingPriceJpy } from './shipping';
 
 async function loadCartLines(cart: Cart): Promise<CartLine[]> {
@@ -194,9 +194,22 @@ export function parseOrderStatus(value: string): OrderStatus | undefined {
 	return ORDER_STATUSES.find((status) => status === value);
 }
 
+export type OrderListFilters = {
+	status?: OrderStatus;
+	// Só os pedidos feitos a partir desse instante.
+	since?: Date;
+	limit?: number;
+};
+
 // Mais recentes primeiro.
-export async function listAdminOrders(status?: OrderStatus): Promise<AdminOrderSummary[]> {
-	const rows = await db
+export async function listAdminOrders({ status, since, limit }: OrderListFilters = {}): Promise<
+	AdminOrderSummary[]
+> {
+	const conditions: SQL[] = [];
+	if (status) conditions.push(eq(orders.status, status));
+	if (since) conditions.push(gte(orders.createdAt, since));
+
+	const query = db
 		.select({
 			code: orders.code,
 			status: orders.status,
@@ -211,14 +224,20 @@ export async function listAdminOrders(status?: OrderStatus): Promise<AdminOrderS
 		.from(orders)
 		.innerJoin(shippingRegions, eq(shippingRegions.id, orders.shippingRegionId))
 		.innerJoin(orderItems, eq(orderItems.orderId, orders.id))
-		.where(status ? eq(orders.status, status) : undefined)
+		.where(and(...conditions))
 		.groupBy(orders.id, shippingRegions.id)
-		.orderBy(desc(orders.id));
+		.orderBy(desc(orders.createdAt), desc(orders.id));
+	const rows = await (limit === undefined ? query : query.limit(limit));
 
-	return rows.map(({ charges, productsJpy, ...order }) => ({
-		...order,
-		totalJpy: orderTotalJpy(productsJpy, charges)
-	}));
+	return rows.map(({ charges, productsJpy, ...order }) => {
+		const totalJpy = orderTotalJpy(productsJpy, charges);
+		return {
+			...order,
+			totalJpy,
+			totalBrlCents: jpyToBrlCents(totalJpy, charges.brlCentsPerHundredJpy),
+			serviceFeeJpy: charges.serviceFeeJpy
+		};
+	});
 }
 
 export async function countOrdersByStatus(): Promise<Partial<Record<OrderStatus, number>>> {
