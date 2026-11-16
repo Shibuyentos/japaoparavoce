@@ -43,7 +43,9 @@ O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo
 
 ## Painel administrativo
 
-O painel fica em `/admin` e exige login. Os acessos são criados pelo terminal:
+O painel fica em `/admin` e exige login. Ele abre num resumo dos últimos 30 dias (indicadores, pedidos por dia e produtos mais pedidos) e tem a lista de pedidos, onde o status de cada um é atualizado.
+
+Os acessos são criados pelo terminal:
 
 ```sh
 npm run user:create -- email@exemplo.com "Nome da pessoa"
