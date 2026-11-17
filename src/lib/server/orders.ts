@@ -1,5 +1,6 @@
 import { randomInt } from 'node:crypto';
 import { and, asc, count, desc, eq, gte, inArray, like, or, sql, type SQL } from 'drizzle-orm';
+import { ORDER_STEPS } from '#lib/order-status.ts';
 import type {
 	AdminOrderDetails,
 	CartLine,
@@ -8,6 +9,7 @@ import type {
 	OrderLine,
 	OrderListItem,
 	OrderStatus,
+	OrderStatusDates,
 	ShippingRegion
 } from '#lib/types.ts';
 import type { Cart } from './cart';
@@ -148,10 +150,20 @@ const orderCharges = {
 	brlCentsPerHundredJpy: orders.brlCentsPerHundredJpy
 };
 
+const orderStatusDates = {
+	received: orders.createdAt,
+	quoted: orders.quotedAt,
+	paid: orders.paidAt,
+	shipped: orders.shippedAt,
+	cancelled: orders.cancelledAt
+};
+
 const orderDetailColumns = {
 	code: orders.code,
 	status: orders.status,
 	createdAt: orders.createdAt,
+	dates: orderStatusDates,
+	trackingCode: orders.trackingCode,
 	regionName: shippingRegions.name,
 	charges: orderCharges
 };
@@ -254,6 +266,7 @@ export async function listOrders({
 			customerName: orders.customerName,
 			instagramHandle: orders.instagramHandle,
 			createdAt: orders.createdAt,
+			dates: orderStatusDates,
 			regionName: shippingRegions.name,
 			charges: orderCharges,
 			itemCount: sql`sum(${orderItems.quantity})`.mapWith(Number),
@@ -267,13 +280,15 @@ export async function listOrders({
 		.orderBy(desc(orders.createdAt), desc(orders.id));
 	const rows = await (limit === undefined ? query : query.limit(limit));
 
-	return rows.map(({ charges, productsJpy, ...order }) => {
+	return rows.map(({ charges, productsJpy, dates, ...order }) => {
 		const totalJpy = orderTotalJpy(productsJpy, charges);
 		return {
 			...order,
 			totalJpy,
 			totalBrlCents: jpyToBrlCents(totalJpy, charges.brlCentsPerHundredJpy),
-			serviceFeeJpy: charges.serviceFeeJpy
+			serviceFeeJpy: charges.serviceFeeJpy,
+			// Pedidos de antes das datas por passo não têm a data do status atual.
+			statusSince: dates[order.status] ?? order.createdAt
 		};
 	});
 }
@@ -287,11 +302,65 @@ export async function countOrdersByStatus(): Promise<Partial<Record<OrderStatus,
 	return Object.fromEntries(rows.map((row) => [row.status, row.total]));
 }
 
-// Devolve false quando não existe pedido com esse código.
-export async function updateOrderStatus(code: string, status: OrderStatus): Promise<boolean> {
+const ORDER_FLOW = ORDER_STEPS.map((step) => step.status);
+
+// O que muda no pedido ao trocar de status. O passo novo guarda a data em que aconteceu (agora,
+// se ainda não tinha) e os que vêm depois dele voltam a ficar sem data, porque uma correção para
+// trás desfaz esses passos. O cancelamento mantém as datas, que mostram até onde o pedido chegou.
+export function statusUpdate(status: OrderStatus, current: OrderStatusDates, now: Date) {
+	if (status === 'cancelled') return { status, cancelledAt: now };
+
+	const position = ORDER_FLOW.indexOf(status);
+	const dateFor = (step: OrderStatus) => {
+		const stepPosition = ORDER_FLOW.indexOf(step);
+		if (stepPosition === position) return current[step] ?? now;
+		return stepPosition > position ? null : undefined;
+	};
+
+	return {
+		status,
+		cancelledAt: null,
+		quotedAt: dateFor('quoted'),
+		paidAt: dateFor('paid'),
+		shippedAt: dateFor('shipped')
+	};
+}
+
+// Devolve false quando não existe pedido com esse código. Salvar o status que o pedido já tem
+// não muda nada, para não trocar a data em que ele chegou a esse passo.
+export async function updateOrderStatus(
+	code: string,
+	status: OrderStatus,
+	now = new Date()
+): Promise<boolean> {
+	const [order] = await db
+		.select({ status: orders.status, dates: orderStatusDates })
+		.from(orders)
+		.where(eq(orders.code, code));
+	if (!order) return false;
+
+	if (order.status !== status) {
+		await db
+			.update(orders)
+			.set(statusUpdate(status, order.dates, now))
+			.where(eq(orders.code, code));
+	}
+	return true;
+}
+
+// Padrão internacional dos correios (S10): duas letras, nove números e o país, como EJ123456789JP.
+const TRACKING_CODE_PATTERN = /^[A-Z]{2}\d{9}[A-Z]{2}$/;
+
+// Aceita o código com espaços ou em minúsculas, como costuma ser copiado do comprovante.
+export function parseTrackingCode(input: string): string | undefined {
+	const code = input.replace(/\s+/g, '').toUpperCase();
+	return TRACKING_CODE_PATTERN.test(code) ? code : undefined;
+}
+
+export async function saveTrackingCode(code: string, trackingCode: string): Promise<boolean> {
 	const updated = await db
 		.update(orders)
-		.set({ status })
+		.set({ trackingCode })
 		.where(eq(orders.code, code))
 		.returning({ id: orders.id });
 

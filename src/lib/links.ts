@@ -31,6 +31,16 @@ export function registerHref(destination?: string) {
 		: resolve('/cadastro');
 }
 
+// Rastreamento no site do correio do Japão, que posta a caixa pelo EMS.
+export function trackingHref(trackingCode: string) {
+	const params = new URLSearchParams({
+		reqCodeNo1: trackingCode,
+		searchKind: 'S002',
+		locale: 'en'
+	});
+	return `https://trackings.post.japanpost.jp/services/srv/search/direct?${params}`;
+}
+
 // Lista de pedidos do painel: o filtro de status e a busca também ficam na URL.
 export function adminOrdersHref(status: string | null, search = '') {
 	const params = new URLSearchParams();

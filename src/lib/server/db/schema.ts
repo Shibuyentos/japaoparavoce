@@ -146,7 +146,14 @@ export const orders = sqliteTable(
 		brlCentsPerHundredJpy: integer().notNull(),
 		createdAt: integer({ mode: 'timestamp' })
 			.notNull()
-			.$defaultFn(() => new Date())
+			.$defaultFn(() => new Date()),
+		// Quando o pedido chegou a cada passo. O passo "recebido" é o createdAt.
+		quotedAt: integer({ mode: 'timestamp' }),
+		paidAt: integer({ mode: 'timestamp' }),
+		shippedAt: integer({ mode: 'timestamp' }),
+		cancelledAt: integer({ mode: 'timestamp' }),
+		// Código de rastreio do EMS, informado no painel quando a caixa é postada.
+		trackingCode: text()
 	},
 	(table) => [index('orders_user_id_idx').on(table.userId)]
 );

@@ -95,11 +95,16 @@ export type CartQuote = {
 	totals: OrderTotals;
 };
 
+// Quando o pedido chegou a cada status; null enquanto o passo não aconteceu.
+export type OrderStatusDates = Record<OrderStatus, Date | null>;
+
 // Pedido como a cliente vê em "Meus pedidos": sem os dados de contato.
 export type OrderDetails = {
 	code: string;
 	status: OrderStatus;
 	createdAt: Date;
+	dates: OrderStatusDates;
+	trackingCode: string | null;
 	regionName: string;
 	lines: OrderLine[];
 	charges: OrderCharges;
@@ -135,6 +140,8 @@ export type OrderListItem = {
 	totalBrlCents: number;
 	serviceFeeJpy: number;
 	createdAt: Date;
+	// Desde quando o pedido está no status atual.
+	statusSince: Date;
 };
 
 // Números de um período no resumo do painel. "Pago" inclui os pedidos já enviados.
@@ -156,4 +163,19 @@ export type TopProduct = {
 	slug: string;
 	name: string;
 	quantity: number;
+};
+
+// Um produto da lista de compras do painel: a soma do que os pedidos pagos pedem.
+export type ShoppingItem = {
+	slug: string;
+	name: string;
+	image: string | null;
+	quantity: number;
+	orderCodes: string[];
+};
+
+// Pedidos parados num status do atendimento e há quanto tempo o mais antigo espera.
+export type QueueStatus = {
+	count: number;
+	oldestSince: Date | null;
 };
