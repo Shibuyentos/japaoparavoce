@@ -41,15 +41,28 @@ O banco local é o arquivo `local.db`. Para recomeçar do zero, apague o arquivo
 | `npm run db:studio`   | Abre o Drizzle Studio para inspecionar o banco    |
 | `npm run user:create` | Cria um acesso ao painel ou troca a senha de um   |
 
+## Páginas da loja
+
+| Rota                 | O que mostra                                                          |
+| -------------------- | --------------------------------------------------------------------- |
+| `/`                  | Compromissos da loja, novidades da vitrine, custos, passos e kits     |
+| `/vitrine`           | Catálogo com busca e categorias                                       |
+| `/vitrine/[slug]`    | Produto, com o total estimado de um pedido só com ele                 |
+| `/carrinho`          | Itens, região de entrega, nota com fretes e taxa e envio do pedido    |
+| `/como-funciona`     | Passo a passo, pagamento, tabela de frete EMS e avisos antes de pedir |
+| `/endereco-no-japao` | Serviço de redirecionamento e lojas sugeridas                         |
+
 ## Conta da cliente
 
-Para enviar um pedido a cliente cria uma conta (`/cadastro`) ou entra (`/entrar`). Em `/conta` ficam os dados dela e a lista "Meus pedidos", com o andamento de cada um.
+Para enviar um pedido a cliente cria uma conta (`/cadastro`) ou entra (`/entrar`). Em `/conta` ficam os dados dela e a lista "Meus pedidos". Cada pedido mostra o andamento com a data de cada passo e, depois da postagem, o código de rastreio com o link do correio do Japão.
 
 Clientes e administração usam a mesma tabela de usuários, separados pelo papel (`customer` ou `admin`). Só o papel `admin` entra no painel.
 
 ## Painel administrativo
 
-O painel fica em `/admin` e exige login de administração. Ele abre num resumo dos últimos 30 dias (indicadores, pedidos por dia e produtos mais pedidos) e tem a lista de pedidos, onde o status de cada um é atualizado.
+O painel fica em `/admin` e exige login de administração. Ele abre em "Hoje": a fila do atendimento (orçamentos a responder, pagamentos pendentes e pedidos para comprar e postar, com o tempo de espera do mais antigo), a lista de compras com os produtos dos pedidos pagos somados, os últimos pedidos e os números dos últimos 30 dias.
+
+Na página de cada pedido o status avança um passo por vez, e marcar como enviado pede o código de rastreio do EMS. Voltar o status pela correção apaga as datas dos passos que vinham depois.
 
 Os acessos são criados pelo terminal:
 
