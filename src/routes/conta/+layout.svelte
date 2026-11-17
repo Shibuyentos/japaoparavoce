@@ -31,7 +31,7 @@
 		</nav>
 
 		<form method="POST" action="/sair">
-			<button><LogOut />Sair</button>
+			<button><LogOut aria-hidden="true" />Sair</button>
 		</form>
 	</div>
 
@@ -40,56 +40,71 @@
 
 <style>
 	.account {
-		padding-top: 28px;
-		padding-bottom: 60px;
+		padding-top: 16px;
 	}
 
 	.bar {
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 10px;
-		margin-bottom: 24px;
+		gap: 8px;
+		margin-bottom: 28px;
+		border-bottom: 1px solid var(--line);
 	}
 
 	nav {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
+		gap: 16px;
 	}
 
-	nav a,
+	nav a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 48px;
+		border-bottom: 3px solid transparent;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+
+	nav a:hover {
+		color: var(--ink);
+	}
+
+	nav a[aria-current='page'] {
+		border-bottom-color: var(--beni);
+		font-weight: 700;
+		color: var(--ink);
+	}
+
 	button {
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
-		padding: 6px 14px;
-		border: 1.5px solid var(--line);
-		border-radius: 999px;
-		background: var(--surface);
+		min-height: 44px;
+		padding: 0 4px;
+		border: none;
+		background: none;
 		font-family: inherit;
-		font-size: 15px;
-		font-weight: 700;
+		font-size: 0.9375rem;
+		font-weight: 500;
 		color: var(--ink);
-		text-decoration: none;
 		cursor: pointer;
 	}
 
-	nav a:hover,
 	button:hover {
-		border-color: var(--pink);
-		color: var(--pink-dark);
-	}
-
-	nav a[aria-current='page'] {
-		background: var(--pink);
-		border-color: var(--pink);
-		color: #ffffff;
+		text-decoration: underline;
 	}
 
 	button :global(svg) {
 		width: 16px;
 		height: 16px;
+	}
+
+	@media (min-width: 900px) {
+		.account {
+			padding-top: 28px;
+		}
 	}
 </style>

@@ -19,7 +19,7 @@
 <AuthCard title="Entrar">
 	<form class="form" method="POST" use:enhance>
 		{#if form?.message}
-			<p class="form-alert" role="alert">{form.message}</p>
+			<p class="notice" role="alert">{form.message}</p>
 		{/if}
 
 		<TextField
@@ -27,6 +27,8 @@
 			label="E-mail"
 			type="email"
 			autocomplete="username"
+			autocapitalize="none"
+			spellcheck="false"
 			required
 			value={form?.email ?? ''}
 		/>
@@ -41,17 +43,15 @@
 		<button class="btn btn-primary">Entrar</button>
 	</form>
 
-	<p>Ainda não tem conta? <a href={registerHref(destination)}>Criar conta</a></p>
+	<p class="other">Ainda não tem conta? <a href={registerHref(destination)}>Criar conta</a></p>
 </AuthCard>
 
 <style>
-	p {
-		margin: 0;
-		text-align: center;
-		font-size: 15.5px;
+	.other {
+		font-size: 0.9375rem;
 	}
 
-	a {
+	.other a {
 		font-weight: 700;
 	}
 </style>

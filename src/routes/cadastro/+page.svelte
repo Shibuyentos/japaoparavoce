@@ -32,6 +32,8 @@
 			label="E-mail"
 			type="email"
 			autocomplete="email"
+			autocapitalize="none"
+			spellcheck="false"
 			required
 			value={form?.values?.email ?? ''}
 			error={form?.errors?.email}
@@ -49,17 +51,15 @@
 		<button class="btn btn-primary">Criar conta</button>
 	</form>
 
-	<p>Já tem conta? <a href={loginHref(destination)}>Entrar</a></p>
+	<p class="other">Já tem conta? <a href={loginHref(destination)}>Entrar</a></p>
 </AuthCard>
 
 <style>
-	p {
-		margin: 0;
-		text-align: center;
-		font-size: 15.5px;
+	.other {
+		font-size: 0.9375rem;
 	}
 
-	a {
+	.other a {
 		font-weight: 700;
 	}
 </style>

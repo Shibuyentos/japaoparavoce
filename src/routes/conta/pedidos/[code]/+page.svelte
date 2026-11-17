@@ -6,43 +6,20 @@
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
 	import LocalDate from '#lib/components/LocalDate.svelte';
 	import OrderProgress from '#lib/components/OrderProgress.svelte';
-	import OrderStatusBadge from '#lib/components/OrderStatusBadge.svelte';
 	import OrderSummary from '#lib/components/OrderSummary.svelte';
 	import { INSTAGRAM_HANDLE, INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
-	import { formatJpy } from '#lib/format.ts';
+	import { ORDER_STATUS_MESSAGES } from '#lib/order-status.ts';
 	import { orderSummaryText } from '#lib/order-summary.ts';
-	import type { OrderStatus } from '#lib/types.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
 	const order = $derived(data.order);
+	const message = $derived(ORDER_STATUS_MESSAGES[order.status]);
 	const summaryText = $derived(orderSummaryText(order));
 
-	// O que a cliente precisa saber ou fazer em cada momento do pedido.
-	const nextSteps: Record<OrderStatus, { title: string; text: string }> = {
-		received: {
-			title: 'Agora envie o resumo no direct',
-			text: 'É na conversa do Instagram que eu confirmo os valores e a gente combina o pagamento.'
-		},
-		quoted: {
-			title: 'Orçamento enviado',
-			text: 'Confira o orçamento que mandei no direct do Instagram. O pagamento é combinado por lá.'
-		},
-		paid: {
-			title: 'Pagamento confirmado',
-			text: 'Vou até a loja comprar os seus produtos e aviso assim que a caixa for postada.'
-		},
-		shipped: {
-			title: 'Pedido enviado',
-			text: 'Sua caixa já foi postada. O código de rastreio está na nossa conversa do direct.'
-		},
-		cancelled: {
-			title: 'Pedido cancelado',
-			text: 'Este pedido foi cancelado. Se ficou alguma dúvida, é só chamar no direct.'
-		}
-	};
-	const nextStep = $derived(nextSteps[order.status]);
+	// Enquanto o pedido não foi respondido, mandar o resumo no direct é o que falta fazer.
+	const awaitingSummary = $derived(order.status === 'received');
 
 	const FEEDBACK_MS = 2600;
 
@@ -61,63 +38,82 @@
 	}
 </script>
 
+{#snippet summary()}
+	<textarea
+		bind:this={summaryField}
+		readonly
+		rows="10"
+		aria-label="Resumo do pedido"
+		value={summaryText}></textarea>
+	<div class="actions">
+		<button class="btn btn-primary" type="button" onclick={copySummary}>
+			{#if copied}<Check />Resumo copiado{:else}<Copy />Copiar resumo{/if}
+		</button>
+		<a class="btn btn-quiet" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
+			<InstagramIcon />Abrir {INSTAGRAM_HANDLE}
+		</a>
+	</div>
+	<p class="visually-hidden" role="status">{copied ? 'Resumo copiado.' : ''}</p>
+{/snippet}
+
 <svelte:head>
 	<title>Pedido {order.code} · {STORE_NAME}</title>
 </svelte:head>
 
-<a class="back" href={resolve('/conta/pedidos')}><ArrowLeft />Meus pedidos</a>
+<a class="back" href={resolve('/conta/pedidos')}>
+	<ArrowLeft aria-hidden="true" />Meus pedidos
+</a>
 
-<div class="title">
-	<h1>Pedido {order.code}</h1>
-	<OrderStatusBadge status={order.status} />
-</div>
-<p class="date">Feito em <LocalDate date={order.createdAt} /></p>
-
-{#if order.status !== 'cancelled'}
-	<div class="progress panel">
-		<OrderProgress status={order.status} />
-	</div>
-{/if}
+<header>
+	<p class="code">
+		Pedido <strong>{order.code}</strong>, feito em <LocalDate date={order.createdAt} />
+	</p>
+	<h1>{message.title}</h1>
+	<p class="lead">{message.text}</p>
+</header>
 
 <div class="columns">
-	<div class="panel step">
-		<h2>{nextStep.title}</h2>
-		<p>{nextStep.text}</p>
-
-		{#if order.status === 'received'}
-			<textarea
-				bind:this={summaryField}
-				readonly
-				rows="10"
-				aria-label="Resumo do pedido"
-				value={summaryText}></textarea>
-			<button class="btn btn-primary" type="button" onclick={copySummary}>
-				{#if copied}
-					<Check />Copiado! Agora cole no Instagram
-				{:else}
-					<Copy />Copiar resumo do pedido
-				{/if}
-			</button>
+	<div class="main">
+		{#if awaitingSummary}
+			<section class="send" aria-labelledby="enviar-titulo">
+				<h2 id="enviar-titulo">Envie o resumo no direct</h2>
+				<p class="note">Copie o texto abaixo e cole na conversa com {INSTAGRAM_HANDLE}.</p>
+				{@render summary()}
+			</section>
 		{/if}
 
-		<a class="btn btn-ghost" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-			<InstagramIcon />Abrir o Instagram {INSTAGRAM_HANDLE}
-		</a>
+		{#if order.status !== 'cancelled'}
+			<section aria-labelledby="andamento-titulo">
+				<h2 id="andamento-titulo">Andamento</h2>
+				<div class="progress">
+					<OrderProgress status={order.status} />
+				</div>
+			</section>
+		{/if}
 	</div>
 
-	<div class="panel">
-		<h2>Itens do pedido</h2>
-		<ul>
-			{#each order.lines as line, index (index)}
-				<li>
-					<span>{line.quantity}× {line.name}</span>
-					<strong>{formatJpy(line.unitPriceJpy * line.quantity)}</strong>
-				</li>
-			{/each}
-		</ul>
-		<p class="note">Entrega para: <strong>{order.regionName}</strong></p>
-		<OrderSummary charges={order.charges} totals={order.totals} />
-	</div>
+	<section aria-labelledby="nota-titulo">
+		<h2 id="nota-titulo">Seu pedido</h2>
+		<div class="nota">
+			<OrderSummary
+				charges={order.charges}
+				totals={order.totals}
+				lines={order.lines}
+				regionName={order.regionName}
+			/>
+		</div>
+		<p class="note">
+			<strong>É uma estimativa:</strong> o valor final é confirmado depois de pesar a caixa, antes da
+			postagem. Imposto de alfândega não incluído.
+		</p>
+
+		{#if !awaitingSummary && order.status !== 'cancelled'}
+			<details>
+				<summary>Ver o resumo para o direct</summary>
+				{@render summary()}
+			</details>
+		{/if}
+	</section>
 </div>
 
 <style>
@@ -125,7 +121,8 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
-		font-size: 15px;
+		min-height: 44px;
+		font-size: 0.9375rem;
 		font-weight: 700;
 		text-decoration: none;
 	}
@@ -135,94 +132,92 @@
 		height: 17px;
 	}
 
-	.title {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 12px;
-		margin-top: 12px;
+	.code {
+		margin: 8px 0;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
 	}
 
-	h1 {
-		font-size: clamp(24px, 5vw, 32px);
-		font-weight: 800;
-		color: var(--pink-title);
+	.code strong {
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.06em;
+		color: var(--ink);
 	}
 
-	.date {
-		margin: 4px 0 0;
-		font-size: 14.5px;
-		color: var(--muted);
-	}
-
-	.progress {
-		margin-top: 20px;
-		padding: 20px 10px 18px;
+	.columns,
+	.main {
+		display: grid;
+		gap: 40px;
 	}
 
 	.columns {
+		margin-top: 36px;
+	}
+
+	h2 {
+		font-size: 1.375rem;
+	}
+
+	.note {
+		margin-top: 12px;
+		font-size: 0.875rem;
+		color: var(--ink-soft);
+	}
+
+	.note strong {
+		color: var(--ink);
+	}
+
+	.send .note {
+		margin: 4px 0 12px;
+	}
+
+	textarea {
+		font-size: 0.875rem;
+		line-height: 1.5;
+	}
+
+	.actions {
 		display: grid;
-		gap: 18px;
-		margin-top: 18px;
+		gap: 10px;
+		margin-top: 12px;
+	}
+
+	.progress,
+	.nota {
+		margin-top: 16px;
+	}
+
+	details {
+		margin-top: 24px;
+		border-top: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
+	}
+
+	summary {
+		display: flex;
+		align-items: center;
+		min-height: 48px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	details[open] {
+		padding-bottom: 16px;
+	}
+
+	@media (min-width: 560px) {
+		.actions {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 
 	@media (min-width: 900px) {
 		.columns {
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+			gap: 72px;
 			align-items: start;
+			margin-top: 48px;
 		}
-	}
-
-	.panel:not(.progress) {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	h2 {
-		font-size: 20px;
-		color: var(--ink-strong);
-	}
-
-	.step p {
-		margin: 0;
-	}
-
-	textarea {
-		width: 100%;
-		font-family: inherit;
-		font-size: 14.5px;
-		line-height: 1.5;
-		color: var(--ink);
-		background: #fff7fa;
-		border: 1.5px solid var(--line);
-		border-radius: 12px;
-		padding: 12px;
-		resize: vertical;
-	}
-
-	ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	li {
-		display: flex;
-		justify-content: space-between;
-		gap: 16px;
-		padding: 9px 0;
-		border-bottom: 1px dashed var(--line);
-		font-size: 15.5px;
-	}
-
-	li strong {
-		white-space: nowrap;
-	}
-
-	.note {
-		margin: 0;
-		font-size: 14.5px;
-		color: var(--muted);
 	}
 </style>

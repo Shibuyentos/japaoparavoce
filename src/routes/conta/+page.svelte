@@ -14,8 +14,8 @@
 
 <h1>Olá, {data.user.name} 🌸</h1>
 
-<div class="panel">
-	<h2>Seus dados</h2>
+<section aria-labelledby="dados-titulo">
+	<h2 id="dados-titulo">Seus dados</h2>
 	<dl>
 		<div>
 			<dt>Nome</dt>
@@ -26,49 +26,39 @@
 			<dd>{data.user.email}</dd>
 		</div>
 	</dl>
-</div>
+</section>
 
 <div class="actions">
 	<a class="btn btn-primary" href={resolve('/conta/pedidos')}><Package />Meus pedidos</a>
-	<a class="btn btn-ghost" href={resolve('/vitrine')}><ShoppingBag />Ver a vitrine</a>
+	<a class="btn btn-quiet" href={resolve('/vitrine')}><ShoppingBag />Ver a vitrine</a>
 </div>
 
 <style>
-	h1 {
-		font-size: clamp(24px, 5vw, 32px);
-		font-weight: 800;
-		color: var(--pink-title);
-	}
-
-	.panel {
-		margin-top: 20px;
+	section {
 		max-width: 560px;
+		margin-top: 28px;
 	}
 
 	h2 {
-		font-size: 20px;
-		color: var(--ink-strong);
+		font-size: 1.375rem;
 	}
 
 	dl {
-		margin: 8px 0 0;
+		margin: 12px 0 0;
+		border-bottom: 1px solid var(--line);
 	}
 
 	dl div {
 		display: grid;
 		grid-template-columns: 90px 1fr;
 		gap: 12px;
-		padding: 8px 0;
-		border-bottom: 1px dashed var(--line);
-		font-size: 15.5px;
-	}
-
-	dl div:last-child {
-		border-bottom: none;
+		padding: 10px 0;
+		border-top: 1px solid var(--line);
+		font-size: 0.9375rem;
 	}
 
 	dt {
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	dd {
@@ -80,7 +70,7 @@
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 12px;
-		margin-top: 20px;
+		gap: 10px;
+		margin-top: 24px;
 	}
 </style>
