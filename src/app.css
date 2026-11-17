@@ -1,69 +1,62 @@
-/* As fontes ficam em static/fonts, só com os caracteres latinos: o site não depende de terceiros
-   para renderizar o texto. */
+/* Uma família só, a Archivo, em três larguras: larga nos títulos e na marca, normal no texto e
+   estreita nos preços, como os números das etiquetas das lojas japonesas. O arquivo fica em
+   static/fonts, só com os caracteres latinos. */
 @font-face {
-	font-family: 'Kaisei Decol';
-	font-weight: 700;
+	font-family: 'Archivo';
+	font-style: normal;
+	font-weight: 100 900;
+	font-stretch: 62% 125%;
 	font-display: swap;
-	src: url('/fonts/kaisei-decol-700.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Zen Kaku Gothic New';
-	font-weight: 400;
-	font-display: swap;
-	src: url('/fonts/zen-kaku-gothic-new-400.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Zen Kaku Gothic New';
-	font-weight: 500;
-	font-display: swap;
-	src: url('/fonts/zen-kaku-gothic-new-500.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Zen Kaku Gothic New';
-	font-weight: 700;
-	font-display: swap;
-	src: url('/fonts/zen-kaku-gothic-new-700.woff2') format('woff2');
+	src: url('/fonts/archivo-variable.woff2') format('woff2-variations');
 }
 
 :root {
 	color-scheme: light;
 
-	/* Papel rosado no fundo, branco nas etiquetas e notas, tinta ameixa no texto. */
-	--paper: #fff7f9;
-	--white: #ffffff;
-	--blush: #fbe6ed;
-	--sakura: #f2a9c1;
-	--line: #efcad6;
-	--ink: #2a1820;
-	--ink-soft: #6f5560;
+	/* Fundo rosado bem claro, superfícies brancas para os produtos e as notas. */
+	--paper: #fcf6f7;
+	--surface: #ffffff;
+	--blush: #f8e6eb;
+	--blush-strong: #f1d0da;
+	--sakura: #e6a3b8;
+	--line: #efe0e5;
+	--line-strong: #dcc4cc;
+	--ink: #2a1a21;
+	--ink-soft: #6a5560;
 
-	/* Beni é o rosa das ações e dos preços: tem contraste de texto sobre branco e sobre o papel. */
-	--beni: #be2a5b;
-	--beni-deep: #9a1e48;
+	/* Beni, o vermelho-rosado das ações, dos preços em destaque e do carimbo. */
+	--beni: #b0234f;
+	--beni-deep: #8a1a3d;
 
-	/* Amarelo das etiquetas de loja japonesa, usado só para marcar edição limitada. */
-	--tag-yellow: #ffd84d;
-
-	--ok: #1c6331;
-	--ok-bg: #e7f5ea;
-	--warn: #754b00;
-	--warn-bg: #fff1cc;
-	--info: #1d4b88;
-	--info-bg: #e6f0fd;
+	--ok: #1f6542;
+	--ok-bg: #e5f3ea;
+	--warn: #7a4a00;
+	--warn-bg: #fff0c7;
+	--info: #24467f;
+	--info-bg: #e7eefb;
 	--danger: #b3261e;
 	--neutral: #5f5459;
 	--neutral-bg: #f1ecee;
 
-	--font-display: 'Kaisei Decol', 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
-	--font-body:
-		'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
+	--font: 'Archivo', 'Helvetica Neue', Arial, system-ui, sans-serif;
+	--font-japanese: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', sans-serif;
+	--wide: 116%;
+	--narrow: 82%;
 
-	--radius: 6px;
-	--gutter: 20px;
-	--header-height: 56px;
+	--radius-s: 8px;
+	--radius: 12px;
+	--radius-l: 18px;
+	--shadow-paper: 0 1px 2px rgb(90 30 52 / 0.07), 0 12px 28px -16px rgb(90 30 52 / 0.28);
+
+	--gutter: clamp(16px, 4.4vw, 32px);
+	--header-height: 60px;
+	--section-gap: clamp(56px, 9vw, 104px);
+}
+
+@media (min-width: 960px) {
+	:root {
+		--header-height: 68px;
+	}
 }
 
 *,
@@ -93,11 +86,12 @@ html {
 
 body {
 	margin: 0;
-	font-family: var(--font-body);
+	font-family: var(--font);
 	font-size: 1rem;
-	line-height: 1.6;
+	line-height: 1.55;
 	color: var(--ink);
 	background: var(--paper);
+	font-synthesis: none;
 }
 
 img {
@@ -107,7 +101,8 @@ img {
 
 a {
 	color: var(--beni);
-	text-underline-offset: 0.18em;
+	text-underline-offset: 0.2em;
+	text-decoration-thickness: 1px;
 }
 
 a:hover {
@@ -115,12 +110,12 @@ a:hover {
 }
 
 ::selection {
-	background: var(--sakura);
+	background: var(--blush-strong);
 	color: var(--ink);
 }
 
 :focus-visible {
-	outline: 2px solid var(--ink);
+	outline: 2.5px solid var(--beni);
 	outline-offset: 2px;
 }
 
@@ -133,23 +128,23 @@ h3 {
 
 h1,
 h2 {
-	font-family: var(--font-display);
-	font-weight: 700;
-	line-height: 1.12;
-	letter-spacing: -0.01em;
+	font-stretch: var(--wide);
+	font-weight: 640;
+	line-height: 1.1;
+	letter-spacing: -0.015em;
 }
 
 h1 {
-	font-size: clamp(1.875rem, 6.4vw, 2.75rem);
+	font-size: clamp(1.75rem, 6.6vw, 2.75rem);
 }
 
 h2 {
-	font-size: clamp(1.625rem, 5.2vw, 2.25rem);
+	font-size: clamp(1.4375rem, 5vw, 2.125rem);
 }
 
 h3 {
 	font-size: 1.0625rem;
-	font-weight: 700;
+	font-weight: 650;
 	line-height: 1.3;
 }
 
@@ -157,25 +152,38 @@ p {
 	margin: 0;
 }
 
+[lang='ja'] {
+	font-family: var(--font-japanese);
+}
+
 .wrap {
 	width: 100%;
-	max-width: 1120px;
+	max-width: 1200px;
 	margin: 0 auto;
 	padding: 0 var(--gutter);
 }
 
-.wrap-wide {
-	max-width: 1320px;
+/* Título e apresentação no topo das páginas. */
+.page-head {
+	padding-top: 32px;
+}
+
+@media (min-width: 960px) {
+	.page-head {
+		padding-top: 64px;
+	}
 }
 
 .lead {
-	max-width: 60ch;
+	max-width: 58ch;
 	margin-top: 12px;
 	font-size: 1.0625rem;
 	color: var(--ink-soft);
+	text-wrap: pretty;
 }
 
 .lead strong {
+	font-weight: 600;
 	color: var(--ink);
 }
 
@@ -184,19 +192,29 @@ p {
 	font-variant-numeric: tabular-nums;
 }
 
+/* Valores em iene: a largura estreita das etiquetas de preço. */
+.price {
+	font-stretch: var(--narrow);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
+	white-space: nowrap;
+}
+
 .btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
 	min-height: 48px;
-	padding: 10px 20px;
+	padding: 11px 22px;
 	border: 1.5px solid transparent;
-	border-radius: var(--radius);
+	border-radius: 10px;
 	font-family: inherit;
 	font-size: 1rem;
-	font-weight: 700;
+	font-weight: 600;
 	line-height: 1.2;
+	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
 	transition:
@@ -218,29 +236,50 @@ p {
 
 .btn-primary {
 	background: var(--beni);
-	color: var(--white);
+	color: var(--surface);
 }
 
 .btn-primary:hover:not(:disabled) {
 	background: var(--beni-deep);
-	color: var(--white);
+	color: var(--surface);
 }
 
 .btn-quiet {
-	background: var(--white);
-	border-color: var(--ink);
+	background: var(--surface);
+	border-color: var(--line-strong);
 	color: var(--ink);
 }
 
 .btn-quiet:hover:not(:disabled) {
-	background: var(--blush);
+	border-color: var(--ink);
 	color: var(--ink);
+}
+
+/* Link de texto com peso de ação, usado para "ver mais" e "voltar". */
+.text-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 44px;
+	font-weight: 600;
+	text-decoration: underline;
+	text-decoration-color: var(--sakura);
+	text-decoration-thickness: 1.5px;
+}
+
+.text-link:hover {
+	text-decoration-color: currentColor;
+}
+
+.text-link svg {
+	width: 17px;
+	height: 17px;
 }
 
 label {
 	display: block;
 	font-size: 0.9375rem;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 input:not([type='hidden']),
@@ -248,14 +287,20 @@ select,
 textarea {
 	width: 100%;
 	min-height: 48px;
-	padding: 10px 12px;
-	border: 1.5px solid var(--ink-soft);
-	border-radius: var(--radius);
-	background: var(--white);
+	padding: 11px 14px;
+	border: 1.5px solid var(--line-strong);
+	border-radius: 10px;
+	background: var(--surface);
 	font-family: inherit;
 	/* Abaixo de 16px o Safari do iPhone dá zoom na página ao focar o campo. */
 	font-size: 1rem;
 	color: var(--ink);
+}
+
+input:not([type='hidden']):hover,
+select:hover,
+textarea:hover {
+	border-color: var(--ink-soft);
 }
 
 textarea {
@@ -264,15 +309,16 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-	color: var(--ink-soft);
+	color: #8a7680;
 	opacity: 1;
 }
 
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-	outline: 2px solid var(--ink);
-	outline-offset: 1px;
+	border-color: var(--beni);
+	outline: 2.5px solid var(--beni);
+	outline-offset: 0;
 }
 
 [aria-invalid='true'] {
@@ -280,16 +326,16 @@ textarea:focus-visible {
 }
 
 .field-error {
-	margin-top: 4px;
+	margin-top: 6px;
 	font-size: 0.875rem;
-	font-weight: 700;
+	font-weight: 600;
 	color: var(--danger);
 }
 
 /* Aviso de algo que não deu certo ou que pede atenção antes de continuar. */
 .notice {
 	padding: 12px 14px;
-	border-left: 3px solid var(--warn);
+	border-radius: var(--radius-s);
 	background: var(--warn-bg);
 	font-size: 0.9375rem;
 	font-weight: 500;
@@ -311,7 +357,7 @@ textarea:focus-visible {
 /* Formulário com um campo por linha: login, cadastro e envio do pedido. */
 .form {
 	display: grid;
-	gap: 16px;
+	gap: 18px;
 }
 
 .form .btn {

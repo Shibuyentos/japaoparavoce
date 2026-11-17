@@ -1,13 +1,14 @@
 <script lang="ts">
 	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
-	import Check from '@lucide/svelte/icons/check';
-	import Copy from '@lucide/svelte/icons/copy';
+	import ExternalLink from '@lucide/svelte/icons/external-link';
 	import { resolve } from '$app/paths';
+	import CopyButton from '#lib/components/CopyButton.svelte';
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
 	import LocalDate from '#lib/components/LocalDate.svelte';
 	import OrderProgress from '#lib/components/OrderProgress.svelte';
 	import OrderSummary from '#lib/components/OrderSummary.svelte';
 	import { INSTAGRAM_HANDLE, INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
+	import { trackingHref } from '#lib/links.ts';
 	import { ORDER_STATUS_MESSAGES } from '#lib/order-status.ts';
 	import { orderSummaryText } from '#lib/order-summary.ts';
 	import type { PageProps } from './$types';
@@ -18,53 +19,40 @@
 	const message = $derived(ORDER_STATUS_MESSAGES[order.status]);
 	const summaryText = $derived(orderSummaryText(order));
 
-	// Enquanto o pedido não foi respondido, mandar o resumo no direct é o que falta fazer.
-	const awaitingSummary = $derived(order.status === 'received');
-
-	const FEEDBACK_MS = 2600;
-
 	let summaryField = $state<HTMLTextAreaElement>();
-	let copied = $state(false);
-
-	async function copySummary() {
-		try {
-			await navigator.clipboard.writeText(summaryText);
-			copied = true;
-			setTimeout(() => (copied = false), FEEDBACK_MS);
-		} catch {
-			// Sem permissão para a área de transferência: o texto fica selecionado para copiar à mão.
-			summaryField?.select();
-		}
-	}
 </script>
 
 {#snippet summary()}
 	<textarea
 		bind:this={summaryField}
 		readonly
-		rows="10"
+		rows="9"
 		aria-label="Resumo do pedido"
 		value={summaryText}></textarea>
 	<div class="actions">
-		<button class="btn btn-primary" type="button" onclick={copySummary}>
-			{#if copied}<Check />Resumo copiado{:else}<Copy />Copiar resumo{/if}
-		</button>
+		<!-- Sem permissão para a área de transferência, o texto fica selecionado para copiar à mão. -->
+		<CopyButton
+			text={summaryText}
+			label="Copiar resumo"
+			copiedLabel="Resumo copiado"
+			primary
+			onfail={() => summaryField?.select()}
+		/>
 		<a class="btn btn-quiet" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-			<InstagramIcon />Abrir {INSTAGRAM_HANDLE}
+			<InstagramIcon />Abrir o direct
 		</a>
 	</div>
-	<p class="visually-hidden" role="status">{copied ? 'Resumo copiado.' : ''}</p>
 {/snippet}
 
 <svelte:head>
 	<title>Pedido {order.code} · {STORE_NAME}</title>
 </svelte:head>
 
-<a class="back" href={resolve('/conta/pedidos')}>
+<a class="text-link back" href={resolve('/conta/pedidos')}>
 	<ArrowLeft aria-hidden="true" />Meus pedidos
 </a>
 
-<header>
+<header class="head">
 	<p class="code">
 		Pedido <strong>{order.code}</strong>, feito em <LocalDate date={order.createdAt} />
 	</p>
@@ -74,11 +62,53 @@
 
 <div class="columns">
 	<div class="main">
-		{#if awaitingSummary}
-			<section class="send" aria-labelledby="enviar-titulo">
+		{#if order.status === 'received'}
+			<section class="card action" aria-labelledby="enviar-titulo">
 				<h2 id="enviar-titulo">Envie o resumo no direct</h2>
-				<p class="note">Copie o texto abaixo e cole na conversa com {INSTAGRAM_HANDLE}.</p>
+				<p class="note">Copie o texto e cole na conversa com {INSTAGRAM_HANDLE}.</p>
 				{@render summary()}
+			</section>
+		{:else if order.status === 'quoted'}
+			<section class="card action" aria-labelledby="orcamento-titulo">
+				<h2 id="orcamento-titulo">Seu orçamento está no direct</h2>
+				<p class="note">
+					Confira os valores na nossa conversa e combine o pagamento por lá. Eu só compro depois do
+					pagamento confirmado.
+				</p>
+				<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
+					<InstagramIcon />Abrir o direct
+				</a>
+			</section>
+		{:else if order.status === 'shipped'}
+			<section class="card tracking" aria-labelledby="rastreio-titulo">
+				<h2 id="rastreio-titulo">Código de rastreio</h2>
+				{#if order.trackingCode}
+					<p class="tracking-code price">{order.trackingCode}</p>
+					<div class="actions">
+						<a
+							class="btn btn-primary"
+							href={trackingHref(order.trackingCode)}
+							target="_blank"
+							rel="external noopener"
+						>
+							<ExternalLink aria-hidden="true" />Acompanhar a entrega
+						</a>
+						<CopyButton
+							text={order.trackingCode}
+							label="Copiar código"
+							copiedLabel="Código copiado"
+						/>
+					</div>
+					<p class="note">
+						O link abre o rastreamento do correio do Japão. Quando a caixa chega ao seu país, o
+						mesmo código também funciona no site do correio local.
+					</p>
+				{:else}
+					<p class="note">
+						O código está na nossa conversa no direct. Se não encontrar, me chama que eu mando de
+						novo.
+					</p>
+				{/if}
 			</section>
 		{/if}
 
@@ -86,9 +116,13 @@
 			<section aria-labelledby="andamento-titulo">
 				<h2 id="andamento-titulo">Andamento</h2>
 				<div class="progress">
-					<OrderProgress status={order.status} />
+					<OrderProgress status={order.status} dates={order.dates} />
 				</div>
 			</section>
+		{:else}
+			<a class="btn btn-quiet" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
+				<InstagramIcon />Falar comigo no direct
+			</a>
 		{/if}
 	</div>
 
@@ -103,11 +137,11 @@
 			/>
 		</div>
 		<p class="note">
-			<strong>É uma estimativa:</strong> o valor final é confirmado depois de pesar a caixa, antes da
-			postagem. Imposto de alfândega não incluído.
+			<strong>É uma estimativa:</strong> o valor final vem no orçamento, e o frete é confirmado depois
+			de pesar a caixa, antes da postagem. Imposto de alfândega não incluído.
 		</p>
 
-		{#if !awaitingSummary && order.status !== 'cancelled'}
+		{#if order.status !== 'received' && order.status !== 'cancelled'}
 			<details>
 				<summary>Ver o resumo para o direct</summary>
 				{@render summary()}
@@ -118,22 +152,15 @@
 
 <style>
 	.back {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		min-height: 44px;
-		font-size: 0.9375rem;
-		font-weight: 700;
-		text-decoration: none;
+		margin-top: -8px;
 	}
 
-	.back :global(svg) {
-		width: 17px;
-		height: 17px;
+	.head {
+		margin-top: 8px;
 	}
 
 	.code {
-		margin: 8px 0;
+		margin-bottom: 8px;
 		font-size: 0.9375rem;
 		color: var(--ink-soft);
 	}
@@ -147,15 +174,30 @@
 	.columns,
 	.main {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: 40px;
 	}
 
 	.columns {
-		margin-top: 36px;
+		margin-top: 32px;
 	}
 
 	h2 {
-		font-size: 1.375rem;
+		font-size: 1.25rem;
+	}
+
+	.card {
+		padding: 22px 18px;
+		border-radius: var(--radius-l);
+	}
+
+	.action {
+		border: 1.5px solid var(--beni);
+		background: var(--surface);
+	}
+
+	.tracking {
+		background: var(--blush);
 	}
 
 	.note {
@@ -165,11 +207,24 @@
 	}
 
 	.note strong {
+		font-weight: 600;
 		color: var(--ink);
 	}
 
-	.send .note {
-		margin: 4px 0 12px;
+	.card .note {
+		margin: 6px 0 16px;
+	}
+
+	.card .note:last-child {
+		margin: 14px 0 0;
+	}
+
+	.tracking-code {
+		margin-top: 10px;
+		font-size: clamp(1.75rem, 8vw, 2.25rem);
+		letter-spacing: 0.04em;
+		white-space: normal;
+		overflow-wrap: anywhere;
 	}
 
 	textarea {
@@ -180,12 +235,12 @@
 	.actions {
 		display: grid;
 		gap: 10px;
-		margin-top: 12px;
+		margin-top: 14px;
 	}
 
 	.progress,
 	.nota {
-		margin-top: 16px;
+		margin-top: 18px;
 	}
 
 	details {
@@ -198,7 +253,7 @@
 		display: flex;
 		align-items: center;
 		min-height: 48px;
-		font-weight: 700;
+		font-weight: 600;
 		cursor: pointer;
 	}
 
@@ -212,12 +267,16 @@
 		}
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.columns {
-			grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-			gap: 72px;
+			grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+			gap: 64px;
 			align-items: start;
-			margin-top: 48px;
+			margin-top: 44px;
+		}
+
+		.card {
+			padding: 28px;
 		}
 	}
 </style>

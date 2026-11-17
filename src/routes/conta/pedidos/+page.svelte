@@ -32,7 +32,7 @@
 					</span>
 				</div>
 				<div class="total">
-					<strong>{formatJpy(order.totalJpy)}</strong>
+					<strong class="price">{formatJpy(order.totalJpy)}</strong>
 					<span class="meta">
 						<span aria-hidden="true">≈</span><span class="visually-hidden">aproximadamente</span>
 						{formatBrl(order.totalBrlCents)}
@@ -59,21 +59,27 @@
 	}
 
 	ul {
-		margin: 20px 0 0;
+		display: grid;
+		gap: 10px;
+		margin: 24px 0 0;
 		padding: 0;
-		border-bottom: 1px solid var(--line);
 		list-style: none;
 	}
 
 	li {
 		position: relative;
 		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: 6px 16px;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 10px 16px;
 		align-items: center;
-		padding: 14px 0;
-		border-top: 1px solid var(--line);
-		font-variant-numeric: tabular-nums;
+		padding: 16px 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	li:hover {
+		border-color: var(--sakura);
 	}
 
 	.main {
@@ -83,7 +89,7 @@
 	}
 
 	.main a {
-		font-weight: 700;
+		font-weight: 650;
 		color: var(--ink);
 		text-decoration: none;
 	}
@@ -95,12 +101,18 @@
 		inset: 0;
 	}
 
-	li:hover .main a {
-		text-decoration: underline;
+	.main a:focus-visible {
+		outline: none;
+	}
+
+	li:has(.main a:focus-visible) {
+		outline: 2.5px solid var(--beni);
+		outline-offset: 2px;
 	}
 
 	.code {
-		letter-spacing: 0.04em;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.05em;
 	}
 
 	.meta {
@@ -114,13 +126,17 @@
 		align-items: flex-end;
 	}
 
+	.total .price {
+		font-size: 1.125rem;
+	}
+
 	.status {
 		grid-column: 1 / -1;
 	}
 
 	@media (min-width: 640px) {
 		li {
-			grid-template-columns: 1fr auto 140px;
+			grid-template-columns: minmax(0, 1fr) 170px auto;
 		}
 
 		.status {

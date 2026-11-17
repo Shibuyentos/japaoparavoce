@@ -9,13 +9,24 @@
 
 <style>
 	.badge {
-		display: inline-block;
-		padding: 2px 8px;
-		border-radius: 3px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 2px 10px 2px 8px;
+		border-radius: 999px;
 		font-size: 0.8125rem;
-		font-weight: 700;
+		font-weight: 600;
 		line-height: 1.5;
 		white-space: nowrap;
+	}
+
+	/* O ponto repete a cor do status para quem não distingue bem o fundo. */
+	.badge::before {
+		content: '';
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: currentColor;
 	}
 
 	.received {

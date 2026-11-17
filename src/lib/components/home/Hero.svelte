@@ -1,63 +1,58 @@
 <script lang="ts">
+	import Plane from '@lucide/svelte/icons/plane';
+	import ReceiptText from '@lucide/svelte/icons/receipt-text';
+	import ShieldCheck from '@lucide/svelte/icons/shield-check';
+	import Tag from '@lucide/svelte/icons/tag';
 	import { resolve } from '$app/paths';
-	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
-	import { INSTAGRAM_URL } from '#lib/config.ts';
 
-	const commitments = [
+	let { productCount }: { productCount: number } = $props();
+
+	const promises = [
 		{
-			title: 'Só produto novo',
-			text: 'Comprado em loja do Japão. Nada de produto usado ou réplica.'
+			icon: ShieldCheck,
+			title: 'Só produto novo e original',
+			text: 'Comprado em loja do Japão. Nada usado, nada de réplica.'
 		},
 		{
-			title: 'Sob encomenda',
-			text: 'Sem estoque: você vê o preço da loja e o orçamento completo antes de fechar.'
+			icon: Tag,
+			title: 'Preço da etiqueta da loja',
+			text: 'O valor do caixa no Japão, já com imposto.'
 		},
 		{
+			icon: ReceiptText,
+			title: 'Você aprova o total antes de pagar',
+			text: 'Produto, fretes e taxa somados. Eu só compro depois do pagamento.'
+		},
+		{
+			icon: Plane,
 			title: 'Envio com rastreio',
-			text: 'Embalo, posto no correio e te mando o código pra acompanhar a caixa.'
+			text: 'Pelo EMS, o correio expresso do Japão, com código pra acompanhar.'
 		}
 	];
 </script>
 
 <section class="hero">
-	<div class="wrap wrap-wide">
-		<div class="top">
-			<div class="text">
-				<h1>Eu compro no Japão e envio pra você.</h1>
-				<p class="lead">
-					Moro no Japão. Você escolhe na vitrine ou me manda a foto do que quer; eu vou até a loja,
-					compro o produto novo e posto pro Brasil e pro mundo.
-				</p>
-				<div class="actions">
-					<a class="btn btn-primary" href={resolve('/vitrine')}>Ver a vitrine</a>
-					<a class="btn btn-quiet" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-						<InstagramIcon />Pedir orçamento
-					</a>
-				</div>
+	<div class="wrap layout">
+		<div class="intro">
+			<h1>Eu compro no Japão e envio pra você.</h1>
+			<p class="lead">
+				Skincare japonês e coreano pelo preço da etiqueta da loja. Você vê o total com frete antes
+				de pagar, e eu só vou às compras depois de tudo combinado.
+			</p>
+			<div class="actions">
+				<a class="btn btn-primary" href={resolve('/vitrine')}>Ver os {productCount} produtos</a>
+				<a class="btn btn-quiet" href={resolve('/como-funciona')}>Como funciona</a>
 			</div>
-
-			<!-- A foto fica "em pé" na primeira prateleira da página, como os produtos da vitrine. -->
-			<figure>
-				<img
-					src="/images/site/corredor-840.webp"
-					srcset="/images/site/corredor-480.webp 480w, /images/site/corredor-840.webp 840w"
-					sizes="(min-width: 860px) 420px, 100vw"
-					width="840"
-					height="1493"
-					alt="Corredor de skincare de uma loja no Japão, com prateleiras cheias de produtos e etiquetas de preço"
-					fetchpriority="high"
-				/>
-				<figcaption>
-					Foto ilustrativa: o corredor de skincare de uma Don Quijote, no Japão.
-				</figcaption>
-			</figure>
 		</div>
 
-		<ul class="commitments">
-			{#each commitments as commitment (commitment.title)}
+		<ul class="promises">
+			{#each promises as promise (promise.title)}
 				<li>
-					<strong>{commitment.title}</strong>
-					{commitment.text}
+					<promise.icon aria-hidden="true" />
+					<div>
+						<strong>{promise.title}</strong>
+						<span>{promise.text}</span>
+					</div>
 				</li>
 			{/each}
 		</ul>
@@ -66,135 +61,103 @@
 
 <style>
 	.hero {
-		padding-top: 28px;
+		padding: 32px 0 8px;
+	}
+
+	.layout {
+		display: grid;
+		gap: 32px;
 	}
 
 	h1 {
-		max-width: 12ch;
-		font-size: clamp(2.5rem, 11.5vw, 4.75rem);
-		line-height: 1.02;
-		letter-spacing: -0.02em;
+		max-width: 13ch;
+		font-size: clamp(2.125rem, 9.4vw, 4.125rem);
+		font-weight: 660;
+		line-height: 1.03;
+		letter-spacing: -0.025em;
 	}
 
 	.lead {
-		margin-top: 16px;
-		max-width: 46ch;
+		max-width: 44ch;
+		margin-top: 18px;
+		font-size: 1.0625rem;
 	}
 
 	.actions {
-		display: flex;
-		gap: 10px;
-		margin-top: 22px;
-	}
-
-	.actions .btn {
-		padding-inline: 16px;
-		white-space: nowrap;
-	}
-
-	.actions .btn-primary {
-		flex: 1;
-	}
-
-	figure {
-		position: relative;
-		margin: 28px calc(var(--gutter) * -1) 0;
-	}
-
-	figure img {
-		width: 100%;
-		height: auto;
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: center 62%;
-	}
-
-	figcaption {
-		position: absolute;
-		left: var(--gutter);
-		bottom: 12px;
-		max-width: calc(100% - var(--gutter) * 2);
-		padding: 4px 8px;
-		background: var(--white);
-		font-size: 0.75rem;
-		line-height: 1.4;
-		color: var(--ink);
-	}
-
-	.commitments {
 		display: grid;
-		margin: 0 calc(var(--gutter) * -1);
-		padding: 0 var(--gutter);
-		border-top: 2px solid var(--ink);
+		gap: 10px;
+		margin-top: 26px;
+	}
+
+	.promises {
+		margin: 0;
+		padding: 6px 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-l);
+		background: var(--surface);
 		list-style: none;
 	}
 
-	.commitments li {
+	.promises li {
+		display: grid;
+		grid-template-columns: 26px 1fr;
+		gap: 14px;
 		padding: 14px 0;
-		border-bottom: 1px solid var(--line);
+	}
+
+	.promises li + li {
+		border-top: 1px solid var(--line);
+	}
+
+	.promises :global(svg) {
+		width: 24px;
+		height: 24px;
+		margin-top: 1px;
+		color: var(--beni);
+		stroke-width: 1.8;
+	}
+
+	.promises strong {
+		display: block;
+		font-weight: 650;
+		line-height: 1.3;
+	}
+
+	.promises span {
+		display: block;
+		margin-top: 2px;
 		font-size: 0.9375rem;
+		line-height: 1.45;
 		color: var(--ink-soft);
 	}
 
-	.commitments strong {
-		display: block;
-		font-size: 1rem;
-		color: var(--ink);
-	}
-
 	@media (min-width: 560px) {
-		.actions .btn-primary {
-			flex: none;
+		.actions {
+			display: flex;
 		}
 	}
 
-	@media (min-width: 860px) {
+	@media (min-width: 960px) {
 		.hero {
-			padding-top: 56px;
+			padding: 72px 0 16px;
 		}
 
-		.top {
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-			gap: 56px;
-			align-items: end;
-		}
-
-		.text {
-			padding-bottom: 56px;
-		}
-
-		h1 {
-			font-size: clamp(4rem, 6.4vw, 6rem);
+		.layout {
+			grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+			gap: 64px;
+			align-items: center;
 		}
 
 		.lead {
 			font-size: 1.1875rem;
 		}
 
-		figure {
-			margin: 0;
+		.promises {
+			padding: 10px 28px;
 		}
 
-		figure img {
-			aspect-ratio: 4 / 5;
-		}
-
-		figcaption {
-			left: 12px;
-			max-width: calc(100% - 24px);
-		}
-
-		.commitments {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 40px;
-			margin: 0;
-			padding: 0;
-		}
-
-		.commitments li {
-			padding: 18px 0 0;
-			border-bottom: none;
+		.promises li {
+			padding: 18px 0;
 		}
 	}
 </style>

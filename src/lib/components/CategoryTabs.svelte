@@ -16,7 +16,7 @@
 	const total = $derived(categories.reduce((sum, category) => sum + category.productCount, 0));
 </script>
 
-<nav class="tabs" aria-label="Categorias">
+<nav class="chips" aria-label="Categorias">
 	<a
 		href={hrefFor(null)}
 		aria-current={active === null ? 'page' : undefined}
@@ -37,55 +37,59 @@
 
 <style>
 	/* No celular a lista rola de lado e sai pela borda da tela, o que mostra que há mais categorias. */
-	.tabs {
+	.chips {
 		display: flex;
-		gap: 22px;
+		gap: 8px;
 		margin: 0 calc(var(--gutter) * -1);
-		padding: 0 var(--gutter);
+		padding: 2px var(--gutter);
 		overflow-x: auto;
 		scrollbar-width: none;
 	}
 
-	.tabs::-webkit-scrollbar {
+	.chips::-webkit-scrollbar {
 		display: none;
 	}
 
 	a {
 		flex: none;
 		display: inline-flex;
-		align-items: baseline;
-		gap: 5px;
-		min-height: 44px;
-		padding: 10px 0 8px;
-		border-bottom: 2px solid transparent;
+		align-items: center;
+		gap: 6px;
+		min-height: 40px;
+		padding: 0 14px;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		background: var(--surface);
 		font-size: 0.9375rem;
 		font-weight: 500;
 		white-space: nowrap;
-		color: var(--ink-soft);
+		color: var(--ink);
 		text-decoration: none;
 	}
 
 	a:hover {
-		color: var(--ink);
+		border-color: var(--ink-soft);
 	}
 
 	a[aria-current='page'] {
-		border-bottom-color: var(--beni);
-		font-weight: 700;
-		color: var(--ink);
+		border-color: var(--ink);
+		background: var(--ink);
+		color: var(--surface);
 	}
 
 	.count {
-		font-size: 0.75rem;
-		font-weight: 500;
+		font-size: 0.8125rem;
 		font-variant-numeric: tabular-nums;
 		color: var(--ink-soft);
 	}
 
+	a[aria-current='page'] .count {
+		color: var(--blush-strong);
+	}
+
 	@media (min-width: 640px) {
-		.tabs {
+		.chips {
 			flex-wrap: wrap;
-			gap: 0 26px;
 			margin: 0;
 			padding: 0;
 			overflow: visible;

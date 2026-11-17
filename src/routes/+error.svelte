@@ -10,7 +10,7 @@
 	<title>{notFound ? 'Página não encontrada' : 'Algo deu errado'} · {STORE_NAME}</title>
 </svelte:head>
 
-<div class="wrap page">
+<div class="wrap page-head">
 	<p class="status">Erro {page.status}</p>
 	{#if notFound}
 		<h1>Não encontrei essa página</h1>
@@ -29,10 +29,6 @@
 </div>
 
 <style>
-	.page {
-		padding-top: 56px;
-	}
-
 	.status {
 		margin-bottom: 8px;
 		font-size: 0.9375rem;

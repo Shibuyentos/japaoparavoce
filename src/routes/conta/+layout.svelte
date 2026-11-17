@@ -8,8 +8,8 @@
 
 	// "Minha conta" é a raiz da área, então só fica marcada no endereço exato dela.
 	const links = [
-		{ href: resolve('/conta'), label: 'Minha conta', exact: true },
-		{ href: resolve('/conta/pedidos'), label: 'Meus pedidos', exact: false }
+		{ href: resolve('/conta/pedidos'), label: 'Meus pedidos', exact: false },
+		{ href: resolve('/conta'), label: 'Minha conta', exact: true }
 	];
 
 	function isCurrent(link: (typeof links)[number]): boolean {
@@ -54,14 +54,14 @@
 
 	nav {
 		display: flex;
-		gap: 16px;
+		gap: 20px;
 	}
 
 	nav a {
 		display: inline-flex;
 		align-items: center;
 		min-height: 48px;
-		border-bottom: 3px solid transparent;
+		border-bottom: 2px solid transparent;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		color: var(--ink-soft);
@@ -74,7 +74,7 @@
 
 	nav a[aria-current='page'] {
 		border-bottom-color: var(--beni);
-		font-weight: 700;
+		font-weight: 650;
 		color: var(--ink);
 	}
 
@@ -89,11 +89,12 @@
 		font-family: inherit;
 		font-size: 0.9375rem;
 		font-weight: 500;
-		color: var(--ink);
+		color: var(--ink-soft);
 		cursor: pointer;
 	}
 
 	button:hover {
+		color: var(--ink);
 		text-decoration: underline;
 	}
 
@@ -102,9 +103,9 @@
 		height: 16px;
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.account {
-			padding-top: 28px;
+			padding-top: 32px;
 		}
 	}
 </style>

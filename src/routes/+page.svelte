@@ -1,15 +1,14 @@
 <script lang="ts">
 	import CategoryTabs from '#lib/components/CategoryTabs.svelte';
-	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
 	import KitCard from '#lib/components/KitCard.svelte';
-	import ProductShelf from '#lib/components/ProductShelf.svelte';
-	import Forwarding from '#lib/components/home/Forwarding.svelte';
+	import ProductGrid from '#lib/components/ProductGrid.svelte';
+	import About from '#lib/components/home/About.svelte';
+	import Costs from '#lib/components/home/Costs.svelte';
 	import Hero from '#lib/components/home/Hero.svelte';
 	import HowItWorks from '#lib/components/home/HowItWorks.svelte';
-	import MoreCategories from '#lib/components/home/MoreCategories.svelte';
-	import Notices from '#lib/components/home/Notices.svelte';
+	import MoreServices from '#lib/components/home/MoreServices.svelte';
 	import { resolve } from '$app/paths';
-	import { INSTAGRAM_HANDLE, INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
+	import { STORE_NAME } from '#lib/config.ts';
 	import { vitrineHref } from '#lib/links.ts';
 	import type { PageProps } from './$types';
 
@@ -21,158 +20,117 @@
 </script>
 
 <svelte:head>
-	<title>{STORE_NAME}</title>
+	<title>{STORE_NAME}: skincare do Japão sob encomenda</title>
 	<meta
 		name="description"
-		content="Do Japão Pra Você: compro produtos novos nas lojas do Japão e envio pra você com rastreio. Skincare japonês e coreano direto das lojas do Japão, sob encomenda."
+		content="Compro skincare japonês e coreano nas lojas do Japão, pelo preço da etiqueta, e envio pra você com rastreio. Você vê o total com frete antes de pagar."
 	/>
 </svelte:head>
 
-<Hero />
+<Hero {productCount} />
 
-<section id="vitrine" class="showcase">
-	<div class="wrap wrap-wide">
+<section class="showcase" aria-labelledby="vitrine-titulo">
+	<div class="wrap">
 		<div class="heading">
-			<h2>Novidades da vitrine</h2>
-			<p class="lead">
-				Skincare japonês e coreano com o <strong>preço da etiqueta da loja</strong>, já com imposto.
-				Não é estoque: cada item é comprado sob encomenda, especialmente pra você.
-			</p>
+			<h2 id="vitrine-titulo">Novidades da vitrine</h2>
+			<a class="text-link" href={resolve('/vitrine')}>Ver tudo na vitrine</a>
 		</div>
 
 		<CategoryTabs categories={data.categories} hrefFor={(slug) => vitrineHref(slug)} />
 
-		<div class="shelf">
-			<ProductShelf products={data.highlightedProducts} />
+		<div class="grid">
+			<ProductGrid products={data.highlightedProducts} eagerCount={2} />
 		</div>
-
-		<a class="btn btn-primary" href={resolve('/vitrine')}>Ver os {productCount} produtos</a>
 	</div>
 </section>
 
-<HowItWorks fees={data.fees} shippingTable={data.shippingTable} />
+<Costs fees={data.fees} mainRegion={data.mainRegion} />
+
+<HowItWorks />
 
 {#if data.kits.length > 0}
-	<section id="kits" class="kits">
-		<div class="wrap wrap-wide">
-			<h2>Kits de skincare para iniciantes</h2>
+	<section id="kits" class="kits" aria-labelledby="kits-titulo">
+		<div class="wrap">
+			<h2 id="kits-titulo">Rotinas prontas para começar</h2>
 			<p class="lead">
-				Não sabe por onde começar? Montei {data.kits.length} rotinas prontas, uma para cada tipo de pele.
-				É só seguir as etapas na ordem, todo dia.
+				Montei {data.kits.length} kits de skincare, um para cada tipo de pele. É só seguir os passos na
+				ordem, todo dia.
 			</p>
-			<div class="kit-list">
+			<ul class="kit-list">
 				{#each data.kits as kit (kit.slug)}
-					<KitCard {kit} />
+					<li><KitCard {kit} /></li>
 				{/each}
-			</div>
+			</ul>
 		</div>
 	</section>
 {/if}
 
-<Forwarding />
-<MoreCategories />
-<Notices />
+<About />
 
-<section class="closing">
-	<div class="wrap wrap-wide">
-		<h2>Quer algo que não está na vitrine?</h2>
-		<p class="lead">
-			Me chama no Instagram com o link ou a foto do que você quer. Eu monto seu orçamento completo,
-			sem compromisso.
-		</p>
-		<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-			<InstagramIcon />Chamar {INSTAGRAM_HANDLE}
-		</a>
-	</div>
-</section>
+<MoreServices />
 
 <style>
-	.showcase,
-	.kits {
-		padding-top: 72px;
+	.showcase {
+		margin-top: 48px;
 	}
 
 	.heading {
-		margin-bottom: 12px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 4px 16px;
+		margin-bottom: 16px;
 	}
 
-	.shelf {
-		margin: 20px 0 32px;
-	}
-
-	.showcase .btn {
-		width: 100%;
-	}
-
-	/* A vitrine da página inicial mostra só fileiras completas: o que sobraria numa fileira
-	   pela metade fica escondido conforme o número de colunas. */
-	.shelf :global(li:nth-child(n + 9)) {
-		display: none;
-	}
-
-	.kit-list {
-		display: grid;
-		gap: 48px;
-		margin-top: 28px;
-	}
-
-	.closing {
-		margin-top: 72px;
-		padding: 48px 0;
-		background: var(--blush);
-	}
-
-	.closing .btn {
+	.grid {
 		margin-top: 22px;
 	}
 
-	/* O rodapé encosta na faixa de fechamento, sem o espaço que separa as outras seções. */
-	:global(main:has(.closing) + footer) {
-		margin-top: 0;
+	/* A vitrine da página inicial mostra só fileiras completas: com duas e três colunas, seis
+	   produtos; com quatro, oito. */
+	.grid :global(li:nth-child(n + 7)) {
+		display: none;
 	}
 
-	@media (min-width: 640px) {
-		.showcase .btn {
-			width: auto;
+	.kits {
+		margin-top: var(--section-gap);
+	}
+
+	/* No celular os kits passam de lado; a ponta do próximo à direita mostra que há mais. */
+	.kit-list {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: min(86%, 360px);
+		gap: 12px;
+		margin: 24px calc(var(--gutter) * -1) 0;
+		padding: 0 var(--gutter) 8px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--gutter);
+		list-style: none;
+	}
+
+	.kit-list li {
+		scroll-snap-align: start;
+	}
+
+	@media (min-width: 960px) {
+		.showcase {
+			margin-top: 80px;
 		}
 
-		.shelf :global(li:nth-child(9)) {
+		.grid :global(li:nth-child(n + 7)) {
 			display: flex;
-		}
-	}
-
-	@media (min-width: 900px) {
-		.showcase,
-		.kits {
-			padding-top: 112px;
-		}
-
-		.heading {
-			margin-bottom: 20px;
-		}
-
-		.shelf {
-			margin: 28px 0 40px;
-		}
-
-		.shelf :global(li:nth-child(9)) {
-			display: none;
 		}
 
 		.kit-list {
+			grid-auto-flow: row;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 56px;
-			margin-top: 40px;
-		}
-
-		.closing {
-			margin-top: 112px;
-			padding: 80px 0;
-		}
-	}
-	@media (min-width: 1200px) {
-		.shelf :global(li:nth-child(n + 9)) {
-			display: flex;
+			gap: 24px;
+			margin: 40px 0 0;
+			padding: 0;
+			overflow: visible;
 		}
 	}
 </style>

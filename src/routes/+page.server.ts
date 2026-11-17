@@ -10,11 +10,11 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async () => {
 	const [categories, highlightedProducts, kits, fees, shippingTable] = await Promise.all([
 		listCategories(),
-		listHighlightedProducts(10),
+		listHighlightedProducts(8),
 		listKits(),
 		getStoreFees(),
 		listShippingTable()
 	]);
 
-	return { categories, highlightedProducts, kits, fees, shippingTable };
+	return { categories, highlightedProducts, kits, fees, mainRegion: shippingTable[0] };
 };

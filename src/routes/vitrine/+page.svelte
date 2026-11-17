@@ -1,9 +1,10 @@
 <script lang="ts">
+	import Info from '@lucide/svelte/icons/info';
 	import Search from '@lucide/svelte/icons/search';
 	import { goto } from '$app/navigation';
 	import CategoryTabs from '#lib/components/CategoryTabs.svelte';
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
-	import ProductShelf from '#lib/components/ProductShelf.svelte';
+	import ProductGrid from '#lib/components/ProductGrid.svelte';
 	import { INSTAGRAM_URL, STORE_NAME } from '#lib/config.ts';
 	import { countLabel } from '#lib/format.ts';
 	import { vitrineHref } from '#lib/links.ts';
@@ -36,34 +37,24 @@
 	<title>Vitrine · {STORE_NAME}</title>
 	<meta
 		name="description"
-		content="Skincare, cabelo, protetor solar e maquiagem japonesa e coreana, com preço real da loja no Japão. Sob encomenda, com envio rastreado."
+		content="Skincare, cabelo, protetor solar e maquiagem japonesa e coreana, com o preço da etiqueta da loja no Japão. Sob encomenda, com envio rastreado."
 	/>
 </svelte:head>
 
-<div class="wrap wrap-wide">
-	<header class="intro">
+<div class="wrap">
+	<header class="page-head">
 		<h1>Vitrine</h1>
 		<p class="lead">
-			Skincare japonês e coreano direto das lojas do Japão. Nada é estoque: cada item é
-			<strong>sob encomenda</strong>, comprado na loja especialmente pra você.
+			Skincare japonês e coreano das lojas do Japão, sempre sob encomenda. O preço é o da etiqueta
+			da loja, já com imposto.
 		</p>
-
-		<!-- A legenda explica uma vez o que cada etiqueta quer dizer, em vez de repetir em cada produto. -->
-		<dl class="legend">
-			<div>
-				<span class="sample store" aria-hidden="true">¥</span>
-				<dt>Etiqueta cheia:</dt>
-				<dd>preço da etiqueta da loja, já com imposto.</dd>
-			</div>
-			<div>
-				<span class="sample reference" aria-hidden="true">¥</span>
-				<dt>Etiqueta tracejada:</dt>
-				<dd>
-					preço de referência das lojas online do Japão. O valor exato é confirmado no orçamento,
-					antes do pagamento.
-				</dd>
-			</div>
-		</dl>
+		<p class="legend">
+			<Info aria-hidden="true" />
+			<span>
+				<strong>Preço de referência</strong> é o valor das lojas online do Japão. Nesses produtos, o valor
+				exato é confirmado no orçamento, antes do pagamento.
+			</span>
+		</p>
 	</header>
 
 	<div class="toolbar">
@@ -106,81 +97,48 @@
 
 	{#if data.products.length > 0}
 		<h2 class="visually-hidden">Produtos</h2>
-		<ProductShelf products={data.products} eagerCount={4} />
+		<ProductGrid products={data.products} eagerCount={4} />
 	{:else}
 		<div class="empty">
-			<h2>Não achei esse produto na vitrine</h2>
+			<h2>Não encontrei esse produto na vitrine</h2>
 			<p>
-				Manda a foto ou o link no direct que eu procuro pra você nas lojas do Japão. Ou confira se o
-				nome está certo e tente outra palavra.
+				Confira se o nome está certo ou tente outra palavra. Se mesmo assim não aparecer, me mande a
+				foto ou o link no direct: eu procuro nas lojas do Japão.
 			</p>
 			<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-				<InstagramIcon />Chamar no direct
+				<InstagramIcon />Procurar pelo direct
 			</a>
 		</div>
 	{/if}
 </div>
 
 <style>
-	.intro {
-		padding: 28px 0 20px;
-	}
-
 	.legend {
-		display: grid;
-		gap: 8px;
-		max-width: 720px;
-		margin: 18px 0 0;
+		display: flex;
+		gap: 10px;
+		max-width: 62ch;
+		margin-top: 16px;
 		font-size: 0.875rem;
-	}
-
-	/* Amostra da etiqueta à esquerda; nome e explicação seguem na mesma frase. */
-	.legend div {
-		position: relative;
-		padding-left: 36px;
 		color: var(--ink-soft);
 	}
 
-	.legend dt {
-		display: inline;
-		font-weight: 700;
+	.legend :global(svg) {
+		flex: none;
+		width: 18px;
+		height: 18px;
+		margin-top: 1px;
+		color: var(--beni);
+	}
+
+	.legend strong {
+		font-weight: 600;
 		color: var(--ink);
 	}
 
-	.legend dd {
-		display: inline;
-		margin: 0;
-	}
-
-	.sample {
-		position: absolute;
-		top: 1px;
-		left: 0;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 26px;
-		height: 22px;
-		border: 1.5px solid var(--ink);
-		background: var(--white);
-		font-family: var(--font-display);
-		font-size: 0.8125rem;
-		line-height: 1;
-	}
-
-	.sample.reference {
-		border-style: dashed;
-	}
-
-	/* A barra acompanha a rolagem logo abaixo do cabeçalho, de uma borda à outra da tela. */
 	.toolbar {
-		position: sticky;
-		top: var(--header-height);
-		z-index: 5;
-		margin: 0 calc(var(--gutter) * -1);
-		padding: 10px var(--gutter) 0;
-		border-bottom: 1px solid var(--line);
-		background: var(--paper);
+		display: grid;
+		gap: 12px;
+		margin-top: 24px;
 	}
 
 	.search {
@@ -190,7 +148,7 @@
 	.search :global(svg) {
 		position: absolute;
 		top: 50%;
-		left: 12px;
+		left: 14px;
 		width: 19px;
 		height: 19px;
 		color: var(--ink-soft);
@@ -199,19 +157,18 @@
 	}
 
 	.search input {
-		min-height: 44px;
-		padding-left: 40px;
+		padding-left: 44px;
 	}
 
 	.result-count {
-		margin: 14px 0 6px;
+		margin: 20px 0 14px;
 		font-size: 0.875rem;
 		color: var(--ink-soft);
 	}
 
 	.empty {
 		max-width: 560px;
-		padding: 32px 0 16px;
+		padding: 28px 0 8px;
 	}
 
 	.empty h2 {
@@ -219,31 +176,27 @@
 	}
 
 	.empty p {
-		margin: 10px 0 20px;
+		margin: 10px 0 22px;
 		color: var(--ink-soft);
 	}
 
-	@media (min-width: 640px) {
-		.intro {
-			padding: 44px 0 28px;
-		}
-
+	/* Nas telas largas a busca e as categorias ficam numa barra que acompanha a rolagem. */
+	@media (min-width: 960px) {
 		.toolbar {
-			display: flex;
-			flex-direction: row-reverse;
+			position: sticky;
+			top: var(--header-height);
+			z-index: 5;
+			grid-template-columns: 300px minmax(0, 1fr);
 			align-items: center;
-			justify-content: space-between;
-			gap: 24px;
-			margin: 0;
-			padding: 10px 0;
-		}
-
-		.search {
-			flex: 0 1 320px;
+			gap: 20px;
+			margin-top: 32px;
+			padding: 12px 0;
+			border-bottom: 1px solid var(--line);
+			background: var(--paper);
 		}
 
 		.result-count {
-			margin: 18px 0 10px;
+			margin: 24px 0 18px;
 		}
 	}
 </style>

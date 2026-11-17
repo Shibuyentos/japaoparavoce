@@ -7,7 +7,7 @@
 	import ProductThumb from '#lib/components/ProductThumb.svelte';
 	import TextField from '#lib/components/TextField.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
-	import { formatJpy, weightBandLabel } from '#lib/format.ts';
+	import { countLabel, formatJpy, weightBandLabel } from '#lib/format.ts';
 	import { loginHref, productHref, registerHref } from '#lib/links.ts';
 	import type { PageProps, SubmitFunction } from './$types';
 
@@ -32,15 +32,29 @@
 			sending = false;
 		};
 	};
+
+	const nextSteps = [
+		'Você envia o pedido. Nada é cobrado agora.',
+		'Eu confiro preços e frete e te mando o orçamento final no direct do Instagram.',
+		'Você paga e eu compro na loja. Depois, o rastreio aparece no seu pedido.'
+	];
 </script>
 
 <svelte:head>
-	<title>Meu pedido · {STORE_NAME}</title>
+	<title>Carrinho · {STORE_NAME}</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="wrap page">
-	<h1>Meu pedido</h1>
+<div class="wrap">
+	<header class="page-head">
+		<h1>Carrinho</h1>
+		{#if quote.lines.length > 0}
+			<p class="lead">
+				{countLabel(quote.totals.itemCount, 'item', 'itens')}. Confira os produtos e o destino da
+				entrega: o total já inclui fretes e taxa.
+			</p>
+		{/if}
+	</header>
 
 	{#if form?.message}
 		<p class="notice" role="alert">{form.message}</p>
@@ -49,8 +63,8 @@
 	{#if quote.lines.length === 0}
 		<div class="empty">
 			<p>
-				Seu pedido ainda está vazio. Escolha os produtos na vitrine e eles aparecem aqui, com o
-				frete e as taxas já somados.
+				Seu carrinho está vazio. Escolha os produtos na vitrine e eles aparecem aqui, com o frete e
+				a taxa já somados.
 			</p>
 			<a class="btn btn-primary" href={resolve('/vitrine')}>Ver a vitrine</a>
 			<p class="track">
@@ -58,23 +72,20 @@
 			</p>
 		</div>
 	{:else}
-		<p class="lead">
-			Confira os itens, escolha o destino e envie o pedido. Nada é cobrado aqui: o pagamento é
-			combinado depois, no direct do Instagram.
-		</p>
-
 		<div class="columns">
 			<section aria-labelledby="itens-titulo">
-				<h2 id="itens-titulo">Itens</h2>
+				<h2 id="itens-titulo" class="visually-hidden">Produtos</h2>
 				<ul class="lines">
 					{#each quote.lines as line (line.slug)}
 						<li>
-							<ProductThumb image={line.image} name={line.name} />
+							<ProductThumb image={line.image} name={line.name} size={76} />
 
 							<div class="info">
 								<a href={productHref(line.slug)}>{line.name}</a>
 								<span class="meta">
-									{formatJpy(line.unitPriceJpy)} cada, frete {weightBandLabel(line.weightGrams)}
+									<span class="price">{formatJpy(line.unitPriceJpy)}</span> cada, frete {weightBandLabel(
+										line.weightGrams
+									)}
 								</span>
 								{#if line.priceType === 'reference'}
 									<span class="meta">Preço de referência, confirmado no orçamento.</span>
@@ -110,16 +121,18 @@
 								</button>
 							</form>
 
-							<strong class="line-total">{formatJpy(line.unitPriceJpy * line.quantity)}</strong>
+							<strong class="line-total price"
+								>{formatJpy(line.unitPriceJpy * line.quantity)}</strong
+							>
 						</li>
 					{/each}
 				</ul>
-				<a class="more" href={resolve('/vitrine')}>Escolher mais produtos</a>
+				<a class="text-link" href={resolve('/vitrine')}>Escolher mais produtos</a>
 			</section>
 
 			<div class="side">
 				<section aria-labelledby="valores-titulo">
-					<h2 id="valores-titulo">Entrega e valores</h2>
+					<h2 id="valores-titulo">Resumo</h2>
 
 					<form class="region" method="POST" action="?/region" use:enhance={keepSelection}>
 						<label for="region">Entrega para</label>
@@ -139,8 +152,8 @@
 					<OrderSummary charges={quote.charges} totals={quote.totals} />
 
 					<p class="note">
-						<strong>É uma estimativa:</strong> o frete é confirmado depois de pesar a sua caixa, sempre
-						antes da postagem. Imposto de alfândega não incluído.
+						<strong>É uma estimativa.</strong> O frete é confirmado depois de pesar a caixa, sempre antes
+						da postagem; se mudar, eu aviso e só sigo com a sua aprovação. Imposto de alfândega não incluído.
 					</p>
 					{#if hasReferencePrice}
 						<p class="note">
@@ -150,11 +163,16 @@
 					{/if}
 				</section>
 
-				<section aria-labelledby="dados-titulo">
-					<h2 id="dados-titulo">Seus dados</h2>
+				<section id="enviar" class="send" aria-labelledby="dados-titulo">
+					<h2 id="dados-titulo">Enviar o pedido</h2>
+					<ol class="next">
+						{#each nextSteps as step, index (step)}
+							<li><span class="number" aria-hidden="true">{index + 1}</span>{step}</li>
+						{/each}
+					</ol>
 
 					{#if data.user}
-						<form class="form checkout" method="POST" action="?/checkout" use:enhance={sendOrder}>
+						<form class="form" method="POST" action="?/checkout" use:enhance={sendOrder}>
 							<TextField
 								name="name"
 								label="Seu nome"
@@ -174,7 +192,7 @@
 								maxlength={31}
 								required
 								value={form?.values?.instagram ?? ''}
-								hint="É por ele que eu te encontro no direct."
+								hint="É por ele que eu te mando o orçamento no direct."
 								error={form?.errors?.instagram}
 							/>
 
@@ -198,13 +216,11 @@
 							<button class="btn btn-primary" disabled={sending}>
 								{sending ? 'Enviando…' : 'Enviar pedido'}
 							</button>
-							<p class="note">
-								Depois de enviar, você recebe um código e o resumo do pedido pra mandar no direct.
-							</p>
 						</form>
 					{:else}
 						<p class="note">
-							Entre na sua conta para enviar o pedido. Os produtos continuam aqui enquanto isso.
+							Para enviar, entre na sua conta ou crie uma: é nela que você acompanha o pedido. Os
+							produtos continuam no carrinho enquanto isso.
 						</p>
 						<div class="login">
 							<a class="btn btn-primary" href={loginHref(resolve('/carrinho'))}>Entrar</a>
@@ -218,16 +234,12 @@
 </div>
 
 <style>
-	.page {
-		padding-top: 32px;
-	}
-
-	.page > .notice {
-		margin-top: 16px;
+	.wrap > .notice {
+		margin-top: 20px;
 	}
 
 	h2 {
-		font-size: 1.375rem;
+		font-size: 1.25rem;
 	}
 
 	.empty {
@@ -250,30 +262,32 @@
 
 	.columns {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		gap: 40px;
-		margin-top: 28px;
+		margin-top: 24px;
 	}
 
 	.lines {
-		margin: 12px 0 0;
+		margin: 0;
 		padding: 0;
-		border-bottom: 1px solid var(--line);
+		border-top: 1px solid var(--line);
 		list-style: none;
 	}
 
 	.lines li {
 		display: grid;
-		grid-template-columns: 64px 1fr auto;
-		gap: 10px 14px;
+		grid-template-columns: 76px minmax(0, 1fr) auto;
+		gap: 12px 14px;
 		align-items: center;
 		padding: 16px 0;
-		border-top: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
 	}
 
 	.info {
 		grid-column: 2 / -1;
 		display: flex;
 		flex-direction: column;
+		gap: 2px;
 		min-width: 0;
 	}
 
@@ -293,6 +307,11 @@
 		color: var(--ink-soft);
 	}
 
+	.meta .price {
+		font-size: 0.875rem;
+		color: var(--ink);
+	}
+
 	.controls {
 		grid-column: 1 / 3;
 		display: flex;
@@ -303,14 +322,14 @@
 	.quantity {
 		display: inline-flex;
 		align-items: center;
-		border: 1.5px solid var(--ink);
-		border-radius: var(--radius);
-		background: var(--white);
+		border: 1.5px solid var(--line-strong);
+		border-radius: 10px;
+		background: var(--surface);
 	}
 
 	.quantity > span {
 		min-width: 28px;
-		font-weight: 700;
+		font-weight: 650;
 		font-variant-numeric: tabular-nums;
 		text-align: center;
 	}
@@ -322,9 +341,14 @@
 		width: 44px;
 		height: 42px;
 		border: none;
+		border-radius: 8px;
 		background: none;
 		color: var(--ink);
 		cursor: pointer;
+	}
+
+	.quantity button:hover:not(:disabled) {
+		background: var(--blush);
 	}
 
 	.quantity button:disabled {
@@ -346,7 +370,7 @@
 		font-size: 0.875rem;
 		color: var(--ink-soft);
 		text-decoration: underline;
-		text-underline-offset: 0.18em;
+		text-underline-offset: 0.2em;
 		cursor: pointer;
 	}
 
@@ -355,54 +379,80 @@
 	}
 
 	.line-total {
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
+		font-size: 1.0625rem;
 	}
 
-	.more {
-		display: inline-flex;
-		align-items: center;
-		min-height: 44px;
+	.text-link {
 		margin-top: 8px;
-		font-weight: 700;
 	}
 
 	.side {
 		display: grid;
-		gap: 40px;
+		gap: 36px;
 	}
 
 	.region {
 		display: grid;
 		gap: 6px;
-		margin: 12px 0 16px;
+		margin: 14px 0 18px;
 	}
 
 	.note {
-		margin-top: 12px;
+		margin-top: 14px;
 		font-size: 0.875rem;
 		color: var(--ink-soft);
 	}
 
 	.note strong {
+		font-weight: 600;
 		color: var(--ink);
 	}
 
-	.checkout {
-		margin-top: 12px;
+	.send {
+		padding: 22px 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-l);
+		background: var(--surface);
 	}
 
-	.checkout label {
+	.next {
+		display: grid;
+		gap: 10px;
+		margin: 14px 0 22px;
+		padding: 0 0 18px;
+		border-bottom: 1px solid var(--line);
+		list-style: none;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
+	.next li {
+		display: grid;
+		grid-template-columns: 24px 1fr;
+		gap: 10px;
+	}
+
+	.number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: var(--blush);
+		font-size: 0.8125rem;
+		font-stretch: var(--narrow);
+		font-weight: 700;
+		color: var(--beni);
+	}
+
+	.form label {
 		margin-bottom: 6px;
 	}
 
 	.optional {
 		font-weight: 400;
 		color: var(--ink-soft);
-	}
-
-	.checkout .note {
-		margin-top: -4px;
 	}
 
 	.login {
@@ -412,16 +462,29 @@
 		margin-top: 16px;
 	}
 
-	@media (min-width: 900px) {
-		.page {
-			padding-top: 48px;
+	@media (min-width: 960px) {
+		.columns {
+			grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+			gap: 64px;
+			align-items: start;
+			margin-top: 32px;
 		}
 
-		.columns {
-			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-			gap: 72px;
-			align-items: start;
-			margin-top: 36px;
+		.lines li {
+			grid-template-columns: 76px minmax(0, 1fr) auto auto;
+			gap: 20px;
+		}
+
+		.info {
+			grid-column: auto;
+		}
+
+		.controls {
+			grid-column: auto;
+		}
+
+		.send {
+			padding: 28px;
 		}
 	}
 </style>

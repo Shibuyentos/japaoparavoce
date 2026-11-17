@@ -2,10 +2,10 @@
 	const notices = [
 		{
 			title: 'Pagamento sempre antes da compra',
-			text: 'O pagamento é combinado na conversa, no direct do Instagram, onde confirmamos o valor final. Eu só vou à loja depois do pagamento confirmado: é assim que consigo comprar sem adiantar do meu bolso.'
+			text: 'O pagamento é combinado no direct do Instagram, onde confirmo o valor final. Eu só vou à loja depois do pagamento confirmado: é assim que consigo comprar sem adiantar do meu bolso.'
 		},
 		{
-			title: 'Imposto de alfândega é do cliente',
+			title: 'Imposto de alfândega é da cliente',
 			text: 'Se o seu país cobrar imposto na chegada, esse valor é por sua conta. Ele não está incluído no total.'
 		},
 		{
@@ -22,7 +22,7 @@
 		},
 		{
 			title: 'Encomenda não tem troca por arrependimento',
-			text: 'Como o produto é comprado só pra você, não dá pra trocar se você mudar de ideia. Se chegar errado ou danificado, a gente resolve: a política é combinada na conversa.'
+			text: 'Como o produto é comprado só pra você, não dá pra trocar se você mudar de ideia. Se chegar errado ou danificado, a gente resolve na conversa.'
 		},
 		{
 			title: 'A tabela de frete pode mudar',
@@ -30,67 +30,56 @@
 		},
 		{
 			title: 'Guarde o seu código de rastreio',
-			text: 'É com ele que você acompanha sua caixa até a entrega. Guarde a mensagem onde eu te mando o código.'
+			text: 'É com ele que você acompanha a caixa até a entrega. Ele também fica no seu pedido, em "Meus pedidos".'
 		}
 	];
 </script>
 
-<section id="avisos">
-	<div class="wrap wrap-wide">
-		<h2>Leia antes de pedir</h2>
-
-		<dl>
-			{#each notices as notice (notice.title)}
-				<div>
-					<dt>{notice.title}</dt>
-					<dd>{notice.text}</dd>
-				</div>
-			{/each}
-		</dl>
-	</div>
+<section id="avisos" aria-labelledby="avisos-titulo">
+	<h2 id="avisos-titulo">Antes de pedir</h2>
+	<dl>
+		{#each notices as notice (notice.title)}
+			<div>
+				<dt>{notice.title}</dt>
+				<dd>{notice.text}</dd>
+			</div>
+		{/each}
+	</dl>
 </section>
 
 <style>
-	section {
-		padding-top: 72px;
-	}
-
 	dl {
 		margin: 20px 0 0;
-		border-bottom: 1px solid var(--line);
-	}
-
-	dl div {
-		padding: 14px 0;
 		border-top: 1px solid var(--line);
 	}
 
+	dl div {
+		padding: 16px 0;
+		border-bottom: 1px solid var(--line);
+	}
+
 	dt {
-		font-weight: 700;
+		font-weight: 650;
 	}
 
 	dd {
 		max-width: 62ch;
-		margin: 2px 0 0;
+		margin: 4px 0 0;
 		font-size: 0.9375rem;
 		color: var(--ink-soft);
+		text-wrap: pretty;
 	}
 
 	@media (min-width: 900px) {
-		section {
-			padding-top: 112px;
-		}
-
 		dl {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			column-gap: 72px;
+			column-gap: 56px;
 			margin-top: 32px;
-			border-bottom: none;
 		}
 
 		dl div {
-			padding: 18px 0;
+			padding: 20px 0;
 		}
 	}
 </style>

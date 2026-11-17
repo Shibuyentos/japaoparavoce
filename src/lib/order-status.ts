@@ -31,7 +31,7 @@ export const ORDER_STEPS: OrderStep[] = [
 	{
 		status: 'shipped',
 		title: 'Caixa postada',
-		text: 'Embalo, posto no correio e mando o código de rastreio no direct.'
+		text: 'Embalo, posto pelo EMS e o código de rastreio aparece aqui no pedido.'
 	}
 ];
 
@@ -47,11 +47,11 @@ export const ORDER_STATUS_MESSAGES: Record<OrderStatus, { title: string; text: s
 	},
 	paid: {
 		title: 'Pagamento confirmado',
-		text: 'Agora é comigo: vou até a loja, compro seus produtos, embalo e posto no correio.'
+		text: 'Agora é comigo: vou até a loja, compro seus produtos, embalo e posto no correio. O código de rastreio aparece aqui quando a caixa for postada.'
 	},
 	shipped: {
 		title: 'Caixa postada',
-		text: 'Sua caixa já está no correio. O código de rastreio está na nossa conversa no direct.'
+		text: 'Sua caixa já está no correio. Acompanhe a entrega pelo código de rastreio.'
 	},
 	cancelled: {
 		title: 'Pedido cancelado',

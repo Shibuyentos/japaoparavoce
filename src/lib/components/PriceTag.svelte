@@ -12,9 +12,8 @@
 	let { priceJpy, priceBrlCents, priceType, size = 'small' }: Props = $props();
 </script>
 
-<!-- Etiqueta de borda cheia: preço conferido na loja. Tracejada: preço de referência. -->
-<p class="tag {priceType} {size}">
-	<span class="jpy">{formatJpy(priceJpy)}</span>
+<p class="tag {size}">
+	<span class="jpy price">{formatJpy(priceJpy)}</span>
 	<span class="brl">
 		<span aria-hidden="true">≈</span><span class="visually-hidden">aproximadamente</span>
 		{formatBrl(priceBrlCents)}
@@ -26,52 +25,41 @@
 
 <style>
 	.tag {
-		display: inline-flex;
-		flex-direction: column;
-		padding: 6px 10px 7px;
-		border: 1.5px solid var(--ink);
-		border-top: none;
-		background: var(--white);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 8px;
 		line-height: 1.2;
 	}
 
-	.reference {
-		border-style: dashed;
-	}
-
 	.jpy {
-		font-family: var(--font-display);
-		font-size: 1.25rem;
-		font-weight: 700;
-		white-space: nowrap;
+		font-size: 1.3125rem;
+		color: var(--ink);
 	}
 
 	.brl {
-		font-size: 0.8125rem;
+		font-size: 0.875rem;
 		font-weight: 500;
-		color: var(--ink-soft);
 		white-space: nowrap;
+		color: var(--ink-soft);
 	}
 
 	.kind {
+		flex-basis: 100%;
 		margin-top: 2px;
-		font-size: 0.75rem;
+		font-size: 0.8125rem;
 		color: var(--ink-soft);
 	}
 
-	.large {
-		padding: 10px 16px 12px;
-	}
-
 	.large .jpy {
-		font-size: 2rem;
+		font-size: clamp(2.25rem, 9vw, 2.75rem);
 	}
 
 	.large .brl {
-		font-size: 1rem;
+		font-size: 1.0625rem;
 	}
 
 	.large .kind {
-		font-size: 0.875rem;
+		font-size: 0.9375rem;
 	}
 </style>

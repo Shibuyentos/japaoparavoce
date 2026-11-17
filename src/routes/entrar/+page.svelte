@@ -16,7 +16,7 @@
 	<title>Entrar · {STORE_NAME}</title>
 </svelte:head>
 
-<AuthCard title="Entrar">
+<AuthCard title="Entrar" subtitle="Para enviar o carrinho e acompanhar os seus pedidos.">
 	<form class="form" method="POST" use:enhance>
 		{#if form?.message}
 			<p class="notice" role="alert">{form.message}</p>

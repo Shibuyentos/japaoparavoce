@@ -7,11 +7,11 @@
 		kind: 'product' | 'kit';
 		slug: string;
 		label?: string;
-		// Na prateleira o botão é só o "+": o nome do produto entra no texto lido pelo leitor de tela.
-		iconOnlyFor?: string;
+		// Na grade o botão é menor e diz só "Adicionar": o nome do produto vai para o leitor de tela.
+		compactFor?: string;
 	};
 
-	let { kind, slug, label = 'Adicionar ao pedido', iconOnlyFor }: Props = $props();
+	let { kind, slug, label = 'Adicionar ao carrinho', compactFor }: Props = $props();
 
 	const FEEDBACK_MS = 1800;
 
@@ -44,16 +44,25 @@
 	use:enhance={submit}
 >
 	<input type="hidden" name="slug" value={slug} />
-	{#if iconOnlyFor}
-		<button class="icon" class:added aria-label="Adicionar {iconOnlyFor} ao pedido">
-			{#if added}<Check />{:else}<Plus />{/if}
+	{#if compactFor}
+		<button class="compact" class:added>
+			{#if added}
+				<Check aria-hidden="true" />No carrinho
+			{:else}
+				<Plus aria-hidden="true" />Adicionar
+			{/if}
+			<span class="visually-hidden">{compactFor} ao carrinho</span>
 		</button>
 	{:else}
-		<button class="btn btn-primary">
-			{#if added}<Check />Adicionado{:else}<Plus />{label}{/if}
+		<button class="btn btn-primary" class:added>
+			{#if added}
+				<Check aria-hidden="true" />Adicionado ao carrinho
+			{:else}
+				<Plus aria-hidden="true" />{label}
+			{/if}
 		</button>
 	{/if}
-	<p class="visually-hidden" role="status">{added ? 'Adicionado ao pedido.' : ''}</p>
+	<p class="visually-hidden" role="status">{added ? 'Adicionado ao carrinho.' : ''}</p>
 	<p class="error" role="alert">{errorMessage}</p>
 </form>
 
@@ -62,45 +71,53 @@
 		width: 100%;
 	}
 
-	/* Na prateleira o botão pende da linha como a etiqueta de preço, e fica discreto para a foto
-	   do produto ser o que chama a atenção. */
-	.icon {
-		display: flex;
+	.btn.added {
+		background: var(--ok);
+	}
+
+	.compact {
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 46px;
-		height: 46px;
-		padding: 0;
-		border: 1.5px solid var(--ink);
-		border-top: none;
-		background: var(--white);
-		color: var(--beni);
+		gap: 6px;
+		width: 100%;
+		min-height: 44px;
+		padding: 0 10px;
+		border: 1.5px solid var(--line-strong);
+		border-radius: 10px;
+		background: var(--surface);
+		font-family: inherit;
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: var(--ink);
 		cursor: pointer;
 		transition:
 			background-color 0.15s ease,
+			border-color 0.15s ease,
 			color 0.15s ease;
 	}
 
-	.icon:hover {
-		background: var(--beni);
-		color: var(--white);
+	.compact:hover {
+		border-color: var(--beni);
+		color: var(--beni);
 	}
 
-	.icon.added {
-		background: var(--ok);
-		color: var(--white);
+	.compact.added {
+		border-color: var(--ok);
+		background: var(--ok-bg);
+		color: var(--ok);
 	}
 
-	.icon :global(svg) {
-		width: 22px;
-		height: 22px;
-		stroke-width: 2.5;
+	.compact :global(svg) {
+		width: 18px;
+		height: 18px;
+		stroke-width: 2.4;
 	}
 
 	.error {
 		margin-top: 6px;
 		font-size: 0.8125rem;
-		font-weight: 700;
+		font-weight: 600;
 		line-height: 1.35;
 		color: var(--danger);
 	}

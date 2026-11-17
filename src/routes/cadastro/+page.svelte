@@ -16,7 +16,10 @@
 	<title>Criar conta · {STORE_NAME}</title>
 </svelte:head>
 
-<AuthCard title="Criar conta">
+<AuthCard
+	title="Criar conta"
+	subtitle="Com a conta você envia pedidos e acompanha cada passo, do orçamento ao rastreio."
+>
 	<form class="form" method="POST" use:enhance>
 		<TextField
 			name="name"

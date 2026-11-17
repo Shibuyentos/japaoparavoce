@@ -9,15 +9,15 @@
 </script>
 
 <article class="kit">
-	<h3>{kit.name}</h3>
-	<p class="description">{kit.description}</p>
-
-	<!-- A rotina de relance: os produtos na ordem de uso, em pé na mesma prateleira. -->
-	<div class="shelf" aria-hidden="true">
+	<!-- A rotina de relance: os produtos na ordem de uso. -->
+	<div class="photos" aria-hidden="true">
 		{#each kit.steps as step (step.product.slug)}
 			<ProductImage image={step.product.image} name={step.product.name} decorative />
 		{/each}
 	</div>
+
+	<h3>{kit.name}</h3>
+	<p class="description">{kit.description}</p>
 
 	<ol>
 		{#each kit.steps as step, index (step.product.slug)}
@@ -32,26 +32,51 @@
 		{/each}
 	</ol>
 
-	<p class="total">
-		<span>Total do kit</span>
-		<strong>{formatJpy(kit.totalJpy)}</strong>
-	</p>
+	<div class="total">
+		<span>Os {kit.steps.length} produtos</span>
+		<span class="price">{formatJpy(kit.totalJpy)}</span>
+	</div>
 	<p class="note">
 		<span aria-hidden="true">≈</span><span class="visually-hidden">aproximadamente</span>
-		{formatBrl(kit.totalBrlCents)}. É a soma dos produtos; o frete é calculado no seu pedido.
+		{formatBrl(kit.totalBrlCents)}. O frete é calculado no carrinho, com o resto do pedido.
 	</p>
-	<AddToCartButton kind="kit" slug={kit.slug} label="Adicionar o kit ao pedido" />
+	<AddToCartButton kind="kit" slug={kit.slug} label="Adicionar o kit ao carrinho" />
 </article>
 
 <style>
+	/* O position: relative prende ao cartão os textos escondidos (visually-hidden), que são
+	   absolutos: sem ele, num carrossel eles escapariam da rolagem e alargariam a página. */
 	.kit {
+		position: relative;
 		display: flex;
 		flex-direction: column;
+		height: 100%;
+		padding: 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-l);
+		background: var(--surface);
+	}
+
+	.photos {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 4px;
+		margin: -4px -4px 14px;
+	}
+
+	.photos :global(.frame) {
+		padding: 4%;
+	}
+
+	.photos :global(.placeholder span) {
+		display: none;
 	}
 
 	h3 {
-		font-family: var(--font-display);
-		font-size: 1.375rem;
+		font-size: 1.25rem;
+		font-stretch: var(--wide);
+		font-weight: 640;
+		letter-spacing: -0.01em;
 	}
 
 	.description {
@@ -60,38 +85,25 @@
 		color: var(--ink-soft);
 	}
 
-	.shelf {
-		display: grid;
-		grid-template-columns: repeat(5, 1fr);
-		gap: 6px;
-		margin-top: 14px;
-		padding: 0 4px;
-		border-bottom: 2px solid var(--ink);
-	}
-
-	.shelf :global(.placeholder span) {
-		display: none;
-	}
-
 	ol {
 		flex: 1;
-		margin: 0;
+		margin: 14px 0 0;
 		padding: 0;
+		border-top: 1px solid var(--line);
 		list-style: none;
-		font-variant-numeric: tabular-nums;
 	}
 
 	li {
 		display: grid;
-		grid-template-columns: 20px 1fr auto;
+		grid-template-columns: 18px 1fr auto;
 		align-items: baseline;
-		gap: 8px;
-		padding: 7px 0;
+		gap: 10px;
+		padding: 9px 0;
 		border-bottom: 1px solid var(--line);
 	}
 
 	.number {
-		font-family: var(--font-display);
+		font-stretch: var(--narrow);
 		font-weight: 700;
 		color: var(--beni);
 	}
@@ -118,10 +130,8 @@
 		text-decoration: underline;
 	}
 
-	.price {
+	li .price {
 		font-size: 0.9375rem;
-		font-weight: 700;
-		white-space: nowrap;
 	}
 
 	.total {
@@ -129,17 +139,16 @@
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 12px;
-		margin-top: 12px;
-		font-weight: 700;
+		margin-top: 14px;
+		font-weight: 600;
 	}
 
-	.total strong {
-		font-family: var(--font-display);
-		font-size: 1.375rem;
+	.total .price {
+		font-size: 1.5rem;
 	}
 
 	.note {
-		margin: 2px 0 14px;
+		margin: 2px 0 16px;
 		font-size: 0.8125rem;
 		color: var(--ink-soft);
 	}
