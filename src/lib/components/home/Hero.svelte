@@ -1,203 +1,200 @@
 <script lang="ts">
-	import Check from '@lucide/svelte/icons/check';
-	import House from '@lucide/svelte/icons/house';
-	import ShoppingBag from '@lucide/svelte/icons/shopping-bag';
 	import { resolve } from '$app/paths';
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
-	import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from '#lib/config.ts';
+	import { INSTAGRAM_URL } from '#lib/config.ts';
 
-	const highlights = ['Só produtos novos', 'Compra sob encomenda', 'Envio com rastreio'];
+	const commitments = [
+		{
+			title: 'Só produto novo',
+			text: 'Comprado em loja do Japão. Nada de produto usado ou réplica.'
+		},
+		{
+			title: 'Sob encomenda',
+			text: 'Sem estoque: você vê o preço da loja e o orçamento completo antes de fechar.'
+		},
+		{
+			title: 'Envio com rastreio',
+			text: 'Embalo, posto no correio e te mando o código pra acompanhar a caixa.'
+		}
+	];
 </script>
 
-<header class="hero">
-	<div class="wrap grid">
-		<div>
-			<div class="brand">
-				<img
-					src="/images/site/logo.webp"
-					alt="Logo da Do Japão Pra Você: sacola de compras rosa com flor de sakura na frente de um portão torii vermelho"
-					width="84"
-					height="84"
-				/>
-				<div>
-					<div class="brand-name">Loja de encomendas do Japão</div>
-					<a class="brand-handle" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-						{INSTAGRAM_HANDLE}
+<section class="hero">
+	<div class="wrap wrap-wide">
+		<div class="top">
+			<div class="text">
+				<h1>Eu compro no Japão e envio pra você.</h1>
+				<p class="lead">
+					Moro no Japão. Você escolhe na vitrine ou me manda a foto do que quer; eu vou até a loja,
+					compro o produto novo e posto pro Brasil e pro mundo.
+				</p>
+				<div class="actions">
+					<a class="btn btn-primary" href={resolve('/vitrine')}>Ver a vitrine</a>
+					<a class="btn btn-quiet" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
+						<InstagramIcon />Pedir orçamento
 					</a>
 				</div>
 			</div>
 
-			<h1>Do Japão <span class="accent">Pra Você</span></h1>
-			<p class="tagline">Produtos do Japão, comprados pra você e enviados com rastreio 🇯🇵✈️</p>
-			<p class="sub">
-				Eu moro no Japão, compro o produto <strong>novo</strong> na loja pra você e envio pro Brasil e
-				pro mundo. Sem estoque, sem surpresa: você vê o preço da loja antes de fechar.
-			</p>
-
-			<ul class="highlights">
-				{#each highlights as highlight (highlight)}
-					<li><Check />{highlight}</li>
-				{/each}
-			</ul>
-
-			<div class="actions">
-				<a class="btn btn-primary" href={resolve('/vitrine')}><ShoppingBag />Ver a vitrine</a>
-				<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="external noopener">
-					<InstagramIcon />Pedir orçamento
-				</a>
-				<a class="btn btn-ghost" href="#redirecionamento"><House />Seu endereço no Japão</a>
-			</div>
+			<!-- A foto fica "em pé" na primeira prateleira da página, como os produtos da vitrine. -->
+			<figure>
+				<img
+					src="/images/site/corredor-840.webp"
+					srcset="/images/site/corredor-480.webp 480w, /images/site/corredor-840.webp 840w"
+					sizes="(min-width: 860px) 420px, 100vw"
+					width="840"
+					height="1493"
+					alt="Corredor de skincare de uma loja no Japão, com prateleiras cheias de produtos e etiquetas de preço"
+					fetchpriority="high"
+				/>
+				<figcaption>
+					Foto ilustrativa: o corredor de skincare de uma Don Quijote, no Japão.
+				</figcaption>
+			</figure>
 		</div>
 
-		<figure class="photo">
-			<img
-				src="/images/site/hero-donki.jpg"
-				alt="Interior de uma loja Don Quijote no Japão, com prateleiras cheias de produtos japoneses"
-			/>
-			<figcaption>
-				Foto ilustrativa: o interior de uma Don Quijote no Japão — uma das lojas onde eu compro pra
-				você.
-			</figcaption>
-		</figure>
+		<ul class="commitments">
+			{#each commitments as commitment (commitment.title)}
+				<li>
+					<strong>{commitment.title}</strong>
+					{commitment.text}
+				</li>
+			{/each}
+		</ul>
 	</div>
-</header>
+</section>
 
 <style>
 	.hero {
-		padding: 34px 0 10px;
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 28px;
-		align-items: center;
-	}
-
-	@media (min-width: 860px) {
-		.grid {
-			grid-template-columns: 1.05fr 0.95fr;
-			gap: 44px;
-		}
-	}
-
-	.brand {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-	}
-
-	.brand img {
-		width: 84px;
-		height: 84px;
-		border-radius: 24px;
-		box-shadow: var(--shadow);
-		object-fit: cover;
-	}
-
-	.brand-name {
-		font-size: 15px;
-		font-weight: 700;
-		color: var(--muted);
-	}
-
-	.brand-handle {
-		font-size: 15px;
-		font-weight: 700;
-		text-decoration: none;
+		padding-top: 28px;
 	}
 
 	h1 {
-		font-size: clamp(34px, 8.4vw, 56px);
-		font-weight: 800;
-		letter-spacing: -0.015em;
-		margin-top: 22px;
+		max-width: 12ch;
+		font-size: clamp(2.5rem, 11.5vw, 4.75rem);
+		line-height: 1.02;
+		letter-spacing: -0.02em;
 	}
 
-	.accent {
-		color: var(--japan-red);
-	}
-
-	.tagline {
-		font-size: clamp(19px, 4.6vw, 23px);
-		font-weight: 700;
-		margin: 14px 0 0;
-	}
-
-	.sub {
-		color: var(--muted);
-		margin: 10px 0 0;
-		max-width: 52ch;
-	}
-
-	.highlights {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin: 20px 0 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.highlights li {
-		display: inline-flex;
-		align-items: center;
-		gap: 7px;
-		background: var(--surface);
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		padding: 6px 13px;
-		font-size: 14.5px;
-		font-weight: 700;
-	}
-
-	.highlights :global(svg) {
-		width: 16px;
-		height: 16px;
-		stroke: var(--gold);
-		stroke-width: 2.4;
+	.lead {
+		margin-top: 16px;
+		max-width: 46ch;
 	}
 
 	.actions {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 12px;
-		margin-top: 26px;
+		gap: 10px;
+		margin-top: 22px;
 	}
 
-	@media (max-width: 759px) {
-		.actions {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 10px;
-		}
-
-		.actions .btn {
-			padding: 13px 10px;
-			font-size: 15.5px;
-		}
-
-		.actions .btn:first-child {
-			grid-column: 1 / -1;
-		}
+	.actions .btn {
+		padding-inline: 16px;
+		white-space: nowrap;
 	}
 
-	.photo {
-		margin: 0;
+	.actions .btn-primary {
+		flex: 1;
 	}
 
-	.photo img {
-		border-radius: var(--radius);
-		box-shadow: var(--shadow);
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
+	figure {
+		position: relative;
+		margin: 28px calc(var(--gutter) * -1) 0;
+	}
+
+	figure img {
 		width: 100%;
+		height: auto;
+		aspect-ratio: 5 / 4;
+		object-fit: cover;
+		object-position: center 62%;
 	}
 
 	figcaption {
-		font-size: 14px;
-		color: var(--muted);
-		margin-top: 10px;
-		text-align: center;
+		position: absolute;
+		left: var(--gutter);
+		bottom: 12px;
+		max-width: calc(100% - var(--gutter) * 2);
+		padding: 4px 8px;
+		background: var(--white);
+		font-size: 0.75rem;
+		line-height: 1.4;
+		color: var(--ink);
+	}
+
+	.commitments {
+		display: grid;
+		margin: 0 calc(var(--gutter) * -1);
+		padding: 0 var(--gutter);
+		border-top: 2px solid var(--ink);
+		list-style: none;
+	}
+
+	.commitments li {
+		padding: 14px 0;
+		border-bottom: 1px solid var(--line);
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
+	.commitments strong {
+		display: block;
+		font-size: 1rem;
+		color: var(--ink);
+	}
+
+	@media (min-width: 560px) {
+		.actions .btn-primary {
+			flex: none;
+		}
+	}
+
+	@media (min-width: 860px) {
+		.hero {
+			padding-top: 56px;
+		}
+
+		.top {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+			gap: 56px;
+			align-items: end;
+		}
+
+		.text {
+			padding-bottom: 56px;
+		}
+
+		h1 {
+			font-size: clamp(4rem, 6.4vw, 6rem);
+		}
+
+		.lead {
+			font-size: 1.1875rem;
+		}
+
+		figure {
+			margin: 0;
+		}
+
+		figure img {
+			aspect-ratio: 4 / 5;
+		}
+
+		figcaption {
+			left: 12px;
+			max-width: calc(100% - 24px);
+		}
+
+		.commitments {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 40px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.commitments li {
+			padding: 18px 0 0;
+			border-bottom: none;
+		}
 	}
 </style>

@@ -4,66 +4,46 @@
 	type Props = HTMLInputAttributes & {
 		name: string;
 		label: string;
+		// Explicação curta que fica sempre visível embaixo do campo.
+		hint?: string;
 		// Mensagem de validação vinda do servidor.
 		error?: string;
 	};
 
-	let { name, label, error, ...rest }: Props = $props();
+	let { name, label, hint, error, ...rest }: Props = $props();
 
 	const id = $props.id();
+
+	const describedBy = $derived(
+		[error && `${id}-error`, hint && `${id}-hint`].filter(Boolean).join(' ') || undefined
+	);
 </script>
 
-<div class="field">
+<div>
 	<label for={id}>{label}</label>
 	<input
 		{id}
 		{name}
 		aria-invalid={error ? 'true' : undefined}
-		aria-describedby={error ? `${id}-error` : undefined}
+		aria-describedby={describedBy}
 		{...rest}
 	/>
+	{#if hint}
+		<p class="hint" id="{id}-hint">{hint}</p>
+	{/if}
 	{#if error}
-		<p id="{id}-error">{error}</p>
+		<p class="field-error" id="{id}-error">{error}</p>
 	{/if}
 </div>
 
 <style>
-	.field {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
 	label {
-		font-size: 14.5px;
-		font-weight: 800;
+		margin-bottom: 6px;
 	}
 
-	input {
-		width: 100%;
-		font-family: inherit;
-		font-size: 16px;
-		color: var(--ink);
-		background: #ffffff;
-		border: 2px solid var(--pink-input);
-		border-radius: 12px;
-		padding: 10px 12px;
-	}
-
-	input:focus {
-		outline: none;
-		border-color: var(--pink);
-		box-shadow: 0 0 0 4px rgba(236, 127, 168, 0.16);
-	}
-
-	input[aria-invalid='true'] {
-		border-color: var(--japan-red);
-	}
-
-	p {
-		margin: 0;
-		font-size: 13.5px;
-		font-weight: 700;
-		color: var(--japan-red);
+	.hint {
+		margin-top: 4px;
+		font-size: 0.8125rem;
+		color: var(--ink-soft);
 	}
 </style>

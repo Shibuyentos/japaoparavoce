@@ -147,7 +147,7 @@
 <style>
 	.empty {
 		margin: 0;
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	/* A faixa acima da área do gráfico é reservada para a etiqueta do dia em destaque. */
@@ -161,7 +161,7 @@
 		position: absolute;
 		left: 0;
 		right: 0;
-		border-top: 1px solid var(--line-soft);
+		border-top: 1px solid var(--line);
 	}
 
 	.gridline:first-child {
@@ -175,7 +175,7 @@
 		transform: translateY(-50%);
 		font-size: 12px;
 		font-variant-numeric: tabular-nums;
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	.columns {
@@ -196,15 +196,15 @@
 	}
 
 	.column.active {
-		background: var(--chip-bg);
+		background: var(--blush);
 	}
 
 	/* O espaço de 2px entre as barras vem da largura, não de uma borda. */
 	.bar {
 		width: calc(100% - 2px);
 		max-width: 24px;
-		border-radius: 4px 4px 0 0;
-		background: var(--pink-dark);
+		border-radius: 2px 2px 0 0;
+		background: var(--beni);
 	}
 
 	.active .bar {
@@ -217,9 +217,9 @@
 		left: 0;
 		margin-bottom: 6px;
 		padding: 5px 10px;
-		border-radius: 10px;
-		background: var(--ink-strong);
-		color: #ffffff;
+		border-radius: 4px;
+		background: var(--ink);
+		color: var(--white);
 		font-size: 12.5px;
 		line-height: 1.35;
 		white-space: nowrap;
@@ -256,7 +256,7 @@
 		transform: translateX(-50%);
 		font-size: 12px;
 		font-variant-numeric: tabular-nums;
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	.x-axis div:last-child span {
@@ -273,7 +273,7 @@
 	summary {
 		width: fit-content;
 		font-weight: 700;
-		color: var(--pink-dark);
+		color: var(--beni);
 		cursor: pointer;
 	}
 
@@ -281,8 +281,8 @@
 		max-height: 240px;
 		margin-top: 8px;
 		overflow-y: auto;
-		border: 1px solid var(--line-soft);
-		border-radius: 12px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
 	}
 
 	table {
@@ -295,15 +295,15 @@
 	td {
 		padding: 6px 12px;
 		text-align: left;
-		border-bottom: 1px solid var(--line-soft);
+		border-bottom: 1px solid var(--line);
 	}
 
 	th {
 		position: sticky;
 		top: 0;
-		background: var(--pink-bg);
+		background: var(--blush);
 		font-size: 13px;
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	.number {

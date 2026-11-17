@@ -1,5 +1,5 @@
 import { and, asc, count, desc, eq, like, sql, type SQL } from 'drizzle-orm';
-import type { CategoryWithCount, KitSummary, ProductSummary } from '#lib/types.ts';
+import type { CategoryWithCount, KitSummary, ProductSummary, StoreFees } from '#lib/types.ts';
 import { db } from './db';
 import { categories, kitItems, kits, products } from './db/schema';
 import { jpyToBrlCents } from './pricing';
@@ -9,6 +9,11 @@ export async function getStoreSettings() {
 	const settings = await db.query.storeSettings.findFirst();
 	if (!settings) throw new Error('Configurações da loja não encontradas. Rode "npm run db:seed".');
 	return settings;
+}
+
+export async function getStoreFees(): Promise<StoreFees> {
+	const { domesticShippingJpy, serviceFeeJpy } = await getStoreSettings();
+	return { domesticShippingJpy, serviceFeeJpy };
 }
 
 export async function listCategories(): Promise<CategoryWithCount[]> {

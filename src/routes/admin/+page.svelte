@@ -6,6 +6,7 @@
 	import TopProductsList from '#lib/components/admin/TopProductsList.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
 	import { formatBrl, formatJpy } from '#lib/format.ts';
+	import type { OrderStatus } from '#lib/types.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -13,6 +14,17 @@
 	const dashboard = $derived(data.dashboard);
 	const current = $derived(dashboard.current);
 	const previous = $derived(dashboard.previous);
+
+	// A fila do dia, na ordem do atendimento: responder, cobrar, comprar e postar.
+	const queue: { status: OrderStatus; label: string; hint: string }[] = [
+		{
+			status: 'received',
+			label: 'Aguardando orçamento',
+			hint: 'Pedidos novos, para responder no direct'
+		},
+		{ status: 'quoted', label: 'Aguardando pagamento', hint: 'Orçamento já enviado' },
+		{ status: 'paid', label: 'Para comprar e enviar', hint: 'Pagamento confirmado' }
+	];
 </script>
 
 <svelte:head>
@@ -22,31 +34,35 @@
 <div class="wrap">
 	<h1>Resumo</h1>
 
-	<section class="block" aria-labelledby="queue-title">
+	<section aria-labelledby="queue-title">
 		<h2 id="queue-title">Para resolver</h2>
-		<div class="tiles">
-			<StatTile
-				label="Aguardando orçamento"
-				value={String(dashboard.statusCounts.received ?? 0)}
-				hint="Pedidos novos, para responder no direct"
-				href={resolve('/admin/pedidos?status=received')}
-			/>
-			<StatTile
-				label="Aguardando pagamento"
-				value={String(dashboard.statusCounts.quoted ?? 0)}
-				hint="Orçamento já enviado"
-				href={resolve('/admin/pedidos?status=quoted')}
-			/>
-			<StatTile
-				label="Para comprar e enviar"
-				value={String(dashboard.statusCounts.paid ?? 0)}
-				hint="Pagamento confirmado"
-				href={resolve('/admin/pedidos?status=paid')}
-			/>
+		<div class="tiles queue">
+			{#each queue as item (item.status)}
+				{@const count = dashboard.statusCounts[item.status] ?? 0}
+				<StatTile
+					label={item.label}
+					value={String(count)}
+					hint={item.hint}
+					href={resolve(`/admin/pedidos?status=${item.status}`)}
+					highlight={count > 0}
+				/>
+			{/each}
 		</div>
 	</section>
 
-	<section class="block" aria-labelledby="period-title">
+	<section aria-labelledby="recent-title">
+		<div class="heading">
+			<h2 id="recent-title">Últimos pedidos</h2>
+			<a href={resolve('/admin/pedidos')}>Ver todos</a>
+		</div>
+		{#if dashboard.recentOrders.length === 0}
+			<p class="note">Ainda não chegou nenhum pedido.</p>
+		{:else}
+			<OrdersTable orders={dashboard.recentOrders} />
+		{/if}
+	</section>
+
+	<section aria-labelledby="period-title">
 		<h2 id="period-title">Últimos {dashboard.periodDays} dias</h2>
 		<p class="note">
 			Contam os pedidos feitos no período. As setas comparam com os {dashboard.periodDays} dias anteriores.
@@ -83,95 +99,57 @@
 		</p>
 	</section>
 
-	<div class="columns block">
-		<section class="panel" aria-labelledby="daily-title">
+	<div class="columns">
+		<section aria-labelledby="daily-title">
 			<h2 id="daily-title">Pedidos por dia</h2>
 			<p class="note">Dias no horário do Japão.</p>
 			<DailyOrdersChart days={dashboard.ordersByDay} labelledby="daily-title" />
 		</section>
 
-		<section class="panel" aria-labelledby="products-title">
+		<section aria-labelledby="products-title">
 			<h2 id="products-title">Produtos mais pedidos</h2>
 			<p class="note">Unidades nos últimos {dashboard.periodDays} dias, sem os cancelados.</p>
 			<TopProductsList products={dashboard.topProducts} />
 		</section>
 	</div>
-
-	<section class="block" aria-labelledby="recent-title">
-		<div class="heading">
-			<h2 id="recent-title">Últimos pedidos</h2>
-			<a href={resolve('/admin/pedidos')}>Ver todos</a>
-		</div>
-		{#if dashboard.recentOrders.length === 0}
-			<p class="note">Ainda não chegou nenhum pedido.</p>
-		{:else}
-			<OrdersTable orders={dashboard.recentOrders} />
-		{/if}
-	</section>
 </div>
 
 <style>
 	h1 {
-		font-size: 28px;
-		font-weight: 800;
-		color: var(--pink-title);
+		font-size: 1.75rem;
 	}
 
-	/* app.css dá às seções da loja um espaçamento grande, que não serve ao painel. */
 	section {
-		padding: 0;
-	}
-
-	.block {
-		margin-top: 28px;
+		margin-top: 36px;
 	}
 
 	h2 {
-		font-size: 20px;
-		color: var(--ink-strong);
+		font-family: var(--font-body);
+		font-size: 1.125rem;
+		letter-spacing: 0;
 	}
 
 	.note {
-		margin: 2px 0 0;
-		font-size: 14px;
-		color: var(--muted);
+		margin: 4px 0 14px;
+		font-size: 0.875rem;
+		color: var(--ink-soft);
 	}
 
 	.tiles {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 20px 16px;
+		margin-top: 12px;
+	}
+
+	.tiles + .note {
+		margin-top: 14px;
+	}
+
+	/* A fila é o que se resolve primeiro: no celular fica uma por linha, com o toque fácil. */
+	.queue {
+		grid-template-columns: 1fr;
 		gap: 12px;
-		margin: 12px 0 10px;
-	}
-
-	@media (min-width: 640px) {
-		.tiles {
-			grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-		}
-	}
-
-	.columns {
-		display: grid;
-		gap: 18px;
-	}
-
-	@media (min-width: 900px) {
-		.columns {
-			grid-template-columns: 1.5fr 1fr;
-			align-items: start;
-		}
-	}
-
-	.panel {
-		padding: 18px 18px 20px;
-		background: var(--surface);
-		border: 1px solid #f6d3e0;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow-card);
-	}
-
-	.panel .note {
-		margin-bottom: 14px;
 	}
 
 	.heading {
@@ -179,11 +157,36 @@
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 12px;
-		margin-bottom: 12px;
+		margin-bottom: 4px;
 	}
 
 	.heading a {
-		font-size: 15px;
+		font-size: 0.9375rem;
 		font-weight: 700;
+	}
+
+	@media (min-width: 640px) {
+		.queue {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 24px;
+		}
+
+		.tiles:not(.queue) {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 24px;
+		}
+	}
+
+	@media (min-width: 900px) {
+		section {
+			margin-top: 48px;
+		}
+
+		.columns {
+			display: grid;
+			grid-template-columns: 1.5fr 1fr;
+			gap: 56px;
+			align-items: start;
+		}
 	}
 </style>

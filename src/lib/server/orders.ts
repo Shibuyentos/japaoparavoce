@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { and, asc, count, desc, eq, gte, inArray, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gte, inArray, like, or, sql, type SQL } from 'drizzle-orm';
 import type {
 	AdminOrderDetails,
 	CartLine,
@@ -215,18 +215,36 @@ export type OrderListFilters = {
 	status?: OrderStatus;
 	// Só os pedidos dessa conta.
 	userId?: number;
+	// Trecho do código do pedido, do nome ou do Instagram da cliente.
+	search?: string;
 	// Só os pedidos feitos a partir desse instante.
 	since?: Date;
 	limit?: number;
 };
 
 // Mais recentes primeiro.
-export async function listOrders({ status, userId, since, limit }: OrderListFilters = {}): Promise<
-	OrderListItem[]
-> {
+export async function listOrders({
+	status,
+	userId,
+	search,
+	since,
+	limit
+}: OrderListFilters = {}): Promise<OrderListItem[]> {
 	const conditions: SQL[] = [];
 	if (status) conditions.push(eq(orders.status, status));
 	if (userId !== undefined) conditions.push(eq(orders.userId, userId));
+
+	// O LIKE do SQLite ignora maiúsculas só nas letras sem acento.
+	const term = search?.trim().replace(/^@/, '');
+	if (term) {
+		const pattern = `%${term}%`;
+		const matches = or(
+			like(orders.code, pattern),
+			like(orders.customerName, pattern),
+			like(orders.instagramHandle, pattern)
+		);
+		if (matches) conditions.push(matches);
+	}
 	if (since) conditions.push(gte(orders.createdAt, since));
 
 	const query = db

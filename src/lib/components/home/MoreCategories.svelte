@@ -15,7 +15,7 @@
 		{
 			title: 'Games',
 			text: 'Jogos e acessórios lançados no Japão, direto das lojas de eletrônicos.',
-			image: 'games.jpg',
+			image: 'games-640.webp',
 			alt: 'Prateleira de jogos de Nintendo Switch em uma loja no Japão'
 		},
 		{
@@ -28,48 +28,37 @@
 </script>
 
 <section id="categorias">
-	<div class="wrap">
-		<span class="kicker">Além do skincare</span>
-		<h2>Outras categorias que eu encontro pra você</h2>
+	<div class="wrap wrap-wide">
+		<h2>Além do skincare</h2>
 		<p class="lead">
-			A loja é geral: tudo <strong>novo</strong>, comprado em lojas como a Don Quijote — sempre sob
-			encomenda.
+			A loja é geral: tudo <strong>novo</strong>, comprado em lojas como a Don Quijote, sempre sob
+			encomenda. Estas categorias não estão na vitrine: me manda o link ou a foto no direct.
 		</p>
 
-		<div class="grid">
+		<ul>
 			{#each categories as category (category.title)}
-				<article>
+				<li>
 					<img src="/images/site/{category.image}" alt={category.alt} loading="lazy" />
-					<div class="body">
-						<h3>{category.title}</h3>
-						<p>{category.text}</p>
-					</div>
-				</article>
+					<h3>{category.title}</h3>
+					<p>{category.text}</p>
+				</li>
 			{/each}
-		</div>
+		</ul>
 	</div>
 </section>
 
 <style>
-	.grid {
+	section {
+		padding-top: 72px;
+	}
+
+	ul {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 14px;
-		margin-top: 30px;
-	}
-
-	@media (min-width: 860px) {
-		.grid {
-			grid-template-columns: repeat(4, 1fr);
-			gap: 18px;
-		}
-	}
-
-	article {
-		background: var(--surface);
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		overflow: hidden;
+		gap: 24px 14px;
+		margin: 24px 0 0;
+		padding: 0;
+		list-style: none;
 	}
 
 	img {
@@ -78,23 +67,30 @@
 		object-fit: cover;
 	}
 
-	@media (min-width: 860px) {
-		img {
-			aspect-ratio: 4 / 3;
-		}
-	}
-
-	.body {
-		padding: 14px 16px 16px;
-	}
-
 	h3 {
-		font-size: 17px;
+		margin-top: 10px;
+		font-size: 1rem;
 	}
 
-	p {
-		margin: 5px 0 0;
-		color: var(--muted);
-		font-size: 14.5px;
+	p:not(.lead) {
+		margin-top: 2px;
+		font-size: 0.875rem;
+		color: var(--ink-soft);
+	}
+
+	@media (min-width: 900px) {
+		section {
+			padding-top: 112px;
+		}
+
+		ul {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 28px;
+			margin-top: 40px;
+		}
+
+		img {
+			aspect-ratio: 4 / 5;
+		}
 	}
 </style>

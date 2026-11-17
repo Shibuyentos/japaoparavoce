@@ -3,7 +3,7 @@
 	import { productHref } from '#lib/links.ts';
 	import type { KitSummary } from '#lib/types.ts';
 	import AddToCartButton from './AddToCartButton.svelte';
-	import ProductThumb from './ProductThumb.svelte';
+	import ProductImage from './ProductImage.svelte';
 
 	let { kit }: { kit: KitSummary } = $props();
 </script>
@@ -12,128 +12,135 @@
 	<h3>{kit.name}</h3>
 	<p class="description">{kit.description}</p>
 
+	<!-- A rotina de relance: os produtos na ordem de uso, em pé na mesma prateleira. -->
+	<div class="shelf" aria-hidden="true">
+		{#each kit.steps as step (step.product.slug)}
+			<ProductImage image={step.product.image} name={step.product.name} decorative />
+		{/each}
+	</div>
+
 	<ol>
 		{#each kit.steps as step, index (step.product.slug)}
 			<li>
 				<span class="number" aria-hidden="true">{index + 1}</span>
-				<ProductThumb image={step.product.image} name={step.product.name} />
-				<div class="step-info">
+				<div class="step">
 					<span class="label">{step.label}</span>
 					<a href={productHref(step.product.slug)}>{step.product.name}</a>
-					<span class="price">
-						{formatJpy(step.product.priceJpy)} · ≈ {formatBrl(step.product.priceBrlCents)}
-					</span>
 				</div>
+				<span class="price">{formatJpy(step.product.priceJpy)}</span>
 			</li>
 		{/each}
 	</ol>
 
-	<p class="total">Total do kit: {formatJpy(kit.totalJpy)} · ≈ {formatBrl(kit.totalBrlCents)}</p>
-	<p class="note">O total é a soma dos produtos acima. O frete é calculado no seu pedido.</p>
-	<AddToCartButton kind="kit" slug={kit.slug} label="Adicionar kit ao pedido" />
+	<p class="total">
+		<span>Total do kit</span>
+		<strong>{formatJpy(kit.totalJpy)}</strong>
+	</p>
+	<p class="note">
+		<span aria-hidden="true">≈</span><span class="visually-hidden">aproximadamente</span>
+		{formatBrl(kit.totalBrlCents)}. É a soma dos produtos; o frete é calculado no seu pedido.
+	</p>
+	<AddToCartButton kind="kit" slug={kit.slug} label="Adicionar o kit ao pedido" />
 </article>
 
 <style>
 	.kit {
-		background: var(--surface);
-		border: 1px solid #f6d3e0;
-		border-radius: 22px;
-		box-shadow: var(--shadow-card);
-		padding: 20px 18px 22px;
 		display: flex;
 		flex-direction: column;
-		gap: 11px;
 	}
 
 	h3 {
-		color: var(--pink-title);
-		font-size: 21px;
+		font-family: var(--font-display);
+		font-size: 1.375rem;
 	}
 
 	.description {
-		margin: 0;
-		font-size: 15.5px;
-		color: var(--muted);
+		margin-top: 6px;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
+	.shelf {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 6px;
+		margin-top: 14px;
+		padding: 0 4px;
+		border-bottom: 2px solid var(--ink);
+	}
+
+	.shelf :global(.placeholder span) {
+		display: none;
 	}
 
 	ol {
-		list-style: none;
-		margin: 2px 0 0;
+		flex: 1;
+		margin: 0;
 		padding: 0;
+		list-style: none;
+		font-variant-numeric: tabular-nums;
 	}
 
 	li {
-		display: flex;
-		align-items: center;
-		gap: 11px;
-		padding: 9px 0;
-		border-bottom: 1px dashed var(--line);
-	}
-
-	li:last-child {
-		border-bottom: none;
-		padding-bottom: 2px;
+		display: grid;
+		grid-template-columns: 20px 1fr auto;
+		align-items: baseline;
+		gap: 8px;
+		padding: 7px 0;
+		border-bottom: 1px solid var(--line);
 	}
 
 	.number {
-		flex: none;
-		width: 26px;
-		height: 26px;
-		border-radius: 50%;
-		background: radial-gradient(circle at 32% 28%, #ffedb0, #eec25e 52%, #c08c1d);
-		color: #5e4300;
-		font-weight: 800;
-		font-size: 14px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: 0 3px 8px rgba(160, 110, 10, 0.3);
+		font-family: var(--font-display);
+		font-weight: 700;
+		color: var(--beni);
 	}
 
-	.step-info {
-		display: flex;
-		flex-direction: column;
+	.step {
 		min-width: 0;
 	}
 
 	.label {
-		font-size: 12px;
-		font-weight: 800;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--pink-dark);
+		display: block;
+		font-size: 0.8125rem;
+		color: var(--ink-soft);
 	}
 
-	.step-info a {
-		font-size: 14.5px;
-		font-weight: 700;
-		color: var(--ink-strong);
+	.step a {
+		font-size: 0.9375rem;
+		font-weight: 500;
 		line-height: 1.35;
+		color: var(--ink);
 		text-decoration: none;
 	}
 
-	.step-info a:hover {
-		color: var(--pink-dark);
+	.step a:hover {
 		text-decoration: underline;
 	}
 
 	.price {
-		font-size: 13.5px;
-		color: var(--muted);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		white-space: nowrap;
 	}
 
 	.total {
-		margin: 4px 0 0;
-		padding-top: 13px;
-		border-top: 2px solid #ffe0ee;
-		font-size: 19px;
-		font-weight: 800;
-		color: var(--pink-dark);
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 12px;
+		font-weight: 700;
+	}
+
+	.total strong {
+		font-family: var(--font-display);
+		font-size: 1.375rem;
 	}
 
 	.note {
-		margin: 0;
-		font-size: 13.5px;
-		color: var(--muted);
+		margin: 2px 0 14px;
+		font-size: 0.8125rem;
+		color: var(--ink-soft);
 	}
 </style>

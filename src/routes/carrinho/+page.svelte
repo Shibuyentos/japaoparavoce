@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Minus from '@lucide/svelte/icons/minus';
 	import Plus from '@lucide/svelte/icons/plus';
-	import Send from '@lucide/svelte/icons/send';
-	import ShoppingBag from '@lucide/svelte/icons/shopping-bag';
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
 	import OrderSummary from '#lib/components/OrderSummary.svelte';
@@ -41,29 +39,33 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<section>
-	<div class="wrap">
-		<span class="kicker">Monte seu pedido</span>
-		<h1>Meu pedido 🧺</h1>
+<div class="wrap page">
+	<h1>Meu pedido</h1>
 
-		{#if form?.message}
-			<p class="alert" role="alert">{form.message}</p>
-		{/if}
+	{#if form?.message}
+		<p class="notice" role="alert">{form.message}</p>
+	{/if}
 
-		{#if quote.lines.length === 0}
-			<div class="empty">
-				<p>
-					Seu pedido está vazio por enquanto. Escolha os produtos na vitrine e eles aparecem aqui.
-				</p>
-				<a class="btn btn-primary" href={resolve('/vitrine')}><ShoppingBag />Ver a vitrine</a>
-			</div>
-		{:else}
-			<p class="lead">
-				Confira os itens, escolha pra onde vai a entrega e envie o pedido. O total já soma os
-				produtos, os fretes e a taxa de serviço.
+	{#if quote.lines.length === 0}
+		<div class="empty">
+			<p>
+				Seu pedido ainda está vazio. Escolha os produtos na vitrine e eles aparecem aqui, com o
+				frete e as taxas já somados.
 			</p>
+			<a class="btn btn-primary" href={resolve('/vitrine')}>Ver a vitrine</a>
+			<p class="track">
+				Já enviou um pedido? <a href={resolve('/conta/pedidos')}>Acompanhe em Meus pedidos</a>
+			</p>
+		</div>
+	{:else}
+		<p class="lead">
+			Confira os itens, escolha o destino e envie o pedido. Nada é cobrado aqui: o pagamento é
+			combinado depois, no direct do Instagram.
+		</p>
 
-			<div class="columns">
+		<div class="columns">
+			<section aria-labelledby="itens-titulo">
+				<h2 id="itens-titulo">Itens</h2>
 				<ul class="lines">
 					{#each quote.lines as line (line.slug)}
 						<li>
@@ -72,7 +74,7 @@
 							<div class="info">
 								<a href={productHref(line.slug)}>{line.name}</a>
 								<span class="meta">
-									{formatJpy(line.unitPriceJpy)} cada · {weightBandLabel(line.weightGrams)}
+									{formatJpy(line.unitPriceJpy)} cada, frete {weightBandLabel(line.weightGrams)}
 								</span>
 								{#if line.priceType === 'reference'}
 									<span class="meta">Preço de referência, confirmado no orçamento.</span>
@@ -90,7 +92,10 @@
 									>
 										<Minus />
 									</button>
-									<span aria-label="Quantidade">{line.quantity}</span>
+									<span>
+										<span class="visually-hidden">Quantidade:</span>
+										{line.quantity}
+									</span>
 									<button
 										name="quantity"
 										value={line.quantity + 1}
@@ -100,55 +105,56 @@
 										<Plus />
 									</button>
 								</div>
-								<button class="remove" name="quantity" value="0">Remover</button>
+								<button class="remove" name="quantity" value="0">
+									Remover<span class="visually-hidden"> {line.name}</span>
+								</button>
 							</form>
 
 							<strong class="line-total">{formatJpy(line.unitPriceJpy * line.quantity)}</strong>
 						</li>
 					{/each}
 				</ul>
+				<a class="more" href={resolve('/vitrine')}>Escolher mais produtos</a>
+			</section>
 
-				<aside>
-					<div class="panel">
-						<h2>Resumo do pedido</h2>
+			<div class="side">
+				<section aria-labelledby="valores-titulo">
+					<h2 id="valores-titulo">Entrega e valores</h2>
 
-						<form method="POST" action="?/region" use:enhance={keepSelection}>
-							<label for="region">Entrega para</label>
-							<select
-								id="region"
-								name="region"
-								value={quote.region.code}
-								onchange={(event) => event.currentTarget.form?.requestSubmit()}
-							>
-								{#each data.regions as region (region.code)}
-									<option value={region.code}>{region.name}</option>
-								{/each}
-							</select>
-							<noscript><button class="btn btn-ghost">Atualizar frete</button></noscript>
-						</form>
+					<form class="region" method="POST" action="?/region" use:enhance={keepSelection}>
+						<label for="region">Entrega para</label>
+						<select
+							id="region"
+							name="region"
+							value={quote.region.code}
+							onchange={(event) => event.currentTarget.form?.requestSubmit()}
+						>
+							{#each data.regions as region (region.code)}
+								<option value={region.code}>{region.name}</option>
+							{/each}
+						</select>
+						<noscript><button class="btn btn-quiet">Atualizar frete</button></noscript>
+					</form>
 
-						<OrderSummary charges={quote.charges} totals={quote.totals} />
+					<OrderSummary charges={quote.charges} totals={quote.totals} />
 
+					<p class="note">
+						<strong>É uma estimativa:</strong> o frete é confirmado depois de pesar a sua caixa, sempre
+						antes da postagem. Imposto de alfândega não incluído.
+					</p>
+					{#if hasReferencePrice}
 						<p class="note">
-							<strong>É uma estimativa:</strong> o frete é confirmado depois de pesar a sua caixa, sempre
-							antes da postagem. Imposto de alfândega não incluído.
+							Itens com preço de referência têm o valor exato confirmado no orçamento, antes do
+							pagamento.
 						</p>
-						{#if hasReferencePrice}
-							<p class="note">
-								Itens com preço de referência têm o valor exato confirmado no orçamento, antes do
-								pagamento.
-							</p>
-						{/if}
-					</div>
+					{/if}
+				</section>
+
+				<section aria-labelledby="dados-titulo">
+					<h2 id="dados-titulo">Seus dados</h2>
 
 					{#if data.user}
-						<form class="panel checkout" method="POST" action="?/checkout" use:enhance={sendOrder}>
-							<h2>Enviar pedido</h2>
-							<p class="note">
-								O pagamento é combinado depois, na conversa pelo direct do Instagram. Nada é cobrado
-								aqui no site.
-							</p>
-
+						<form class="form checkout" method="POST" action="?/checkout" use:enhance={sendOrder}>
 							<TextField
 								name="name"
 								label="Seu nome"
@@ -164,20 +170,22 @@
 								placeholder="@seunome"
 								autocapitalize="none"
 								autocomplete="off"
+								spellcheck="false"
 								maxlength={31}
 								required
 								value={form?.values?.instagram ?? ''}
+								hint="É por ele que eu te encontro no direct."
 								error={form?.errors?.instagram}
 							/>
 
-							<div class="field">
+							<div>
 								<label for="note">Observação <span class="optional">(opcional)</span></label>
 								<textarea
 									id="note"
 									name="note"
 									rows="3"
 									maxlength="500"
-									placeholder="Cor, tamanho, dúvida sobre algum item…"
+									placeholder="Cor, tamanho, dúvida sobre algum item"
 									aria-invalid={form?.errors?.note ? 'true' : undefined}
 									aria-describedby={form?.errors?.note ? 'note-error' : undefined}
 									>{form?.values?.note ?? ''}</textarea
@@ -188,155 +196,139 @@
 							</div>
 
 							<button class="btn btn-primary" disabled={sending}>
-								<Send />{sending ? 'Enviando…' : 'Enviar pedido'}
+								{sending ? 'Enviando…' : 'Enviar pedido'}
 							</button>
+							<p class="note">
+								Depois de enviar, você recebe um código e o resumo do pedido pra mandar no direct.
+							</p>
 						</form>
 					{:else}
-						<div class="panel checkout">
-							<h2>Enviar pedido</h2>
-							<p class="note">
-								Entre na sua conta para enviar o pedido. Os produtos continuam aqui enquanto isso.
-							</p>
+						<p class="note">
+							Entre na sua conta para enviar o pedido. Os produtos continuam aqui enquanto isso.
+						</p>
+						<div class="login">
 							<a class="btn btn-primary" href={loginHref(resolve('/carrinho'))}>Entrar</a>
-							<a class="btn btn-ghost" href={registerHref(resolve('/carrinho'))}>Criar conta</a>
+							<a class="btn btn-quiet" href={registerHref(resolve('/carrinho'))}>Criar conta</a>
 						</div>
 					{/if}
-				</aside>
+				</section>
 			</div>
-		{/if}
-	</div>
-</section>
+		</div>
+	{/if}
+</div>
 
 <style>
-	section {
-		padding-top: 36px;
+	.page {
+		padding-top: 32px;
 	}
 
-	h1 {
-		font-size: clamp(26px, 5.4vw, 36px);
-		font-weight: 800;
-		color: var(--pink-title);
+	.page > .notice {
+		margin-top: 16px;
 	}
 
-	.alert {
-		margin: 16px 0 0;
-		background: var(--warn-bg);
-		border: 1.5px solid var(--warn-line);
-		border-radius: 14px;
-		padding: 12px 16px;
-		color: var(--warn-ink);
-		font-weight: 700;
+	h2 {
+		font-size: 1.375rem;
 	}
 
 	.empty {
-		margin-top: 24px;
-		text-align: center;
-		background: #fff5f9;
-		border: 1.5px dashed #f5a3c6;
-		border-radius: 20px;
-		padding: 32px 22px;
+		max-width: 520px;
+		margin-top: 16px;
 	}
 
 	.empty p {
-		margin: 0 auto 16px;
-		max-width: 520px;
+		color: var(--ink-soft);
+	}
+
+	.empty .btn {
+		margin-top: 20px;
+	}
+
+	.empty .track {
+		margin-top: 28px;
+		font-size: 0.9375rem;
 	}
 
 	.columns {
 		display: grid;
-		gap: 24px;
-		margin-top: 26px;
-	}
-
-	@media (min-width: 900px) {
-		.columns {
-			grid-template-columns: 1.25fr 1fr;
-			align-items: start;
-		}
+		gap: 40px;
+		margin-top: 28px;
 	}
 
 	.lines {
-		list-style: none;
-		margin: 0;
+		margin: 12px 0 0;
 		padding: 0;
-		border: 1px solid #f6d3e0;
-		border-radius: var(--radius);
-		box-shadow: var(--shadow-card);
+		border-bottom: 1px solid var(--line);
+		list-style: none;
 	}
 
 	.lines li {
 		display: grid;
-		grid-template-columns: auto 1fr auto;
-		gap: 10px 12px;
+		grid-template-columns: 64px 1fr auto;
+		gap: 10px 14px;
 		align-items: center;
-		padding: 14px 16px;
-		border-bottom: 1px dashed var(--line);
-	}
-
-	.lines li:last-child {
-		border-bottom: none;
+		padding: 16px 0;
+		border-top: 1px solid var(--line);
 	}
 
 	.info {
+		grid-column: 2 / -1;
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
-		grid-column: 2 / -1;
 	}
 
 	.info a {
-		font-weight: 700;
-		font-size: 15.5px;
+		font-weight: 500;
 		line-height: 1.35;
-		color: var(--ink-strong);
+		color: var(--ink);
 		text-decoration: none;
 	}
 
 	.info a:hover {
-		color: var(--pink-dark);
 		text-decoration: underline;
 	}
 
 	.meta {
-		font-size: 13.5px;
-		color: var(--muted);
+		font-size: 0.8125rem;
+		color: var(--ink-soft);
 	}
 
 	.controls {
 		grid-column: 1 / 3;
 		display: flex;
 		align-items: center;
-		gap: 14px;
+		gap: 8px;
 	}
 
 	.quantity {
 		display: inline-flex;
 		align-items: center;
-		border: 1.5px solid var(--line);
-		border-radius: 999px;
-		overflow: hidden;
+		border: 1.5px solid var(--ink);
+		border-radius: var(--radius);
+		background: var(--white);
 	}
 
-	.quantity span {
-		min-width: 30px;
+	.quantity > span {
+		min-width: 28px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
 		text-align: center;
-		font-weight: 800;
 	}
 
 	.quantity button {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 38px;
-		height: 38px;
+		width: 44px;
+		height: 42px;
 		border: none;
-		background: var(--chip-bg);
-		color: var(--pink-dark);
+		background: none;
+		color: var(--ink);
 		cursor: pointer;
 	}
 
 	.quantity button:disabled {
-		opacity: 0.4;
+		opacity: 0.3;
 		cursor: default;
 	}
 
@@ -346,106 +338,90 @@
 	}
 
 	.remove {
+		min-height: 44px;
+		padding: 0 8px;
 		border: none;
 		background: none;
-		padding: 6px 2px;
 		font-family: inherit;
-		font-size: 14px;
-		font-weight: 700;
-		color: var(--muted);
+		font-size: 0.875rem;
+		color: var(--ink-soft);
 		text-decoration: underline;
+		text-underline-offset: 0.18em;
 		cursor: pointer;
 	}
 
 	.remove:hover {
-		color: var(--japan-red);
+		color: var(--danger);
 	}
 
 	.line-total {
-		font-size: 17px;
+		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
 	}
 
-	aside {
-		display: grid;
-		gap: 18px;
-	}
-
-	.panel {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-
-	.checkout {
-		gap: 14px;
-	}
-
-	.panel h2 {
-		font-size: 21px;
-		color: var(--pink-title);
-	}
-
-	.panel form {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-		margin-bottom: 6px;
-	}
-
-	.field {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	label {
-		font-size: 14.5px;
-		font-weight: 800;
-	}
-
-	.optional {
-		font-weight: 500;
-		color: var(--muted);
-	}
-
-	select,
-	textarea {
-		width: 100%;
-		font-family: inherit;
-		font-size: 16px;
-		color: var(--ink);
-		background: #ffffff;
-		border: 2px solid var(--pink-input);
-		border-radius: 12px;
-		padding: 10px 12px;
-	}
-
-	textarea {
-		resize: vertical;
-	}
-
-	select:focus,
-	textarea:focus {
-		outline: none;
-		border-color: var(--pink);
-		box-shadow: 0 0 0 4px rgba(236, 127, 168, 0.16);
-	}
-
-	[aria-invalid='true'] {
-		border-color: var(--japan-red);
-	}
-
-	.field-error {
-		margin: 0;
-		font-size: 13.5px;
+	.more {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin-top: 8px;
 		font-weight: 700;
-		color: var(--japan-red);
+	}
+
+	.side {
+		display: grid;
+		gap: 40px;
+	}
+
+	.region {
+		display: grid;
+		gap: 6px;
+		margin: 12px 0 16px;
 	}
 
 	.note {
-		margin: 4px 0 0;
-		font-size: 14px;
-		color: var(--muted);
+		margin-top: 12px;
+		font-size: 0.875rem;
+		color: var(--ink-soft);
+	}
+
+	.note strong {
+		color: var(--ink);
+	}
+
+	.checkout {
+		margin-top: 12px;
+	}
+
+	.checkout label {
+		margin-bottom: 6px;
+	}
+
+	.optional {
+		font-weight: 400;
+		color: var(--ink-soft);
+	}
+
+	.checkout .note {
+		margin-top: -4px;
+	}
+
+	.login {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 16px;
+	}
+
+	@media (min-width: 900px) {
+		.page {
+			padding-top: 48px;
+		}
+
+		.columns {
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			gap: 72px;
+			align-items: start;
+			margin-top: 36px;
+		}
 	}
 </style>

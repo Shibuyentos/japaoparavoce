@@ -10,41 +10,36 @@
 <style>
 	.badge {
 		display: inline-block;
-		padding: 2px 10px;
-		border-radius: 999px;
-		border: 1.5px solid;
-		font-size: 13px;
-		font-weight: 800;
+		padding: 2px 8px;
+		border-radius: 3px;
+		font-size: 0.8125rem;
+		font-weight: 700;
+		line-height: 1.5;
 		white-space: nowrap;
 	}
 
 	.received {
-		background: var(--chip-bg);
-		border-color: var(--pink);
-		color: var(--pink-dark);
+		background: var(--blush);
+		color: var(--beni-deep);
 	}
 
 	.quoted {
 		background: var(--warn-bg);
-		border-color: var(--warn-line);
-		color: var(--warn-ink);
+		color: var(--warn);
 	}
 
 	.paid {
-		background: #eefaf1;
-		border-color: #8fd1a2;
-		color: #1f6b35;
+		background: var(--ok-bg);
+		color: var(--ok);
 	}
 
 	.shipped {
-		background: #eef5ff;
-		border-color: #9dc0f0;
-		color: #1f4f8f;
+		background: var(--info-bg);
+		color: var(--info);
 	}
 
 	.cancelled {
-		background: #f4f1f2;
-		border-color: #cfc4c8;
-		color: #6f6268;
+		background: var(--neutral-bg);
+		color: var(--neutral);
 	}
 </style>

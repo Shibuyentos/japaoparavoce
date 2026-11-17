@@ -29,7 +29,7 @@
 <style>
 	.empty {
 		margin: 0;
-		color: var(--muted);
+		color: var(--ink-soft);
 	}
 
 	ol {
@@ -43,7 +43,7 @@
 	.name {
 		display: block;
 		font-size: 14.5px;
-		font-weight: 700;
+		font-weight: 500;
 		line-height: 1.35;
 	}
 
@@ -59,12 +59,12 @@
 		width: calc((100% - 44px) * var(--share));
 		min-width: 3px;
 		height: 8px;
-		border-radius: 0 4px 4px 0;
-		background: var(--pink-dark);
+		border-radius: 0 2px 2px 0;
+		background: var(--beni);
 	}
 
 	.quantity {
 		font-size: 14px;
-		font-weight: 800;
+		font-weight: 700;
 	}
 </style>

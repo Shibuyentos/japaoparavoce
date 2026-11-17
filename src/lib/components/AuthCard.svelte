@@ -1,36 +1,45 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	let { title, children }: { title: string; children: Snippet } = $props();
+	type Props = {
+		title: string;
+		subtitle?: string;
+		children: Snippet;
+	};
+
+	let { title, subtitle, children }: Props = $props();
 </script>
 
-<div class="wrap">
-	<div class="card panel">
-		<img src="/images/site/logo.webp" alt="" width="64" height="64" />
-		<h1>{title}</h1>
+<div class="wrap auth">
+	<img src="/images/site/icone-192.webp" alt="" width="64" height="64" />
+	<h1>{title}</h1>
+	{#if subtitle}
+		<p class="subtitle">{subtitle}</p>
+	{/if}
+
+	<div class="content">
 		{@render children()}
 	</div>
 </div>
 
 <style>
-	.card {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
+	.auth {
 		max-width: 400px;
-		margin: 6vh auto 0;
-		padding: 28px 24px;
-	}
-
-	img {
-		border-radius: 18px;
-		margin: 0 auto;
+		padding-top: 8vh;
 	}
 
 	h1 {
-		font-size: 24px;
-		font-weight: 800;
-		text-align: center;
-		color: var(--pink-title);
+		margin-top: 16px;
+		font-size: 1.75rem;
+	}
+
+	.subtitle {
+		color: var(--ink-soft);
+	}
+
+	.content {
+		display: grid;
+		gap: 20px;
+		margin-top: 28px;
 	}
 </style>

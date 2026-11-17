@@ -30,3 +30,13 @@ export function registerHref(destination?: string) {
 		? resolve(`/cadastro?destino=${encodeURIComponent(destination)}`)
 		: resolve('/cadastro');
 }
+
+// Lista de pedidos do painel: o filtro de status e a busca também ficam na URL.
+export function adminOrdersHref(status: string | null, search = '') {
+	const params = new URLSearchParams();
+	if (status) params.set('status', status);
+	if (search) params.set('busca', search);
+
+	const query = params.toString();
+	return query ? resolve(`/admin/pedidos?${query}`) : resolve('/admin/pedidos');
+}

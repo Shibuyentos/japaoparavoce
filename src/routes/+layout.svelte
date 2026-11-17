@@ -14,11 +14,31 @@
 {#if isAdmin}
 	{@render children()}
 {:else}
+	<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 	<SiteHeader cartItemCount={data.cartItemCount} user={data.user} />
 
-	<main>
+	<main id="conteudo">
 		{@render children()}
 	</main>
 
 	<SiteFooter />
 {/if}
+
+<style>
+	/* Só aparece quando recebe o foco do teclado. */
+	.skip {
+		position: absolute;
+		top: 8px;
+		left: 8px;
+		z-index: 20;
+		padding: 10px 14px;
+		background: var(--ink);
+		font-weight: 700;
+		color: var(--white);
+		transform: translateY(-200%);
+	}
+
+	.skip:focus {
+		transform: none;
+	}
+</style>

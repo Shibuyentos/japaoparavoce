@@ -5,29 +5,18 @@
 </script>
 
 <div class="thumb">
-	<ProductImage {image} {name} />
+	<ProductImage {image} {name} decorative />
 </div>
 
 <style>
 	.thumb {
 		flex: none;
-		width: 54px;
-		border: 1px solid var(--line-soft);
-		border-radius: 10px;
-		overflow: hidden;
+		width: 64px;
+		border-bottom: 2px solid var(--ink);
 	}
 
-	.thumb :global(img) {
-		padding: 3px;
-	}
-
-	/* Na miniatura não cabe o texto "Foto em breve", fica só o ícone. */
+	/* Na miniatura não cabe o texto "Foto em breve", fica só o contorno. */
 	.thumb :global(.placeholder span) {
 		display: none;
-	}
-
-	.thumb :global(.placeholder svg) {
-		width: 22px;
-		height: 22px;
 	}
 </style>

@@ -7,12 +7,13 @@
 		kind: 'product' | 'kit';
 		slug: string;
 		label?: string;
-		compact?: boolean;
+		// Na prateleira o botão é só o "+": o nome do produto entra no texto lido pelo leitor de tela.
+		iconOnlyFor?: string;
 	};
 
-	let { kind, slug, label = 'Adicionar ao pedido', compact = false }: Props = $props();
+	let { kind, slug, label = 'Adicionar ao pedido', iconOnlyFor }: Props = $props();
 
-	const FEEDBACK_MS = 1600;
+	const FEEDBACK_MS = 1800;
 
 	let added = $state(false);
 	let errorMessage = $state('');
@@ -43,38 +44,65 @@
 	use:enhance={submit}
 >
 	<input type="hidden" name="slug" value={slug} />
-	<button class="btn btn-primary" class:compact>
-		{#if added}
-			<Check />Adicionado
-		{:else}
-			<Plus />{label}
-		{/if}
-	</button>
+	{#if iconOnlyFor}
+		<button class="icon" class:added aria-label="Adicionar {iconOnlyFor} ao pedido">
+			{#if added}<Check />{:else}<Plus />{/if}
+		</button>
+	{:else}
+		<button class="btn btn-primary">
+			{#if added}<Check />Adicionado{:else}<Plus />{label}{/if}
+		</button>
+	{/if}
+	<p class="visually-hidden" role="status">{added ? 'Adicionado ao pedido.' : ''}</p>
 	<p class="error" role="alert">{errorMessage}</p>
 </form>
 
 <style>
-	button {
+	.btn {
 		width: 100%;
 	}
 
-	.compact {
-		font-size: 14.5px;
-		padding: 9px 10px;
-		border-radius: 12px;
-		gap: 6px;
+	/* Na prateleira o botão pende da linha como a etiqueta de preço, e fica discreto para a foto
+	   do produto ser o que chama a atenção. */
+	.icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 46px;
+		height: 46px;
+		padding: 0;
+		border: 1.5px solid var(--ink);
+		border-top: none;
+		background: var(--white);
+		color: var(--beni);
+		cursor: pointer;
+		transition:
+			background-color 0.15s ease,
+			color 0.15s ease;
 	}
 
-	.compact :global(svg) {
-		width: 17px;
-		height: 17px;
+	.icon:hover {
+		background: var(--beni);
+		color: var(--white);
+	}
+
+	.icon.added {
+		background: var(--ok);
+		color: var(--white);
+	}
+
+	.icon :global(svg) {
+		width: 22px;
+		height: 22px;
+		stroke-width: 2.5;
 	}
 
 	.error {
-		margin: 6px 0 0;
-		font-size: 13.5px;
+		margin-top: 6px;
+		font-size: 0.8125rem;
 		font-weight: 700;
-		color: var(--japan-red);
+		line-height: 1.35;
+		color: var(--danger);
 	}
 
 	.error:empty {

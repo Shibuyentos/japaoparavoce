@@ -1,51 +1,103 @@
-:root {
-	color-scheme: light;
-	--bg: #ffffff;
-	--surface: #ffffff;
-	--pink-bg: #fff0f6;
-	--pink-soft: #ffd9e8;
-	--pink-input: #ff9ec4;
-	--pink: #ec7fa8;
-	--pink-dark: #c85f86;
-	--pink-title: #d16a92;
-	--japan-red: #df1b23;
-	--gold: #b98a2f;
-	--ink: #33222b;
-	--ink-strong: #2b1a22;
-	--muted: #85616f;
-	--line: #f4cfdd;
-	--line-soft: #fbe7ef;
-	--chip-bg: #ffeef5;
-	--warn-bg: #fffaf0;
-	--warn-line: #eec27a;
-	--warn-ink: #6b4a12;
-	--shadow: 0 10px 30px rgba(200, 95, 134, 0.1);
-	--shadow-card: 0 12px 30px rgba(200, 95, 134, 0.09);
-	--radius: 20px;
-	--font: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
+/* As fontes ficam em static/fonts, só com os caracteres latinos: o site não depende de terceiros
+   para renderizar o texto. */
+@font-face {
+	font-family: 'Kaisei Decol';
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/kaisei-decol-700.woff2') format('woff2');
 }
 
-* {
+@font-face {
+	font-family: 'Zen Kaku Gothic New';
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/zen-kaku-gothic-new-400.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Zen Kaku Gothic New';
+	font-weight: 500;
+	font-display: swap;
+	src: url('/fonts/zen-kaku-gothic-new-500.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Zen Kaku Gothic New';
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/zen-kaku-gothic-new-700.woff2') format('woff2');
+}
+
+:root {
+	color-scheme: light;
+
+	/* Papel rosado no fundo, branco nas etiquetas e notas, tinta ameixa no texto. */
+	--paper: #fff7f9;
+	--white: #ffffff;
+	--blush: #fbe6ed;
+	--sakura: #f2a9c1;
+	--line: #efcad6;
+	--ink: #2a1820;
+	--ink-soft: #6f5560;
+
+	/* Beni é o rosa das ações e dos preços: tem contraste de texto sobre branco e sobre o papel. */
+	--beni: #be2a5b;
+	--beni-deep: #9a1e48;
+
+	/* Amarelo das etiquetas de loja japonesa, usado só para marcar edição limitada. */
+	--tag-yellow: #ffd84d;
+
+	--ok: #1c6331;
+	--ok-bg: #e7f5ea;
+	--warn: #754b00;
+	--warn-bg: #fff1cc;
+	--info: #1d4b88;
+	--info-bg: #e6f0fd;
+	--danger: #b3261e;
+	--neutral: #5f5459;
+	--neutral-bg: #f1ecee;
+
+	--font-display: 'Kaisei Decol', 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
+	--font-body:
+		'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', system-ui, sans-serif;
+
+	--radius: 6px;
+	--gutter: 20px;
+	--header-height: 56px;
+}
+
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
 html {
 	scroll-behavior: smooth;
+	scroll-padding-top: calc(var(--header-height) + 16px);
+	-webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
 	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
 }
 
 body {
 	margin: 0;
-	font-family: var(--font);
-	background: var(--bg);
-	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1rem;
 	line-height: 1.6;
-	font-size: 17px;
+	color: var(--ink);
+	background: var(--paper);
 }
 
 img {
@@ -54,172 +106,194 @@ img {
 }
 
 a {
-	color: var(--pink-dark);
+	color: var(--beni);
+	text-underline-offset: 0.18em;
+}
+
+a:hover {
+	color: var(--beni-deep);
 }
 
 ::selection {
-	background: var(--pink-soft);
+	background: var(--sakura);
+	color: var(--ink);
 }
 
 :focus-visible {
-	outline: 2px solid var(--pink);
+	outline: 2px solid var(--ink);
 	outline-offset: 2px;
-	border-radius: 4px;
 }
 
 h1,
 h2,
 h3 {
-	line-height: 1.25;
 	margin: 0;
+	text-wrap: balance;
 }
 
 h1,
 h2 {
-	text-wrap: balance;
-}
-
-h2 {
-	font-size: clamp(26px, 5.4vw, 36px);
-	font-weight: 800;
+	font-family: var(--font-display);
+	font-weight: 700;
+	line-height: 1.12;
 	letter-spacing: -0.01em;
 }
 
+h1 {
+	font-size: clamp(1.875rem, 6.4vw, 2.75rem);
+}
+
+h2 {
+	font-size: clamp(1.625rem, 5.2vw, 2.25rem);
+}
+
 h3 {
-	font-size: 20px;
-	font-weight: 800;
+	font-size: 1.0625rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+p {
+	margin: 0;
 }
 
 .wrap {
-	max-width: 1060px;
+	width: 100%;
+	max-width: 1120px;
 	margin: 0 auto;
-	padding: 0 20px;
+	padding: 0 var(--gutter);
 }
 
 .wrap-wide {
-	max-width: 1280px;
-}
-
-section {
-	padding: 60px 0;
-}
-
-section[id] {
-	scroll-margin-top: 10px;
-}
-
-@media (max-width: 759px) {
-	section {
-		padding: 44px 0;
-	}
-}
-
-/* Seções em destaque: título rosa e linhas finas em cima e embaixo. */
-.section-band {
-	box-shadow:
-		inset 0 1px 0 #f6d3e0,
-		inset 0 -1px 0 #f6d3e0;
-}
-
-.section-band h2 {
-	color: var(--pink-title);
+	max-width: 1320px;
 }
 
 .lead {
-	color: var(--muted);
-	font-size: 18px;
-	margin: 12px 0 0;
-	max-width: 62ch;
+	max-width: 60ch;
+	margin-top: 12px;
+	font-size: 1.0625rem;
+	color: var(--ink-soft);
 }
 
-.kicker {
-	display: inline-block;
-	font-weight: 800;
-	font-size: 13px;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--pink-dark);
-	background: var(--chip-bg);
-	border: 1px solid var(--line);
-	padding: 5px 12px;
-	border-radius: 999px;
-	margin-bottom: 14px;
+.lead strong {
+	color: var(--ink);
+}
+
+/* Algarismos de largura igual, para valores alinharem em colunas. */
+.figures {
+	font-variant-numeric: tabular-nums;
 }
 
 .btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 9px;
+	gap: 8px;
+	min-height: 48px;
+	padding: 10px 20px;
+	border: 1.5px solid transparent;
+	border-radius: var(--radius);
 	font-family: inherit;
-	font-weight: 800;
-	font-size: 17px;
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.2;
 	text-decoration: none;
-	border-radius: 14px;
-	padding: 14px 22px;
-	border: 2px solid transparent;
 	cursor: pointer;
 	transition:
-		transform 0.15s ease,
-		background 0.15s ease;
-}
-
-.btn:active {
-	transform: scale(0.98);
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
 }
 
 .btn svg {
-	width: 20px;
-	height: 20px;
 	flex: none;
+	width: 19px;
+	height: 19px;
+}
+
+.btn:disabled {
+	opacity: 0.6;
+	cursor: default;
 }
 
 .btn-primary {
-	background: var(--pink);
-	color: #ffffff;
-	box-shadow: var(--shadow);
+	background: var(--beni);
+	color: var(--white);
 }
 
-.btn-primary:hover {
-	background: var(--pink-dark);
+.btn-primary:hover:not(:disabled) {
+	background: var(--beni-deep);
+	color: var(--white);
 }
 
-.btn-ghost {
-	background: var(--surface);
+.btn-quiet {
+	background: var(--white);
+	border-color: var(--ink);
 	color: var(--ink);
-	border-color: var(--line);
 }
 
-.btn-ghost:hover {
-	border-color: var(--pink);
-	color: var(--pink-dark);
+.btn-quiet:hover:not(:disabled) {
+	background: var(--blush);
+	color: var(--ink);
 }
 
-.grid-products {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 12px;
-	margin-top: 22px;
+label {
+	display: block;
+	font-size: 0.9375rem;
+	font-weight: 700;
 }
 
-@media (min-width: 700px) {
-	.grid-products {
-		grid-template-columns: repeat(3, 1fr);
-		gap: 14px;
-	}
+input:not([type='hidden']),
+select,
+textarea {
+	width: 100%;
+	min-height: 48px;
+	padding: 10px 12px;
+	border: 1.5px solid var(--ink-soft);
+	border-radius: var(--radius);
+	background: var(--white);
+	font-family: inherit;
+	/* Abaixo de 16px o Safari do iPhone dá zoom na página ao focar o campo. */
+	font-size: 1rem;
+	color: var(--ink);
 }
 
-@media (min-width: 1024px) {
-	.grid-products {
-		grid-template-columns: repeat(4, 1fr);
-		gap: 16px;
-	}
+textarea {
+	resize: vertical;
 }
 
-@media (min-width: 1400px) {
-	.grid-products {
-		grid-template-columns: repeat(5, 1fr);
-	}
+input::placeholder,
+textarea::placeholder {
+	color: var(--ink-soft);
+	opacity: 1;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid var(--ink);
+	outline-offset: 1px;
+}
+
+[aria-invalid='true'] {
+	border-color: var(--danger);
+}
+
+.field-error {
+	margin-top: 4px;
+	font-size: 0.875rem;
+	font-weight: 700;
+	color: var(--danger);
+}
+
+/* Aviso de algo que não deu certo ou que pede atenção antes de continuar. */
+.notice {
+	padding: 12px 14px;
+	border-left: 3px solid var(--warn);
+	background: var(--warn-bg);
+	font-size: 0.9375rem;
+	font-weight: 500;
+	color: var(--warn);
 }
 
 .visually-hidden {

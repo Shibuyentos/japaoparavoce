@@ -23,120 +23,124 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<!-- Na tela de login ainda não há usuário, então a barra do painel não aparece. -->
-{#if data.user}
-	<header>
-		<div class="wrap bar">
-			<a class="brand" href={resolve('/admin')}>
-				<img src="/images/site/logo.webp" alt="" width="36" height="36" />
-				<span>Painel <span class="store">· {STORE_NAME}</span></span>
-			</a>
+<div class="admin">
+	<!-- Na tela de login ainda não há usuário, então a barra do painel não aparece. -->
+	{#if data.user}
+		<header>
+			<div class="wrap bar">
+				<a class="brand" href={resolve('/admin')}>
+					<img src="/images/site/icone-192.webp" alt="" width="32" height="32" />
+					Painel
+				</a>
 
-			<nav aria-label="Painel">
-				{#each links as link (link.href)}
-					<a href={link.href} aria-current={isCurrent(link) ? 'page' : undefined}>
-						{link.label}
-					</a>
-				{/each}
-				<a href={resolve('/')}>Ver a loja</a>
-			</nav>
+				<nav aria-label="Painel">
+					{#each links as link (link.href)}
+						<a href={link.href} aria-current={isCurrent(link) ? 'page' : undefined}>
+							{link.label}
+						</a>
+					{/each}
+				</nav>
 
-			<form method="POST" action="/sair">
-				<span class="user">{data.user.name}</span>
-				<button aria-label="Sair do painel"><LogOut />Sair</button>
-			</form>
-		</div>
-	</header>
-{/if}
+				<form method="POST" action="/sair">
+					<button><LogOut aria-hidden="true" />Sair</button>
+				</form>
+			</div>
+		</header>
+	{/if}
 
-<main>
-	{@render children()}
-</main>
+	<main>
+		{@render children()}
+	</main>
+
+	{#if data.user}
+		<footer class="wrap">
+			<span>{STORE_NAME}: sessão de {data.user.name}</span>
+			<a href={resolve('/')}>Ver a loja</a>
+		</footer>
+	{/if}
+</div>
 
 <style>
+	/* O painel é ferramenta de trabalho: fundo branco e menos espaço que a loja. */
+	.admin {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		min-height: 100dvh;
+		background: var(--white);
+	}
+
 	header {
-		border-bottom: 1px solid var(--line);
-		background: var(--pink-bg);
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		border-bottom: 2px solid var(--ink);
+		background: var(--white);
 	}
 
 	.bar {
 		display: flex;
 		align-items: center;
-		flex-wrap: wrap;
-		gap: 6px 18px;
-		min-height: 60px;
-		padding-top: 8px;
-		padding-bottom: 8px;
+		gap: 4px;
+		height: var(--header-height);
 	}
 
 	.brand {
 		display: flex;
 		align-items: center;
-		gap: 10px;
-		font-weight: 800;
-		color: var(--ink);
-		text-decoration: none;
-	}
-
-	.brand img {
-		border-radius: 10px;
-	}
-
-	.store {
-		font-weight: 500;
-		color: var(--muted);
-	}
-
-	nav {
-		display: flex;
-		gap: 4px;
-		margin-right: auto;
-	}
-
-	nav a {
-		padding: 6px 12px;
-		border-radius: 999px;
-		font-size: 15.5px;
+		gap: 8px;
+		margin-right: 8px;
+		font-family: var(--font-display);
+		font-size: 1.0625rem;
 		font-weight: 700;
 		color: var(--ink);
 		text-decoration: none;
 	}
 
-	nav a:hover,
-	nav a[aria-current='page'] {
-		background: var(--surface);
-		color: var(--pink-dark);
-	}
-
-	form {
+	nav {
 		display: flex;
-		align-items: center;
-		gap: 12px;
+		align-self: stretch;
+		margin-right: auto;
 	}
 
-	.user {
-		font-size: 14.5px;
-		color: var(--muted);
+	nav a {
+		display: inline-flex;
+		align-items: center;
+		padding: 0 10px;
+		border-bottom: 3px solid transparent;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		color: var(--ink-soft);
+		text-decoration: none;
+	}
+
+	nav a:hover {
+		color: var(--ink);
+	}
+
+	nav a[aria-current='page'] {
+		border-bottom-color: var(--beni);
+		font-weight: 700;
+		color: var(--ink);
 	}
 
 	button {
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
-		padding: 6px 12px;
-		border: 1.5px solid var(--line);
-		border-radius: 999px;
-		background: var(--surface);
+		min-height: 40px;
+		padding: 0 10px;
+		border: none;
+		background: none;
 		font-family: inherit;
-		font-size: 14.5px;
-		font-weight: 700;
+		font-size: 0.9375rem;
+		font-weight: 500;
 		color: var(--ink);
 		cursor: pointer;
 	}
 
 	button:hover {
-		border-color: var(--pink);
-		color: var(--pink-dark);
+		text-decoration: underline;
 	}
 
 	button :global(svg) {
@@ -145,23 +149,25 @@
 	}
 
 	main {
-		padding: 28px 0 60px;
+		flex: 1;
+		padding: 24px 0 56px;
 	}
 
-	@media (max-width: 639px) {
-		.store,
-		.user {
-			display: none;
-		}
+	footer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 4px 16px;
+		padding-top: 16px;
+		padding-bottom: 24px;
+		border-top: 1px solid var(--line);
+		font-size: 0.875rem;
+		color: var(--ink-soft);
+	}
 
-		/* No celular o botão de sair sobe para a linha do logo e o menu ocupa a linha de baixo. */
-		nav {
-			order: 1;
-			flex-basis: 100%;
-		}
-
-		form {
-			margin-left: auto;
+	@media (min-width: 860px) {
+		main {
+			padding-top: 36px;
 		}
 	}
 </style>

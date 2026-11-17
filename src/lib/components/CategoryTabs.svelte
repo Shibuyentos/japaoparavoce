@@ -16,7 +16,7 @@
 	const total = $derived(categories.reduce((sum, category) => sum + category.productCount, 0));
 </script>
 
-<nav class="chips" aria-label="Categorias">
+<nav class="tabs" aria-label="Categorias">
 	<a
 		href={hrefFor(null)}
 		aria-current={active === null ? 'page' : undefined}
@@ -36,50 +36,59 @@
 </nav>
 
 <style>
-	.chips {
+	/* No celular a lista rola de lado e sai pela borda da tela, o que mostra que há mais categorias. */
+	.tabs {
 		display: flex;
-		gap: 8px;
+		gap: 22px;
+		margin: 0 calc(var(--gutter) * -1);
+		padding: 0 var(--gutter);
 		overflow-x: auto;
-		max-width: 100%;
-		padding: 2px 2px 8px;
-		scrollbar-width: thin;
+		scrollbar-width: none;
+	}
+
+	.tabs::-webkit-scrollbar {
+		display: none;
 	}
 
 	a {
-		flex: 0 0 auto;
-		white-space: nowrap;
-		text-decoration: none;
-		font-size: 14.5px;
-		font-weight: 800;
-		color: var(--pink-dark);
-		background: #ffffff;
-		border: 2px solid var(--pink-input);
-		border-radius: 999px;
-		padding: 8px 15px;
+		flex: none;
 		display: inline-flex;
-		align-items: center;
-		gap: 7px;
+		align-items: baseline;
+		gap: 5px;
+		min-height: 44px;
+		padding: 10px 0 8px;
+		border-bottom: 2px solid transparent;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		white-space: nowrap;
+		color: var(--ink-soft);
+		text-decoration: none;
 	}
 
 	a:hover {
-		background: var(--chip-bg);
-	}
-
-	.count {
-		font-size: 12.5px;
-		background: var(--chip-bg);
-		border-radius: 999px;
-		padding: 1px 8px;
+		color: var(--ink);
 	}
 
 	a[aria-current='page'] {
-		background: var(--pink);
-		border-color: var(--pink);
-		color: #ffffff;
-		box-shadow: 0 6px 16px rgba(236, 127, 168, 0.3);
+		border-bottom-color: var(--beni);
+		font-weight: 700;
+		color: var(--ink);
 	}
 
-	a[aria-current='page'] .count {
-		background: rgba(255, 255, 255, 0.28);
+	.count {
+		font-size: 0.75rem;
+		font-weight: 500;
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-soft);
+	}
+
+	@media (min-width: 640px) {
+		.tabs {
+			flex-wrap: wrap;
+			gap: 0 26px;
+			margin: 0;
+			padding: 0;
+			overflow: visible;
+		}
 	}
 </style>

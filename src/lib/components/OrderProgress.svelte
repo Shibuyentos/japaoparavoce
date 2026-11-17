@@ -1,107 +1,109 @@
 <script lang="ts">
 	import Check from '@lucide/svelte/icons/check';
-	import { ORDER_PROGRESS, ORDER_STATUS_LABELS } from '#lib/order-status.ts';
+	import { ORDER_STEPS } from '#lib/order-status.ts';
 	import type { OrderStatus } from '#lib/types.ts';
 
 	let { status }: { status: OrderStatus } = $props();
 
-	// Pedido cancelado não está em nenhuma etapa: o índice fica em -1 e nada é marcado.
-	const reached = $derived(ORDER_PROGRESS.indexOf(status));
+	// Posição do status na sequência. Um pedido cancelado não está em nenhum passo.
+	const reached = $derived(ORDER_STEPS.findIndex((step) => step.status === status));
 </script>
 
-<ol>
-	{#each ORDER_PROGRESS as step, index (step)}
+<ol class="progress">
+	{#each ORDER_STEPS as step, index (step.status)}
+		{@const done = index <= reached}
 		<li
-			class:done={index < reached}
-			class:current={index === reached}
+			class:done
+			class:next={index === reached + 1}
 			aria-current={index === reached ? 'step' : undefined}
 		>
-			<span class="marker" aria-hidden="true">
-				{#if index < reached}<Check />{:else}{index + 1}{/if}
+			<span class="mark" aria-hidden="true">
+				{#if done}<Check />{/if}
 			</span>
-			<span class="label">
-				{ORDER_STATUS_LABELS[step]}
-				{#if index < reached}<span class="visually-hidden">(concluído)</span>{/if}
-			</span>
+			<div>
+				<h3>
+					{step.title}
+					<span class="visually-hidden">{done ? '(concluído)' : '(ainda não aconteceu)'}</span>
+				</h3>
+				<p>{step.text}</p>
+			</div>
 		</li>
 	{/each}
 </ol>
 
 <style>
-	ol {
-		list-style: none;
+	.progress {
 		margin: 0;
 		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		list-style: none;
 	}
 
 	li {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 6px;
-		text-align: center;
-		font-size: 13.5px;
-		font-weight: 700;
-		line-height: 1.3;
-		color: var(--muted);
+		display: grid;
+		grid-template-columns: 28px 1fr;
+		gap: 14px;
+		padding-bottom: 22px;
+		color: var(--ink-soft);
 	}
 
-	/* Linha que liga cada etapa à anterior, por trás dos círculos. */
-	li:not(:first-child)::before {
+	li:last-child {
+		padding-bottom: 0;
+	}
+
+	/* A linha que liga um passo ao seguinte: cheia até onde o pedido chegou, tracejada depois. */
+	li:not(:last-child)::before {
 		content: '';
 		position: absolute;
-		top: 15px;
-		right: 50%;
-		width: 100%;
-		height: 2px;
-		background: var(--line);
+		top: 28px;
+		bottom: 0;
+		left: 13px;
+		border-left: 2px dashed var(--sakura);
 	}
 
-	li.done::before,
-	li.current::before {
-		background: var(--pink);
+	li.done:not(:last-child):has(+ li.done)::before {
+		border-left-style: solid;
+		border-left-color: var(--beni);
 	}
 
-	/* O z-index mantém o círculo por cima da linha que vem da etapa seguinte. */
-	.marker {
-		position: relative;
-		z-index: 1;
-		display: inline-flex;
+	.mark {
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 32px;
-		height: 32px;
+		width: 28px;
+		height: 28px;
+		border: 2px solid var(--sakura);
 		border-radius: 50%;
-		border: 2px solid var(--line);
-		background: var(--surface);
-		font-size: 14px;
-		font-weight: 800;
+		background: var(--paper);
 	}
 
-	.marker :global(svg) {
-		width: 17px;
-		height: 17px;
+	.done .mark {
+		border-color: var(--beni);
+		background: var(--beni);
+		color: var(--white);
 	}
 
-	.done .marker {
-		border-color: var(--pink);
-		background: var(--pink);
-		color: #ffffff;
+	.next .mark {
+		border-color: var(--beni);
 	}
 
-	.current .marker {
-		border-color: var(--pink-dark);
-		color: var(--pink-dark);
+	.mark :global(svg) {
+		width: 16px;
+		height: 16px;
+		stroke-width: 3;
 	}
 
-	.current .label {
-		color: var(--ink-strong);
+	h3 {
+		padding-top: 2px;
+		font-size: 1rem;
 	}
 
-	.label {
-		padding: 0 4px;
+	.done h3 {
+		color: var(--ink);
+	}
+
+	p {
+		margin-top: 2px;
+		font-size: 0.9375rem;
 	}
 </style>

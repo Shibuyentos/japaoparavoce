@@ -43,6 +43,19 @@ export type ShippingRegion = {
 	name: string;
 };
 
+// Tabela EMS de uma região, da faixa de peso mais leve para a mais pesada.
+export type ShippingRegionRates = {
+	code: string;
+	name: string;
+	rates: { maxWeightGrams: number; priceJpy: number }[];
+};
+
+// Valores fixos somados a todo pedido.
+export type StoreFees = {
+	domesticShippingJpy: number;
+	serviceFeeJpy: number;
+};
+
 export type OrderLine = {
 	name: string;
 	priceType: PriceType;
@@ -82,6 +95,7 @@ export type CartQuote = {
 	totals: OrderTotals;
 };
 
+// Pedido como a cliente vê em "Meus pedidos": sem os dados de contato.
 export type OrderDetails = {
 	code: string;
 	status: OrderStatus;
