@@ -2,11 +2,12 @@
 	import { resolve } from '$app/paths';
 	import DailyOrdersChart from '#lib/components/admin/DailyOrdersChart.svelte';
 	import OrdersTable from '#lib/components/admin/OrdersTable.svelte';
+	import QueueTile from '#lib/components/admin/QueueTile.svelte';
+	import ShoppingList from '#lib/components/admin/ShoppingList.svelte';
 	import StatTile from '#lib/components/admin/StatTile.svelte';
 	import TopProductsList from '#lib/components/admin/TopProductsList.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
-	import { formatBrl, formatJpy } from '#lib/format.ts';
-	import type { OrderStatus } from '#lib/types.ts';
+	import { formatBrl, formatJpy, formatStoreDay } from '#lib/format.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -14,60 +15,70 @@
 	const dashboard = $derived(data.dashboard);
 	const current = $derived(dashboard.current);
 	const previous = $derived(dashboard.previous);
-
-	// A fila do dia, na ordem do atendimento: responder, cobrar, comprar e postar.
-	const queue: { status: OrderStatus; label: string; hint: string }[] = [
-		{
-			status: 'received',
-			label: 'Aguardando orçamento',
-			hint: 'Pedidos novos, para responder no direct'
-		},
-		{ status: 'quoted', label: 'Aguardando pagamento', hint: 'Orçamento já enviado' },
-		{ status: 'paid', label: 'Para comprar e enviar', hint: 'Pagamento confirmado' }
-	];
 </script>
 
 <svelte:head>
-	<title>Resumo · Painel {STORE_NAME}</title>
+	<title>Hoje · Painel {STORE_NAME}</title>
 </svelte:head>
 
 <div class="wrap">
-	<h1>Resumo</h1>
+	<h1>Hoje</h1>
+	<p class="day">{formatStoreDay(new Date())}, no Japão</p>
 
-	<section aria-labelledby="queue-title">
-		<h2 id="queue-title">Para resolver</h2>
-		<div class="tiles queue">
-			{#each queue as item (item.status)}
-				{@const count = dashboard.statusCounts[item.status] ?? 0}
-				<StatTile
-					label={item.label}
-					value={String(count)}
-					hint={item.hint}
-					href={resolve(`/admin/pedidos?status=${item.status}`)}
-					highlight={count > 0}
-				/>
-			{/each}
+	<section aria-labelledby="fila-titulo">
+		<h2 id="fila-titulo" class="visually-hidden">Pedidos esperando uma ação</h2>
+		<!-- A fila do dia, na ordem do atendimento: responder, cobrar, comprar e postar. -->
+		<div class="queue">
+			<QueueTile
+				label="Responder com o orçamento"
+				hint="Nenhum pedido novo"
+				queue={dashboard.queue.received}
+				href={resolve('/admin/pedidos?status=received')}
+				needsAction
+			/>
+			<QueueTile
+				label="Aguardando pagamento"
+				hint="Nenhum orçamento em aberto"
+				queue={dashboard.queue.quoted}
+				href={resolve('/admin/pedidos?status=quoted')}
+			/>
+			<QueueTile
+				label="Comprar e postar"
+				hint="Nenhum pedido pago esperando"
+				queue={dashboard.queue.paid}
+				href={resolve('/admin/pedidos?status=paid')}
+				needsAction
+			/>
 		</div>
 	</section>
 
-	<section aria-labelledby="recent-title">
-		<div class="heading">
-			<h2 id="recent-title">Últimos pedidos</h2>
-			<a href={resolve('/admin/pedidos')}>Ver todos</a>
-		</div>
-		{#if dashboard.recentOrders.length === 0}
-			<p class="note">Ainda não chegou nenhum pedido.</p>
-		{:else}
-			<OrdersTable orders={dashboard.recentOrders} />
-		{/if}
-	</section>
+	<div class="columns">
+		<section aria-labelledby="compras-titulo">
+			<h2 id="compras-titulo">Lista de compras</h2>
+			<p class="note">Os produtos dos pedidos pagos, somados.</p>
+			<ShoppingList items={dashboard.shoppingList} />
+		</section>
 
-	<section aria-labelledby="period-title">
-		<h2 id="period-title">Últimos {dashboard.periodDays} dias</h2>
+		<section aria-labelledby="recentes-titulo">
+			<div class="heading">
+				<h2 id="recentes-titulo">Últimos pedidos</h2>
+				<a href={resolve('/admin/pedidos')}>Ver todos</a>
+			</div>
+			{#if dashboard.recentOrders.length === 0}
+				<p class="note">Ainda não chegou nenhum pedido.</p>
+			{:else}
+				<OrdersTable orders={dashboard.recentOrders} />
+			{/if}
+		</section>
+	</div>
+
+	<section aria-labelledby="periodo-titulo">
+		<h2 id="periodo-titulo">Últimos {dashboard.periodDays} dias</h2>
 		<p class="note">
-			Contam os pedidos feitos no período. As setas comparam com os {dashboard.periodDays} dias anteriores.
+			Pedidos feitos no período, comparados com os {dashboard.periodDays} dias anteriores. Os valores
+			são as estimativas do site; o final de cada pedido é o combinado no direct.
 		</p>
-		<div class="tiles">
+		<div class="stats">
 			<StatTile
 				label="Pedidos feitos"
 				value={String(current.orderCount)}
@@ -93,25 +104,21 @@
 				hint="Dos pedidos pagos"
 			/>
 		</div>
-		<p class="note">
-			Os valores são as estimativas calculadas no site. O valor final de cada pedido é o combinado
-			no direct.
-		</p>
+
+		<div class="columns charts">
+			<div class="panel">
+				<h3 id="diario-titulo">Pedidos por dia</h3>
+				<p class="note">Dias no horário do Japão.</p>
+				<DailyOrdersChart days={dashboard.ordersByDay} labelledby="diario-titulo" />
+			</div>
+
+			<div class="panel">
+				<h3>Produtos mais pedidos</h3>
+				<p class="note">Unidades no período, sem os pedidos cancelados.</p>
+				<TopProductsList products={dashboard.topProducts} />
+			</div>
+		</div>
 	</section>
-
-	<div class="columns">
-		<section aria-labelledby="daily-title">
-			<h2 id="daily-title">Pedidos por dia</h2>
-			<p class="note">Dias no horário do Japão.</p>
-			<DailyOrdersChart days={dashboard.ordersByDay} labelledby="daily-title" />
-		</section>
-
-		<section aria-labelledby="products-title">
-			<h2 id="products-title">Produtos mais pedidos</h2>
-			<p class="note">Unidades nos últimos {dashboard.periodDays} dias, sem os cancelados.</p>
-			<TopProductsList products={dashboard.topProducts} />
-		</section>
-	</div>
 </div>
 
 <style>
@@ -119,14 +126,22 @@
 		font-size: 1.75rem;
 	}
 
+	.day {
+		margin-top: 2px;
+		font-size: 0.9375rem;
+		color: var(--ink-soft);
+	}
+
 	section {
-		margin-top: 36px;
+		margin-top: 32px;
 	}
 
 	h2 {
-		font-family: var(--font-body);
-		font-size: 1.125rem;
-		letter-spacing: 0;
+		font-size: 1.1875rem;
+	}
+
+	h3 {
+		font-size: 1rem;
 	}
 
 	.note {
@@ -135,21 +150,10 @@
 		color: var(--ink-soft);
 	}
 
-	.tiles {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 20px 16px;
-		margin-top: 12px;
-	}
-
-	.tiles + .note {
-		margin-top: 14px;
-	}
-
-	/* A fila é o que se resolve primeiro: no celular fica uma por linha, com o toque fácil. */
 	.queue {
-		grid-template-columns: 1fr;
-		gap: 12px;
+		display: grid;
+		gap: 10px;
+		margin-top: 20px;
 	}
 
 	.heading {
@@ -157,36 +161,64 @@
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 12px;
-		margin-bottom: 4px;
+		margin-bottom: 14px;
 	}
 
 	.heading a {
 		font-size: 0.9375rem;
-		font-weight: 700;
+		font-weight: 600;
 	}
 
-	@media (min-width: 640px) {
+	.columns {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0 40px;
+	}
+
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	.charts {
+		gap: 10px;
+		margin-top: 10px;
+	}
+
+	.panel {
+		padding: 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	@media (min-width: 760px) {
 		.queue {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 24px;
+			gap: 16px;
 		}
 
-		.tiles:not(.queue) {
+		.stats {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
-			gap: 24px;
+			gap: 16px;
 		}
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 1100px) {
 		section {
-			margin-top: 48px;
+			margin-top: 44px;
 		}
 
 		.columns {
-			display: grid;
-			grid-template-columns: 1.5fr 1fr;
-			gap: 56px;
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 			align-items: start;
+		}
+
+		.charts {
+			grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+			gap: 16px;
+			margin-top: 16px;
 		}
 	}
 </style>

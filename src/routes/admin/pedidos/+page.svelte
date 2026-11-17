@@ -60,7 +60,7 @@
 	{#if data.search}
 		<p class="result" role="status">
 			{countLabel(data.orders.length, 'pedido encontrado', 'pedidos encontrados')} para “{data.search}”.
-			<a href={adminOrdersHref(data.activeStatus)}>Limpar busca </a>
+			<a href={adminOrdersHref(data.activeStatus)}>Limpar busca</a>
 		</p>
 	{/if}
 
@@ -101,7 +101,7 @@
 	.field :global(svg) {
 		position: absolute;
 		top: 50%;
-		left: 12px;
+		left: 14px;
 		width: 18px;
 		height: 18px;
 		color: var(--ink-soft);
@@ -110,16 +110,15 @@
 	}
 
 	.field input {
-		padding-left: 38px;
+		padding-left: 42px;
 	}
 
 	/* No celular os filtros rolam de lado, saindo pela borda da tela. */
 	.filters {
 		display: flex;
-		gap: 20px;
-		margin: 12px calc(var(--gutter) * -1) 0;
-		padding: 0 var(--gutter);
-		border-bottom: 1px solid var(--line);
+		gap: 8px;
+		margin: 14px calc(var(--gutter) * -1) 0;
+		padding: 2px var(--gutter);
 		overflow-x: auto;
 		scrollbar-width: none;
 	}
@@ -131,31 +130,38 @@
 	.filters a {
 		flex: none;
 		display: inline-flex;
-		align-items: baseline;
-		gap: 5px;
-		min-height: 44px;
-		padding: 10px 0 8px;
-		border-bottom: 3px solid transparent;
+		align-items: center;
+		gap: 6px;
+		min-height: 40px;
+		padding: 0 14px;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		background: var(--surface);
 		font-size: 0.9375rem;
 		font-weight: 500;
 		white-space: nowrap;
-		color: var(--ink-soft);
+		color: var(--ink);
 		text-decoration: none;
 	}
 
 	.filters a:hover {
-		color: var(--ink);
+		border-color: var(--ink-soft);
 	}
 
 	.filters a[aria-current='page'] {
-		border-bottom-color: var(--beni);
-		font-weight: 700;
-		color: var(--ink);
+		border-color: var(--ink);
+		background: var(--ink);
+		color: var(--surface);
 	}
 
 	.count {
 		font-size: 0.8125rem;
 		font-variant-numeric: tabular-nums;
+		color: var(--ink-soft);
+	}
+
+	.filters a[aria-current='page'] .count {
+		color: var(--blush-strong);
 	}
 
 	.result {
@@ -170,17 +176,18 @@
 	}
 
 	.list {
-		margin-top: 4px;
+		margin-top: 18px;
 	}
 
-	@media (min-width: 860px) {
+	@media (min-width: 760px) {
 		.filters {
+			flex-wrap: wrap;
 			margin: 16px 0 0;
 			padding: 0;
 		}
 
 		.list {
-			margin-top: 20px;
+			margin-top: 22px;
 		}
 	}
 </style>

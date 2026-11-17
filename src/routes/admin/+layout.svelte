@@ -7,9 +7,9 @@
 
 	let { data, children }: LayoutProps = $props();
 
-	// "Resumo" é a raiz do painel, então só fica marcado no endereço exato dele.
+	// "Hoje" é a raiz do painel, então só fica marcado no endereço exato dele.
 	const links = [
-		{ href: resolve('/admin'), label: 'Resumo', exact: true },
+		{ href: resolve('/admin'), label: 'Hoje', exact: true },
 		{ href: resolve('/admin/pedidos'), label: 'Pedidos', exact: false }
 	];
 
@@ -41,9 +41,12 @@
 					{/each}
 				</nav>
 
-				<form method="POST" action="/sair">
-					<button><LogOut aria-hidden="true" />Sair</button>
-				</form>
+				<div class="end">
+					<a class="store-link" href={resolve('/')}>Ver a loja</a>
+					<form method="POST" action="/sair">
+						<button aria-label="Sair do painel"><LogOut aria-hidden="true" /></button>
+					</form>
+				</div>
 			</div>
 		</header>
 	{/if}
@@ -53,61 +56,73 @@
 	</main>
 
 	{#if data.user}
-		<footer class="wrap">
-			<span>{STORE_NAME}: sessão de {data.user.name}</span>
-			<a href={resolve('/')}>Ver a loja</a>
-		</footer>
+		<footer class="wrap">{STORE_NAME}: sessão de {data.user.name}</footer>
 	{/if}
 </div>
 
 <style>
-	/* O painel é ferramenta de trabalho: fundo branco e menos espaço que a loja. */
+	/* O painel é ferramenta de trabalho: fundo neutro, blocos brancos e menos espaço que a loja. */
 	.admin {
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
 		min-height: 100dvh;
-		background: var(--white);
+		background: #f6f2f3;
 	}
 
 	header {
 		position: sticky;
 		top: 0;
 		z-index: 10;
-		border-bottom: 2px solid var(--ink);
-		background: var(--white);
+		border-bottom: 1px solid var(--line);
+		background: var(--surface);
 	}
 
 	.bar {
-		display: flex;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-areas:
+			'brand end'
+			'nav nav';
 		align-items: center;
-		gap: 4px;
-		height: var(--header-height);
+		column-gap: 12px;
 	}
 
 	.brand {
+		grid-area: brand;
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		margin-right: 8px;
-		font-family: var(--font-display);
-		font-size: 1.0625rem;
-		font-weight: 700;
+		gap: 10px;
+		min-height: 52px;
+		font-stretch: var(--wide);
+		font-weight: 650;
 		color: var(--ink);
 		text-decoration: none;
 	}
 
+	.brand img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		box-shadow: 0 0 0 1px var(--line);
+	}
+
 	nav {
+		grid-area: nav;
 		display: flex;
-		align-self: stretch;
-		margin-right: auto;
+		gap: 4px;
+		margin: 0 calc(var(--gutter) * -1);
+		padding: 0 var(--gutter);
+		border-top: 1px solid var(--line);
 	}
 
 	nav a {
+		flex: 1;
 		display: inline-flex;
 		align-items: center;
-		padding: 0 10px;
-		border-bottom: 3px solid transparent;
+		justify-content: center;
+		min-height: 46px;
+		border-bottom: 2.5px solid transparent;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		color: var(--ink-soft);
@@ -120,32 +135,48 @@
 
 	nav a[aria-current='page'] {
 		border-bottom-color: var(--beni);
-		font-weight: 700;
+		font-weight: 650;
+		color: var(--ink);
+	}
+
+	.end {
+		grid-area: end;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 4px;
+	}
+
+	.store-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 0 10px;
+		font-size: 0.9375rem;
+		font-weight: 500;
 		color: var(--ink);
 	}
 
 	button {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		min-height: 40px;
-		padding: 0 10px;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
 		border: none;
+		border-radius: 10px;
 		background: none;
-		font-family: inherit;
-		font-size: 0.9375rem;
-		font-weight: 500;
 		color: var(--ink);
 		cursor: pointer;
 	}
 
 	button:hover {
-		text-decoration: underline;
+		background: var(--blush);
 	}
 
 	button :global(svg) {
-		width: 16px;
-		height: 16px;
+		width: 19px;
+		height: 19px;
 	}
 
 	main {
@@ -154,10 +185,6 @@
 	}
 
 	footer {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 4px 16px;
 		padding-top: 16px;
 		padding-bottom: 24px;
 		border-top: 1px solid var(--line);
@@ -165,7 +192,29 @@
 		color: var(--ink-soft);
 	}
 
-	@media (min-width: 860px) {
+	@media (min-width: 760px) {
+		.bar {
+			grid-template-columns: auto 1fr auto;
+			grid-template-areas: 'brand nav end';
+			column-gap: 28px;
+		}
+
+		.brand {
+			min-height: 60px;
+		}
+
+		nav {
+			align-self: stretch;
+			margin: 0;
+			padding: 0;
+			border-top: none;
+		}
+
+		nav a {
+			flex: none;
+			padding: 0 12px;
+		}
+
 		main {
 			padding-top: 36px;
 		}

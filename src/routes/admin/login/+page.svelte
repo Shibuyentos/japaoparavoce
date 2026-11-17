@@ -13,7 +13,7 @@
 	<title>Entrar · Painel {STORE_NAME}</title>
 </svelte:head>
 
-<AuthCard title="Painel da loja" subtitle={STORE_NAME}>
+<AuthCard title="Painel da loja" subtitle="{STORE_NAME}: acesso da administração.">
 	<form class="form" method="POST" use:enhance>
 		{#if form?.message}
 			<p class="notice" role="alert">{form.message}</p>

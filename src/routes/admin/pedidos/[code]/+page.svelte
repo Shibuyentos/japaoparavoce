@@ -1,12 +1,15 @@
 <script lang="ts">
 	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
+	import ExternalLink from '@lucide/svelte/icons/external-link';
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
 	import InstagramIcon from '#lib/components/InstagramIcon.svelte';
+	import OrderProgress from '#lib/components/OrderProgress.svelte';
 	import OrderStatusBadge from '#lib/components/OrderStatusBadge.svelte';
 	import OrderSummary from '#lib/components/OrderSummary.svelte';
 	import { STORE_NAME } from '#lib/config.ts';
 	import { formatDateTime } from '#lib/format.ts';
+	import { trackingHref } from '#lib/links.ts';
 	import { ORDER_STATUS_LABELS } from '#lib/order-status.ts';
 	import type { OrderStatus } from '#lib/types.ts';
 	import type { PageProps, SubmitFunction } from './$types';
@@ -15,7 +18,8 @@
 
 	const order = $derived(data.order);
 
-	// O que fazer agora em cada status e para qual status o pedido vai em seguida.
+	// O que fazer agora em cada status e para qual status o pedido vai em seguida. O envio tem
+	// formulário próprio, porque pede o código de rastreio.
 	const stages: Record<OrderStatus, { task: string; next?: OrderStatus; action?: string }> = {
 		received: {
 			task: 'Confira preços e frete e responda no direct com o valor final.',
@@ -28,11 +32,9 @@
 			action: 'Marcar como pago'
 		},
 		paid: {
-			task: 'Pagamento confirmado. Comprar na loja, embalar, postar e mandar o código de rastreio no direct.',
-			next: 'shipped',
-			action: 'Marcar como enviado'
+			task: 'Pagamento confirmado. Comprar na loja, embalar e postar. Ao postar, informe o código de rastreio: ele aparece no pedido da cliente.'
 		},
-		shipped: { task: 'Caixa postada. Não há mais nada a fazer neste pedido.' },
+		shipped: { task: 'Caixa postada. A cliente acompanha a entrega pelo código de rastreio.' },
 		cancelled: { task: 'Pedido cancelado.' }
 	};
 
@@ -49,19 +51,44 @@
 	<title>Pedido {order.code} · Painel {STORE_NAME}</title>
 </svelte:head>
 
+{#snippet trackingForm(label: string)}
+	<form class="ship" method="POST" action="?/ship" use:enhance={keepSelection}>
+		<label for="trackingCode">Código de rastreio do EMS</label>
+		<input
+			id="trackingCode"
+			name="trackingCode"
+			placeholder="EJ123456789JP"
+			autocapitalize="characters"
+			autocomplete="off"
+			spellcheck="false"
+			maxlength="20"
+			required
+			value={form?.trackingCode ?? order.trackingCode ?? ''}
+			aria-invalid={form?.trackingError ? 'true' : undefined}
+			aria-describedby={form?.trackingError ? 'tracking-error' : undefined}
+		/>
+		{#if form?.trackingError}
+			<p class="field-error" id="tracking-error">{form.trackingError}</p>
+		{/if}
+		<button class="btn btn-primary">{label}</button>
+	</form>
+{/snippet}
+
 <div class="wrap">
-	<a class="back" href={resolve('/admin/pedidos')}><ArrowLeft aria-hidden="true" />Pedidos</a>
+	<a class="text-link back" href={resolve('/admin/pedidos')}>
+		<ArrowLeft aria-hidden="true" />Pedidos
+	</a>
 
 	<div class="title">
 		<h1>Pedido <span class="code">{order.code}</span></h1>
 		<OrderStatusBadge status={order.status} />
 	</div>
-	<p class="date">Recebido em {formatDateTime(order.createdAt)} (horário do Japão)</p>
+	<p class="date">Feito em {formatDateTime(order.createdAt)}, horário do Japão</p>
 
 	<div class="columns">
 		<div class="stack">
-			<section class="now" aria-labelledby="now-title">
-				<h2 id="now-title">Agora</h2>
+			<section class="now" aria-labelledby="agora-titulo">
+				<h2 id="agora-titulo">Agora</h2>
 				<p>{stage.task}</p>
 
 				<div class="actions">
@@ -82,14 +109,35 @@
 					</a>
 				</div>
 
+				{#if order.status === 'paid'}
+					{@render trackingForm('Marcar como enviado')}
+				{:else if order.status === 'shipped'}
+					<div class="tracking">
+						{#if order.trackingCode}
+							<p>
+								Rastreio: <strong class="price">{order.trackingCode}</strong>
+								<a href={trackingHref(order.trackingCode)} target="_blank" rel="external noopener">
+									<ExternalLink aria-hidden="true" />Abrir no Japan Post
+								</a>
+							</p>
+						{:else}
+							<p class="missing">Este pedido ainda não tem código de rastreio.</p>
+						{/if}
+						<details open={!order.trackingCode || Boolean(form?.trackingError)}>
+							<summary>{order.trackingCode ? 'Corrigir o código' : 'Informar o código'}</summary>
+							{@render trackingForm('Salvar código')}
+						</details>
+					</div>
+				{/if}
+
 				<p class="feedback" role="status">
-					{#if form?.saved}Status atualizado.{/if}
+					{#if form?.saved}Pedido atualizado.{/if}
 					{#if form?.message}{form.message}{/if}
 				</p>
 
-				<details>
+				<details class="correct">
 					<summary>Corrigir o status ou cancelar</summary>
-					<form class="correct" method="POST" action="?/status" use:enhance={keepSelection}>
+					<form method="POST" action="?/status" use:enhance={keepSelection}>
 						<label for="status">Status do pedido</label>
 						<div class="row">
 							<select id="status" name="status" value={order.status}>
@@ -103,8 +151,8 @@
 				</details>
 			</section>
 
-			<section aria-labelledby="customer-title">
-				<h2 id="customer-title">Cliente</h2>
+			<section aria-labelledby="cliente-titulo">
+				<h2 id="cliente-titulo">Cliente</h2>
 				<dl>
 					<div>
 						<dt>Nome</dt>
@@ -130,10 +178,19 @@
 					{/if}
 				</dl>
 			</section>
+
+			{#if order.status !== 'cancelled'}
+				<section aria-labelledby="andamento-titulo">
+					<h2 id="andamento-titulo">Andamento</h2>
+					<div class="panel">
+						<OrderProgress status={order.status} dates={order.dates} storeTime />
+					</div>
+				</section>
+			{/if}
 		</div>
 
-		<section aria-labelledby="items-title">
-			<h2 id="items-title">Itens e valores</h2>
+		<section aria-labelledby="itens-titulo">
+			<h2 id="itens-titulo">Itens e valores</h2>
 			<div class="nota">
 				<OrderSummary
 					charges={order.charges}
@@ -148,18 +205,7 @@
 
 <style>
 	.back {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		min-height: 44px;
-		font-size: 0.9375rem;
-		font-weight: 700;
-		text-decoration: none;
-	}
-
-	.back :global(svg) {
-		width: 17px;
-		height: 17px;
+		margin-top: -8px;
 	}
 
 	.title {
@@ -185,29 +231,30 @@
 
 	.columns {
 		display: grid;
-		gap: 36px;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 32px;
 		margin-top: 24px;
 	}
 
 	.stack {
 		display: grid;
-		gap: 36px;
+		gap: 32px;
 	}
 
 	h2 {
-		font-family: var(--font-body);
-		font-size: 1.125rem;
-		letter-spacing: 0;
+		margin-bottom: 12px;
+		font-size: 1.1875rem;
 	}
 
 	.now {
-		padding: 16px;
-		border-left: 3px solid var(--beni);
-		background: var(--paper);
+		padding: 20px 18px;
+		border: 1.5px solid var(--beni);
+		border-radius: var(--radius-l);
+		background: var(--surface);
 	}
 
-	.now > p {
-		margin-top: 4px;
+	.now h2 {
+		margin-bottom: 4px;
 	}
 
 	.actions {
@@ -220,19 +267,61 @@
 		width: 100%;
 	}
 
+	.ship {
+		display: grid;
+		gap: 8px;
+		margin-top: 16px;
+	}
+
+	.ship .btn {
+		margin-top: 4px;
+	}
+
+	.tracking {
+		margin-top: 16px;
+		padding-top: 14px;
+		border-top: 1px solid var(--line);
+	}
+
+	.tracking p {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 4px 12px;
+	}
+
+	.tracking strong {
+		font-size: 1.25rem;
+		letter-spacing: 0.04em;
+	}
+
+	.tracking a {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		min-height: 44px;
+		font-weight: 600;
+	}
+
+	.tracking a :global(svg) {
+		width: 16px;
+		height: 16px;
+	}
+
+	.missing {
+		font-weight: 600;
+		color: var(--warn);
+	}
+
 	.feedback {
 		margin-top: 10px;
 		font-size: 0.9375rem;
-		font-weight: 700;
+		font-weight: 650;
 		color: var(--ok);
 	}
 
 	.feedback:empty {
 		display: none;
-	}
-
-	details {
-		margin-top: 12px;
 	}
 
 	summary {
@@ -242,13 +331,17 @@
 		font-size: 0.9375rem;
 		color: var(--ink-soft);
 		text-decoration: underline;
-		text-underline-offset: 0.18em;
+		text-underline-offset: 0.2em;
 		cursor: pointer;
 		list-style: none;
 	}
 
 	summary::-webkit-details-marker {
 		display: none;
+	}
+
+	.correct {
+		margin-top: 8px;
 	}
 
 	.correct label {
@@ -266,17 +359,23 @@
 	}
 
 	dl {
-		margin: 8px 0 0;
-		border-bottom: 1px solid var(--line);
+		margin: 0;
+		padding: 4px 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
 	}
 
 	dl div {
 		display: grid;
-		grid-template-columns: 104px 1fr;
+		grid-template-columns: 100px minmax(0, 1fr);
 		gap: 12px;
-		padding: 10px 0;
-		border-top: 1px solid var(--line);
+		padding: 11px 0;
 		font-size: 0.9375rem;
+	}
+
+	dl div + div {
+		border-top: 1px solid var(--line);
 	}
 
 	dt {
@@ -285,7 +384,7 @@
 
 	dd {
 		margin: 0;
-		font-weight: 700;
+		font-weight: 600;
 		overflow-wrap: anywhere;
 	}
 
@@ -294,11 +393,11 @@
 		white-space: pre-wrap;
 	}
 
-	/* O painel tem fundo branco: a nota ganha o papel rosado em volta para o recibo aparecer. */
-	.nota {
-		margin-top: 8px;
-		padding: 16px;
-		background: var(--paper);
+	.panel {
+		padding: 20px 18px;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
 	}
 
 	@media (min-width: 560px) {
@@ -307,11 +406,15 @@
 		}
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 1000px) {
 		.columns {
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-			gap: 56px;
+			gap: 48px;
 			align-items: start;
+		}
+
+		.now {
+			padding: 24px;
 		}
 	}
 </style>
